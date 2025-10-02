@@ -1,1252 +1,958 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Winningtemp Engagement Assessment</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winningtemp Engagement Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    .start-btn {
-      background: #7f2696;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 18px 36px;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 4px 20px rgba(127, 38, 150, 0.3);
-    }
-    
-    .start-btn:hover {
-      background: #6b2280;
-    }
-    
-    .quiz-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 10px;
-    }
-    
-    .quiz-modal.active {
-      display: flex;
-    }
-    
-    .modal-content {
-      background: white;
-      border-radius: 24px;
-      width: 100%;
-      max-width: 900px;
-      max-height: 95vh;
-      overflow-y: auto;
-      position: relative;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-    }
-    
-    @media (max-width: 768px) {
-      .quiz-modal {
-        padding: 5px;
-        align-items: flex-start;
-        padding-top: 10px;
-      }
-      
-      .modal-content {
-        border-radius: 16px;
-        max-height: 98vh;
-        min-height: 0;
-      }
-      
-      .close-btn {
-        top: 10px;
-        right: 10px;
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-      }
-    }
-    
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(127, 38, 150, 0.15);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-      color: #7f2696;
-      z-index: 10;
-    }
-    
-    .pin-icon {
-      width: 96px;
-      height: 96px;
-      opacity: 0.9;
-    }
-    
-    /* Hide scrollbar */
-    .modal-content::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .modal-content {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-  </style>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        /* This button will be on the main page to launch the quiz */
+        .start-btn {
+            background: #7f2696;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 36px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(127, 38, 150, 0.3);
+        }
+        
+        .start-btn:hover {
+            background: #6b2280;
+        }
+        
+        /* FULL SCREEN MODAL STYLES */
+        .quiz-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none; /* Default state: hidden */
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 10px;
+        }
+        
+        .quiz-modal.active {
+            display: flex; /* Active state: visible */
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 95vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+        
+        @media (max-width: 768px) {
+            .quiz-modal {
+                padding: 5px;
+                align-items: flex-start;
+                padding-top: 10px;
+            }
+            
+            .modal-content {
+                border-radius: 16px;
+                max-height: 98vh;
+                min-height: 0;
+            }
+            
+            .close-btn {
+                top: 10px;
+                right: 10px;
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(127, 38, 150, 0.15);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #7f2696;
+            z-index: 10;
+        }
+        
+        .pin-icon {
+            width: 96px;
+            height: 96px;
+            opacity: 0.9;
+        }
+        
+        /* Hide scrollbar */
+        .modal-content::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .modal-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
 <body>
-  <div id="quiz-content-wrapper" style="
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    min-height: 600px; /* Set a minimum height for centering */
-    padding: 20px 0; 
-  ">
-    <div class="modal-content" style="
-      background: white;
-      border-radius: 24px;
-      width: 100%;
-      max-width: 900px;
-      position: relative;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
-      overflow: hidden; /* Important for containing content */
-    ">
-      <button class="close-btn" id="closeBtn" onclick="window.parent.postMessage('close-modal', '*')">✕</button> 
-      <div id="quiz-root" style="padding: 40px;"></div>
+    <div style="text-align: center; padding: 100px;">
+        <button class="start-btn" onclick="openQuiz()">Launch Engagement Quiz</button>
     </div>
-  </div>
-  
-  <script>
-    console.log('Quiz script loading...');
-    
-    // Quiz data
-    const questions = [
-      {
-        question: "How often does your organization measure employee engagement?",
-        options: [
-          { text: "Weekly or bi-weekly with continuous pulse surveys", value: "A" },
-          { text: "Quarterly", value: "B" },
-          { text: "Annually", value: "C" },
-          { text: "Rarely or never", value: "D" }
-        ],
-        why: "Real-time insights help you spot challenges before they escalate into costly turnover."
-      },
-      {
-        question: "When engagement issues arise, how quickly can your leadership team identify and respond?",
-        options: [
-          { text: "Within days - we have real-time dashboards", value: "A" },
-          { text: "Within a few weeks", value: "B" },
-          { text: "Within 1-3 months", value: "C" },
-          { text: "We often don't know there's a problem until exit interviews", value: "D" }
-        ],
-        why: "Speed matters. Organizations that act fast on feedback see 25% higher retention rates."
-      },
-      {
-        question: "How confident are your managers in taking action based on employee feedback?",
-        options: [
-          { text: "Very confident - they receive AI-powered, research-based recommendations", value: "A" },
-          { text: "Somewhat confident - they get data but limited guidance", value: "B" },
-          { text: "Not very confident - they're unsure what actions to take", value: "C" },
-          { text: "They don't receive regular feedback to act on", value: "D" }
-        ],
-        why: "Data without actionable insights leads to analysis paralysis and missed opportunities."
-      },
-      {
-        question: "What's your current employee response rate to engagement surveys?",
-        options: [
-          { text: "Over 70%", value: "A" },
-          { text: "50-70%", value: "B" },
-          { text: "30-50%", value: "C" },
-          { text: "Below 30% or we don't survey regularly", value: "D" }
-        ],
-        why: "Low response rates indicate survey fatigue or lack of trust that action will be taken."
-      },
-      {
-        question: "Does your organization track the connection between employee engagement and business outcomes?",
-        options: [
-          { text: "Yes, we have clear metrics linking engagement to KPIs", value: "A" },
-          { text: "We track both separately but haven't connected them", value: "B" },
-          { text: "We only track business metrics", value: "C" },
-          { text: "We don't measure engagement consistently", value: "D" }
-        ],
-        why: "Engaged teams perform better - this should be a strategic business metric, not just an HR initiative."
-      },
-      {
-        question: "How much time does your HR team spend on administrative survey tasks vs. strategic action?",
-        options: [
-          { text: "Mostly strategic - our platform automates the admin work", value: "A" },
-          { text: "50/50 split", value: "B" },
-          { text: "Mostly admin - surveys take significant manual effort", value: "C" },
-          { text: "We lack resources for comprehensive engagement programs", value: "D" }
-        ],
-        why: "HR should drive strategy, not get buried in spreadsheets. Automation frees up 15+ hours per month."
-      },
-      {
-        question: "Can your leadership team identify which specific factors are driving engagement in different teams?",
-        options: [
-          { text: "Yes, we have granular insights by team, department, and demographic", value: "A" },
-          { text: "We have organization-wide data but limited team-level detail", value: "B" },
-          { text: "We have general insights but can't pinpoint specific drivers", value: "C" },
-          { text: "We don't have this level of visibility", value: "D" }
-        ],
-        why: "One-size-fits-all solutions don't work. Different teams have different needs."
-      },
-      {
-        question: "How does your organization handle anonymous feedback?",
-        options: [
-          { text: "We have a secure platform for continuous anonymous input", value: "A" },
-          { text: "We collect anonymous surveys occasionally", value: "B" },
-          { text: "Most feedback requires identification", value: "C" },
-          { text: "We don't have a formal anonymous feedback mechanism", value: "D" }
-        ],
-        why: "Psychological safety drives honest feedback - anonymity is critical for sensitive issues."
-      },
-      {
-        question: "What happens after you collect employee feedback?",
-        options: [
-          { text: "We get AI-powered action recommendations and track progress", value: "A" },
-          { text: "Managers review results and decide on actions independently", value: "B" },
-          { text: "HR compiles reports but follow-through is inconsistent", value: "C" },
-          { text: "The data sits in spreadsheets with minimal action", value: "D" }
-        ],
-        why: "Collecting feedback without action destroys trust and worsens engagement."
-      },
-      {
-        question: "How well can your organization predict potential retention risks?",
-        options: [
-          { text: "Very well - we have early warning indicators and trend analysis", value: "A" },
-          { text: "Somewhat - we notice patterns but can't predict accurately", value: "B" },
-          { text: "Not well - we're usually surprised by resignations", value: "C" },
-          { text: "We don't have predictive capabilities", value: "D" }
-        ],
-        why: "Replacing an employee costs 1.5-2x their annual salary. Prevention is far cheaper than reaction."
-      },
-      {
-        question: "Does your employee engagement strategy support leaders in creating psychologically safe environments?",
-        options: [
-          { text: "Yes, we provide tools, training, and data-driven guidance", value: "A" },
-          { text: "We provide some training but limited ongoing support", value: "B" },
-          { text: "It's mentioned but not actively supported with tools", value: "C" },
-          { text: "This isn't currently a focus area", value: "D" }
-        ],
-        why: "Psychological safety is the foundation of engagement, innovation, and team performance."
-      },
-      {
-        question: "How aligned are your organization's engagement efforts with scientific research and best practices?",
-        options: [
-          { text: "Highly aligned - our platform is research-based and continuously updated", value: "A" },
-          { text: "Somewhat aligned - we follow general best practices", value: "B" },
-          { text: "Limited alignment - we use intuition more than research", value: "C" },
-          { text: "We're not sure what current best practices are", value: "D" }
-        ],
-        why: "Science-backed approaches deliver measurable results. Guesswork leads to wasted resources."
-      }
-    ];
-    
-    // State
-    let currentQuestion = -1; // Start with intro
-    let answers = {};
-    
-    // DOM Elements
-    const modal = document.getElementById('quiz-modal');
-    const closeBtn = document.getElementById('closeBtn');
-    const quizRoot = document.getElementById('quiz-root');
-    
-    // Functions
-    function openQuiz() {
-      console.log('Opening quiz...');
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      renderIntro();
-    }
-    
-    function closeQuiz() {
-      console.log('Closing quiz...');
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-    
-    function renderIntro() {
-      quizRoot.innerHTML = `
-        <div class="intro-container" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 0 15px;">
-          <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" class="intro-logo" style="max-height: 100px; width: auto; margin-bottom: 25px;">
-          
-          <h1 class="intro-title" style="font-size: 28px; font-weight: 700; color: #1e293b; margin: 0 0 15px 0; line-height: 1.2;">
-            Let's Measure Your Engagement Maturity
-          </h1>
-          
-          <p class="intro-description" style="font-size: 16px; color: #64748b; margin-bottom: 25px; line-height: 1.4;">
-            This assessment will help you understand where your organization stands and identify opportunities for improvement.
-          </p>
-          
-          <div class="how-it-works" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 14px; padding: 25px; margin-bottom: 25px; text-align: left;">
-            <h3 class="how-title" style="color: #7f2696; margin-bottom: 15px; font-size: 18px; text-align: center;">How This Works</h3>
-            <p class="how-description" style="color: #64748b; margin-bottom: 12px; font-size: 14px; text-align: center;">You'll answer questions about your organization's engagement practices. Each has four options:</p>
-            
-            <div class="options-grid" style="display: grid; gap: 10px; margin-bottom: 15px;">
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(5, 150, 105, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #059669; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">A</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
-              </div>
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(2, 132, 199, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #0284c7; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">B</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Developing:</strong> Some systems in place</div>
-              </div>
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(234, 88, 12, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #ea580c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">C</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Basic:</strong> Limited measurement and insights</div>
-              </div>
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(220, 38, 38, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #dc2626; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">D</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Minimal:</strong> Little to no systematic approach</div>
-              </div>
+
+    <div class="quiz-modal" id="quiz-modal">
+        <div id="quiz-content-wrapper" style="
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%; /* Changed for better full modal appearance */
+            padding: 20px 0;
+        ">
+            <div class="modal-content" style="
+                background: white;
+                border-radius: 24px;
+                width: 100%;
+                max-width: 900px;
+                position: relative;
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+                overflow: hidden; 
+            ">
+                <button class="close-btn" id="closeBtn" onclick="window.parent.postMessage('close-modal', '*')">✕</button>
+                <div id="quiz-root" style="padding: 40px;"></div>
             </div>
-          </div>
-          
-          <button onclick="startQuestions()" class="start-button" style="background: #7f2696; color: white; border: none; border-radius: 50px; padding: 16px 32px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
-            Let's Get Started →
-          </button>
         </div>
+    </div>
+
+    <script>
+        console.log('Quiz script loading...');
         
-        <style>
-          @media (max-width: 768px) {
-            .intro-container {
-              padding: 0 10px !important;
+        // Quiz data
+        const questions = [
+            {
+                question: "How often does your organization measure employee engagement?",
+                options: [
+                    { text: "Weekly or bi-weekly with continuous pulse surveys", value: "A" },
+                    { text: "Quarterly", value: "B" },
+                    { text: "Annually", value: "C" },
+                    { text: "Rarely or never", value: "D" }
+                ],
+                why: "Real-time insights help you spot challenges before they escalate into costly turnover."
+            },
+            {
+                question: "When engagement issues arise, how quickly can your leadership team identify and respond?",
+                options: [
+                    { text: "Within days - we have real-time dashboards", value: "A" },
+                    { text: "Within a few weeks", value: "B" },
+                    { text: "Within 1-3 months", value: "C" },
+                    { text: "We often don't know there's a problem until exit interviews", value: "D" }
+                ],
+                why: "Speed matters. Organizations that act fast on feedback see 25% higher retention rates."
+            },
+            {
+                question: "How confident are your managers in taking action based on employee feedback?",
+                options: [
+                    { text: "Very confident - they receive AI-powered, research-based recommendations", value: "A" },
+                    { text: "Somewhat confident - they get data but limited guidance", value: "B" },
+                    { text: "Not very confident - they're unsure what actions to take", value: "C" },
+                    { text: "They don't receive regular feedback to act on", value: "D" }
+                ],
+                why: "Data without actionable insights leads to analysis paralysis and missed opportunities."
+            },
+            {
+                question: "What's your current employee response rate to engagement surveys?",
+                options: [
+                    { text: "Over 70%", value: "A" },
+                    { text: "50-70%", value: "B" },
+                    { text: "30-50%", value: "C" },
+                    { text: "Below 30% or we don't survey regularly", value: "D" }
+                ],
+                why: "Low response rates indicate survey fatigue or lack of trust that action will be taken."
+            },
+            {
+                question: "Does your organization track the connection between employee engagement and business outcomes?",
+                options: [
+                    { text: "Yes, we have clear metrics linking engagement to KPIs", value: "A" },
+                    { text: "We track both separately but haven't connected them", value: "B" },
+                    { text: "We only track business metrics", value: "C" },
+                    { text: "We don't measure engagement consistently", value: "D" }
+                ],
+                why: "Engaged teams perform better - this should be a strategic business metric, not just an HR initiative."
+            },
+            {
+                question: "How much time does your HR team spend on administrative survey tasks vs. strategic action?",
+                options: [
+                    { text: "Mostly strategic - our platform automates the admin work", value: "A" },
+                    { text: "50/50 split", value: "B" },
+                    { text: "Mostly admin - surveys take significant manual effort", value: "C" },
+                    { text: "We lack resources for comprehensive engagement programs", value: "D" }
+                ],
+                why: "HR should drive strategy, not get buried in spreadsheets. Automation frees up 15+ hours per month."
+            },
+            {
+                question: "Can your leadership team identify which specific factors are driving engagement in different teams?",
+                options: [
+                    { text: "Yes, we have granular insights by team, department, and demographic", value: "A" },
+                    { text: "We have organization-wide data but limited team-level detail", value: "B" },
+                    { text: "We have general insights but can't pinpoint specific drivers", value: "C" },
+                    { text: "We don't have this level of visibility", value: "D" }
+                ],
+                why: "One-size-fits-all solutions don't work. Different teams have different needs."
+            },
+            {
+                question: "How does your organization handle anonymous feedback?",
+                options: [
+                    { text: "We have a secure platform for continuous anonymous input", value: "A" },
+                    { text: "We collect anonymous surveys occasionally", value: "B" },
+                    { text: "Most feedback requires identification", value: "C" },
+                    { text: "We don't have a formal anonymous feedback mechanism", value: "D" }
+                ],
+                why: "Psychological safety drives honest feedback - anonymity is critical for sensitive issues."
+            },
+            {
+                question: "What happens after you collect employee feedback?",
+                options: [
+                    { text: "We get AI-powered action recommendations and track progress", value: "A" },
+                    { text: "Managers review results and decide on actions independently", value: "B" },
+                    { text: "HR compiles reports but follow-through is inconsistent", value: "C" },
+                    { text: "The data sits in spreadsheets with minimal action", value: "D" }
+                ],
+                why: "Collecting feedback without action destroys trust and worsens engagement."
+            },
+            {
+                question: "How well can your organization predict potential retention risks?",
+                options: [
+                    { text: "Very well - we have early warning indicators and trend analysis", value: "A" },
+                    { text: "Somewhat - we notice patterns but can't predict accurately", value: "B" },
+                    { text: "Not well - we're usually surprised by resignations", value: "C" },
+                    { text: "We don't have predictive capabilities", value: "D" }
+                ],
+                why: "Replacing an employee costs 1.5-2x their annual salary. Prevention is far cheaper than reaction."
+            },
+            {
+                question: "Does your employee engagement strategy support leaders in creating psychologically safe environments?",
+                options: [
+                    { text: "Yes, we provide tools, training, and data-driven guidance", value: "A" },
+                    { text: "We provide some training but limited ongoing support", value: "B" },
+                    { text: "It's mentioned but not actively supported with tools", value: "C" },
+                    { text: "This isn't currently a focus area", value: "D" }
+                ],
+                why: "Psychological safety is the foundation of engagement, innovation, and team performance."
+            },
+            {
+                question: "How aligned are your organization's engagement efforts with scientific research and best practices?",
+                options: [
+                    { text: "Highly aligned - our platform is research-based and continuously updated", value: "A" },
+                    { text: "Somewhat aligned - we follow general best practices", value: "B" },
+                    { text: "Limited alignment - we use intuition more than research", value: "C" },
+                    { text: "We're not sure what current best practices are", value: "D" }
+                ],
+                why: "Science-backed approaches deliver measurable results. Guesswork leads to wasted resources."
             }
-            
-            .intro-logo {
-              max-height: 80px !important;
-              margin-bottom: 20px !important;
-            }
-            
-            .intro-title {
-              font-size: 24px !important;
-              margin-bottom: 12px !important;
-            }
-            
-            .intro-description {
-              font-size: 14px !important;
-              margin-bottom: 20px !important;
-            }
-            
-            .how-it-works {
-              padding: 20px !important;
-              margin-bottom: 20px !important;
-              border-radius: 12px !important;
-            }
-            
-            .how-title {
-              font-size: 16px !important;
-              margin-bottom: 12px !important;
-            }
-            
-            .how-description {
-              font-size: 13px !important;
-              margin-bottom: 10px !important;
-            }
-            
-            .options-grid {
-              gap: 8px !important;
-              margin-bottom: 12px !important;
-            }
-            
-            .option-item {
-              padding: 10px !important;
-            }
-            
-            .option-circle {
-              width: 24px !important;
-              height: 24px !important;
-              font-size: 11px !important;
-              margin-right: 8px !important;
-            }
-            
-            .option-text {
-              font-size: 12px !important;
-            }
-            
-            .start-button {
-              padding: 14px 28px !important;
-              font-size: 15px !important;
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .intro-title {
-              font-size: 22px !important;
-            }
-            
-            .intro-description {
-              font-size: 13px !important;
-            }
-            
-            .how-it-works {
-              padding: 15px !important;
-            }
-            
-            .how-title {
-              font-size: 15px !important;
-            }
-            
-            .how-description {
-              font-size: 12px !important;
-            }
-            
-            .option-text {
-              font-size: 11px !important;
-            }
-            
-            .start-button {
-              padding: 12px 24px !important;
-              font-size: 14px !important;
-            }
-          }
-        </style>
-      `;
-    }
-    
-    function startQuestions() {
-      currentQuestion = 0;
-      renderQuestion();
-    }
-    
-    function renderQuestion() {
-      if (currentQuestion >= questions.length) {
-        showResults();
-        return;
-      }
-      
-      const question = questions[currentQuestion];
-      const progress = ((currentQuestion + 1) / questions.length) * 100;
-      
-      quizRoot.innerHTML = `
-        <div style="max-width: 700px; margin: 0 auto; padding: 0 10px;">
-          <div style="text-align: center; margin-bottom: 20px;">
-            <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 15px;">
-            <p style="color: #64748b; font-size: 14px;">Question ${currentQuestion + 1} of ${questions.length} • ${Math.round(progress)}% Complete</p>
-          </div>
-          
-          <div style="margin-bottom: 15px;">
-            <div style="height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
-              <div style="height: 100%; background: linear-gradient(90deg, #7f2696 0%, #9333ea 100%); transition: width 0.5s ease; border-radius: 3px; width: ${progress}%"></div>
-            </div>
-          </div>
-          
-          <div class="question-card" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid rgba(127, 38, 150, 0.1);">
-            <h2 class="question-title" style="font-size: 18px; font-weight: 600; color: #1e293b; margin: 0 0 15px 0; line-height: 1.3;">${question.question}</h2>
-            
-            <div style="margin-bottom: 15px;">
-              ${question.options.map((option, index) => `
-                <button onclick="selectAnswer('${option.value}')" class="option-btn" style="width: 100%; margin-bottom: 8px; padding: 12px; border: 2px solid rgba(127, 38, 150, 0.1); border-radius: 10px; background: white; cursor: pointer; text-align: left; display: flex; align-items: flex-start; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#7f2696'; this.style.backgroundColor='rgba(127, 38, 150, 0.03)'" onmouseout="this.style.borderColor='rgba(127, 38, 150, 0.1)'; this.style.backgroundColor='white'">
-                  <div class="option-circle" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(127, 38, 150, 0.3); display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0; color: #64748b; font-weight: 600; font-size: 11px;">
-                    ${option.value}
-                  </div>
-                  <span class="option-text" style="font-size: 13px; color: #1e293b; line-height: 1.4; flex: 1;">${option.text}</span>
-                </button>
-              `).join('')}
-            </div>
-            
-            <div class="why-matters" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 8px; padding: 12px;">
-              <div style="display: flex; align-items: center; margin-bottom: 6px;">
-                <img src="8dad6b59-3984-48ae-9e13-37c43bc6a4ae.avif" style="width: 14px; height: 14px; margin-right: 5px;" alt="">
-                <div class="why-title" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7f2696;">Why this matters</div>
-              </div>
-              <p class="why-text" style="font-size: 12px; color: #64748b; margin: 0; line-height: 1.3;">${question.why}</p>
-            </div>
-          </div>
-          
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding: 0 10px;">
-            <button onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''} class="prev-btn" style="background: transparent; color: #64748b; border: 2px solid rgba(127, 38, 150, 0.2); border-radius: 50px; padding: 10px 20px; font-weight: 500; cursor: pointer; font-size: 14px;">
-              ← Previous
-            </button>
-          </div>
-        </div>
-        
-        <style>
-          @media (max-width: 768px) {
-            .question-card {
-              padding: 15px !important;
-              border-radius: 12px !important;
-            }
-            
-            .question-title {
-              font-size: 16px !important;
-              margin-bottom: 12px !important;
-            }
-            
-            .option-btn {
-              padding: 10px !important;
-              margin-bottom: 6px !important;
-            }
-            
-            .option-circle {
-              width: 24px !important;
-              height: 24px !important;
-              font-size: 10px !important;
-              margin-right: 8px !important;
-            }
-            
-            .option-text {
-              font-size: 12px !important;
-            }
-            
-            .why-matters {
-              padding: 10px !important;
-            }
-            
-            .why-title {
-              font-size: 11px !important;
-            }
-            
-            .why-text {
-              font-size: 11px !important;
-            }
-            
-            .prev-btn {
-              padding: 8px 16px !important;
-              font-size: 12px !important;
-            }
-          }
-          
-          @media (max-width: 480px) {
-            .question-card {
-              padding: 12px !important;
-            }
-            
-            .question-title {
-              font-size: 15px !important;
-            }
-            
-            .option-text {
-              font-size: 11px !important;
-            }
-            
-            .why-text {
-              font-size: 10px !important;
-            }
-          }
-        </style>
-      `;
-    }
-    
-    function selectAnswer(value) {
-      answers[currentQuestion] = value;
-      currentQuestion++;
-      setTimeout(renderQuestion, 300);
-    }
-    
-    function previousQuestion() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-      } else {
-        currentQuestion = -1;
-        renderIntro();
-      }
-    }
-    
-    function toggleFeature(index) {
-      const content = document.getElementById(`feature-${index}`);
-      const arrow = document.getElementById(`arrow-${index}`);
-      
-      if (content.style.display === 'none') {
-        content.style.display = 'block';
-        arrow.style.transform = 'rotate(180deg)';
-        arrow.innerHTML = '▲';
-      } else {
-        content.style.display = 'none';
-        arrow.style.transform = 'rotate(0deg)';
-        arrow.innerHTML = '▼';
-      }
-    }
-    
-    function shareResults(platform) {
-      const counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(answers).forEach(answer => {
-        counts[answer]++;
-      });
-      
-      const aCount = counts.A;
-      let resultType = '';
-      if (aCount >= 9) resultType = 'Engagement Champion';
-      else if (aCount >= 5) resultType = 'Growing Foundation';
-      else if (aCount >= 3) resultType = 'Critical Gap Zone';
-      else resultType = 'Urgent Action Needed';
-      
-      const text = `I just completed Winningtemp's Employee Engagement Assessment and scored as "${resultType}" with ${aCount} out of 12 A's. See how your organization measures up!`;
-      const url = 'https://winningtemp.com/assessment';
-      
-      switch(platform) {
-        case 'linkedin':
-          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
-          break;
-        case 'twitter':
-          window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-          break;
-      }
-    }
-    
-    function emailResults() {
-      const email = document.getElementById('results-email').value;
-      if (!email) {
-        alert('Please enter your email address');
-        return;
-      }
-      
-      const resultsData = generateResultsData();
-      
-      // Simulate sending email (replace with actual backend call)
-      console.log('Sending results to:', email, resultsData);
-      
-      // Show confirmation
-      alert('Your detailed results report has been sent to ' + email + '!\\n\\nThe PDF includes:\\n• Your complete assessment responses\\n• Detailed analysis of each answer\\n• Personalized recommendations\\n• Next steps for improvement');
-      
-      // Log for CRM integration
-      console.log('Lead captured with results:', {
-        email: email,
-        results: resultsData,
-        timestamp: new Date().toISOString()
-      });
-    }
-    
-    function downloadPDF() {
-      const resultsData = generateResultsData();
-      
-      try {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'pt', 'a4');
-        
-        // Colors matching Winningtemp brand
-        const brandPurple = [127, 38, 150];
-        const lightPurple = [248, 244, 255];
-        const darkGray = [30, 41, 59];
-        const mediumGray = [100, 116, 139];
-        
-        let currentY = 50;
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const margin = 50;
-        const contentWidth = pageWidth - (2 * margin);
-        
-        // Helper function to add new page if needed
-        function checkPageBreak(neededHeight = 60) {
-          if (currentY + neededHeight > pageHeight - 50) {
-            doc.addPage();
-            currentY = 50;
-            return true;
-          }
-          return false;
-        }
-        
-        // Helper function to add text with word wrap
-        function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray) {
-          doc.setFontSize(fontSize);
-          doc.setTextColor(...color);
-          const lines = doc.splitTextToSize(text, maxWidth);
-          doc.text(lines, x, y);
-          return y + (lines.length * fontSize * 1.2);
-        }
-        
-        // HEADER SECTION
-        doc.setFillColor(...brandPurple);
-        doc.rect(0, 0, pageWidth, 120, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(28);
-        doc.setFont(undefined, 'bold');
-        doc.text('Employee Engagement', margin, 60);
-        doc.text('Assessment Results', margin, 90);
-        
-        currentY = 160;
-        
-        // EXECUTIVE SUMMARY SECTION
-        checkPageBreak(150);
-        doc.setFillColor(...lightPurple);
-        doc.rect(margin, currentY - 20, contentWidth, 120, 'F');
-        
-        doc.setTextColor(...brandPurple);
-        doc.setFontSize(22);
-        doc.setFont(undefined, 'bold');
-        doc.text('Your Result: ' + resultsData.resultType, margin + 20, currentY + 10);
-        
-        doc.setFontSize(16);
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(...mediumGray);
-        doc.text('Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions + ' A\'s', margin + 20, currentY + 35);
-        
-        currentY = addWrappedText(resultsData.description, margin + 20, currentY + 60, contentWidth - 40, 14, darkGray);
-        currentY += 40;
-        
-        // SCORE BREAKDOWN SECTION
-        checkPageBreak(200);
-        doc.setFillColor(255, 255, 255);
-        doc.setDrawColor(...brandPurple);
-        doc.setLineWidth(2);
-        doc.rect(margin, currentY, contentWidth, 150, 'FD');
-        
-        doc.setTextColor(...brandPurple);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Score Breakdown', margin + 20, currentY + 30);
-        
-        // Score boxes
-        const scoreBoxWidth = (contentWidth - 80) / 4;
-        const scoreTypes = [
-          { letter: 'A', label: 'Advanced', count: resultsData.counts.A, color: [5, 150, 105] },
-          { letter: 'B', label: 'Developing', count: resultsData.counts.B, color: [2, 132, 199] },
-          { letter: 'C', label: 'Basic', count: resultsData.counts.C, color: [234, 88, 12] },
-          { letter: 'D', label: 'Minimal', count: resultsData.counts.D, color: [220, 38, 38] }
         ];
         
-        scoreTypes.forEach((type, index) => {
-          const x = margin + 20 + (index * (scoreBoxWidth + 10));
-          const y = currentY + 50;
-          
-          doc.setFillColor(...type.color);
-          doc.rect(x, y, scoreBoxWidth, 80, 'F');
-          
-          doc.setTextColor(255, 255, 255);
-          doc.setFontSize(32);
-          doc.setFont(undefined, 'bold');
-          doc.text(type.count.toString(), x + scoreBoxWidth/2, y + 40, { align: 'center' });
-          
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'normal');
-          doc.text(type.letter + '\'s', x + scoreBoxWidth/2, y + 60, { align: 'center' });
-          doc.text(type.label, x + scoreBoxWidth/2, y + 75, { align: 'center' });
-        });
+        // State
+        let currentQuestion = -1; // Start with intro
+        let answers = {};
         
-        currentY += 180;
+        // DOM Elements
+        const modal = document.getElementById('quiz-modal'); // Now correctly targets the added div
+        const closeBtn = document.getElementById('closeBtn');
+        const quizRoot = document.getElementById('quiz-root');
         
-        // DETAILED ANALYSIS SECTION
-        checkPageBreak(100);
-        doc.setFillColor(...brandPurple);
-        doc.rect(margin, currentY, contentWidth, 40, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Detailed Question Analysis', margin + 20, currentY + 25);
-        
-        currentY += 60;
-        
-        // Question Analysis
-        questions.forEach((question, index) => {
-          checkPageBreak(120);
-          
-          const userAnswer = resultsData.answers[index];
-          const selectedOption = question.options.find(opt => opt.value === userAnswer);
-          
-          // Question number and text
-          doc.setFillColor(250, 250, 250);
-          doc.rect(margin, currentY, contentWidth, 30, 'F');
-          
-          doc.setTextColor(...brandPurple);
-          doc.setFontSize(14);
-          doc.setFont(undefined, 'bold');
-          doc.text(`Q${index + 1}:`, margin + 15, currentY + 20);
-          
-          currentY = addWrappedText(question.question, margin + 50, currentY + 20, contentWidth - 65, 12, darkGray);
-          currentY += 10;
-          
-          // Answer
-          doc.setTextColor(...mediumGray);
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'bold');
-          doc.text('Your Answer:', margin + 15, currentY + 15);
-          
-          const answerColor = userAnswer === 'A' ? [5, 150, 105] : 
-                            userAnswer === 'B' ? [2, 132, 199] :
-                            userAnswer === 'C' ? [234, 88, 12] : [220, 38, 38];
-          
-          doc.setTextColor(...answerColor);
-          doc.text(`(${userAnswer}) ${selectedOption ? selectedOption.text : 'Not answered'}`, margin + 100, currentY + 15);
-          
-          currentY += 30;
-          
-          // Why it matters
-          doc.setTextColor(...mediumGray);
-          doc.setFontSize(11);
-          doc.setFont(undefined, 'bold');
-          doc.text('Why This Matters:', margin + 15, currentY + 15);
-          
-          currentY = addWrappedText(question.why, margin + 15, currentY + 30, contentWidth - 30, 10, mediumGray);
-          currentY += 20;
-        });
-        
-        // RECOMMENDATIONS SECTION
-        checkPageBreak(150);
-        doc.setFillColor(...brandPurple);
-        doc.rect(margin, currentY, contentWidth, 40, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Personalized Recommendations', margin + 20, currentY + 25);
-        
-        currentY += 60;
-        
-        // Add recommendations based on score
-        let recommendations = [];
-        if (resultsData.aCount >= 9) {
-          recommendations = [
-            'AI-Powered Predictions - Stay ahead with machine learning insights',
-            'Advanced Benchmarking - Compare against industry leaders',
-            'Executive Training Programs - Keep leadership at the forefront',
-            'Custom Integration & API - Connect with existing BI systems'
-          ];
-        } else if (resultsData.aCount >= 5) {
-          recommendations = [
-            'Real-Time Visual Results - Move to continuous pulse monitoring',
-            'Smart Index & Analytics - Predict turnover before it happens',
-            'Manager Training & Support - Build data interpretation skills',
-            'Advanced Team Structures - Support complex organizational setups'
-          ];
-        } else if (resultsData.aCount >= 3) {
-          recommendations = [
-            'Pulse Surveys & Research-Based Questions - Replace sporadic surveys',
-            'Automated Insights & Actions - Get AI-powered recommendations',
-            'Anonymous 2-Way Conversations - Create psychological safety',
-            'Onboarding & Platform Training - Quick implementation support'
-          ];
-        } else {
-          recommendations = [
-            'Complete Platform Setup - Turnkey engagement solution',
-            'Bullying & Discrimination Alerts - Protect workforce and reduce risk',
-            'Employee Turnover Analysis - Understand and prevent departures',
-            'Managed Service & Expert Support - Let experts handle the heavy lifting'
-          ];
+        // Functions
+        function openQuiz() {
+            console.log('Opening quiz...');
+            // Check if modal exists before adding class
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                renderIntro();
+            } else {
+                console.error("Error: Modal element with ID 'quiz-modal' not found.");
+            }
         }
         
-        recommendations.forEach((rec, index) => {
-          checkPageBreak(40);
-          
-          doc.setFillColor(250, 250, 250);
-          doc.rect(margin, currentY, contentWidth, 30, 'F');
-          
-          doc.setTextColor(...brandPurple);
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'bold');
-          doc.text('•', margin + 20, currentY + 20);
-          
-          currentY = addWrappedText(rec, margin + 40, currentY + 20, contentWidth - 60, 12, darkGray);
-          currentY += 15;
-        });
-        
-        // NEXT STEPS SECTION
-        checkPageBreak(120);
-        doc.setFillColor(...lightPurple);
-        doc.rect(margin, currentY, contentWidth, 100, 'F');
-        
-        doc.setTextColor(...brandPurple);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Next Steps', margin + 20, currentY + 30);
-        
-        const nextSteps = [
-          'Book a free demo at winningtemp.com/book-demo',
-          'Discuss your specific challenges with our engagement experts',
-          'Create a customized implementation plan for your organization',
-          'Start measuring engagement systematically within 30 days'
-        ];
-        
-        nextSteps.forEach((step, index) => {
-          doc.setTextColor(...darkGray);
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'normal');
-          doc.text(`${index + 1}. ${step}`, margin + 20, currentY + 55 + (index * 15));
-        });
-        
-        // FOOTER
-        checkPageBreak(60);
-        currentY = pageHeight - 80;
-        doc.setFillColor(...brandPurple);
-        doc.rect(0, currentY, pageWidth, 80, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(12);
-        doc.setFont(undefined, 'normal');
-        doc.text('© ' + new Date().getFullYear() + ' Winningtemp. All rights reserved.', margin, currentY + 30);
-        doc.text('Contact: info@winningtemp.com | winningtemp.com', margin, currentY + 45);
-        
-        // Generate and download the PDF
-        const fileName = `Winningtemp_Engagement_Assessment_${resultsData.resultType.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
-        doc.save(fileName);
-        
-      } catch (error) {
-        console.error('PDF generation error:', error);
-        // Fallback to text download
-        const pdfContent = generatePDFContent(resultsData);
-        const blob = new Blob([pdfContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Winningtemp_Engagement_Assessment_Results.txt';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        alert('PDF generation failed, downloading as text file instead.');
-      }
-    }
-    
-    function generateResultsData() {
-      const counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(answers).forEach(answer => {
-        counts[answer]++;
-      });
-      
-      const aCount = counts.A;
-      let resultType = '';
-      let description = '';
-      
-      if (aCount >= 9) {
-        resultType = 'Engagement Champion';
-        description = 'Your organization demonstrates advanced engagement practices with data-driven insights and predictive capabilities.';
-      } else if (aCount >= 5) {
-        resultType = 'Growing Foundation';
-        description = 'You have solid engagement basics but opportunity to enhance real-time insights and predictive capabilities.';
-      } else if (aCount >= 3) {
-        resultType = 'Critical Gap Zone';  
-        description = 'Significant engagement blind spots exist that may be impacting talent retention and productivity.';
-      } else {
-        resultType = 'Urgent Action Needed';
-        description = 'High risk for turnover and low performance without systematic engagement measurement.';
-      }
-      
-      return {
-        resultType,
-        description,
-        aCount,
-        totalQuestions: questions.length,
-        counts,
-        answers: answers,
-        completedAt: new Date().toISOString()
-      };
-    }
-    
-    function generatePDFContent(data) {
-      let content = `WINNINGTEMP EMPLOYEE ENGAGEMENT ASSESSMENT RESULTS
-================================================================
-
-Assessment Completed: ${new Date(data.completedAt).toLocaleDateString()}
-Result Category: ${data.resultType}
-Score: ${data.aCount} out of ${data.totalQuestions} A's
-
-EXECUTIVE SUMMARY
------------------
-${data.description}
-
-DETAILED BREAKDOWN
-------------------
-A responses (Advanced): ${data.counts.A}
-B responses (Developing): ${data.counts.B}  
-C responses (Basic): ${data.counts.C}
-D responses (Minimal): ${data.counts.D}
-
-YOUR RESPONSES & ANALYSIS
--------------------------
-
-`;
-
-      questions.forEach((question, index) => {
-        const userAnswer = data.answers[index];
-        const selectedOption = question.options.find(opt => opt.value === userAnswer);
-        
-        content += `${index + 1}. ${question.question}
-Your Answer: (${userAnswer}) ${selectedOption ? selectedOption.text : 'Not answered'}
-
-Why This Matters: ${question.why}
-
-Analysis: `;
-        
-        switch(userAnswer) {
-          case 'A':
-            content += 'Excellent! This indicates advanced, data-driven engagement practices.';
-            break;
-          case 'B':
-            content += 'Good foundation with room for improvement in frequency and depth of insights.';
-            break;
-          case 'C':
-            content += 'Basic approach that may be limiting your ability to retain top talent.';
-            break;
-          case 'D':
-            content += 'Significant gap that requires immediate attention to reduce turnover risk.';
-            break;
+        function closeQuiz() {
+            console.log('Closing quiz...');
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
         }
         
-        content += '\\n\\n';
-      });
-      
-      content += `
-PERSONALIZED RECOMMENDATIONS
------------------------------
-Based on your results, we recommend focusing on these Winningtemp features:
-
-`;
-
-      // Add personalized recommendations based on score
-      if (data.aCount >= 9) {
-        content += `• AI-Powered Predictions - Stay ahead with machine learning insights
-• Advanced Benchmarking - Compare against industry leaders
-• Executive Training Programs - Keep leadership at the forefront
-• Custom Integration & API - Connect with existing BI systems`;
-      } else if (data.aCount >= 5) {
-        content += `• Real-Time Visual Results - Move to continuous pulse monitoring  
-• Smart Index & Analytics - Predict turnover before it happens
-• Manager Training & Support - Build data interpretation skills
-• Advanced Team Structures - Support complex organizational setups`;
-      } else if (data.aCount >= 3) {
-        content += `• Pulse Surveys & Research-Based Questions - Replace sporadic surveys
-• Automated Insights & Actions - Get AI-powered recommendations
-• Anonymous 2-Way Conversations - Create psychological safety
-• Onboarding & Platform Training - Quick implementation support`;
-      } else {
-        content += `• Complete Platform Setup - Turnkey engagement solution
-• Bullying & Discrimination Alerts - Protect workforce and reduce risk
-• Employee Turnover Analysis - Understand and prevent departures  
-• Managed Service & Expert Support - Let experts handle the heavy lifting`;
-      }
-      
-      content += `
-
-NEXT STEPS
-----------
-1. Book a free demo at winningtemp.com/book-demo
-2. Discuss your specific challenges with our engagement experts
-3. Create a customized implementation plan for your organization
-4. Start measuring engagement systematically within 30 days
-
-Contact Information:
-Email: info@winningtemp.com
-Website: winningtemp.com
-
-© ${new Date().getFullYear()} Winningtemp. All rights reserved.`;
-
-      return content;
-    }
-    
-    function showResults() {
-      const counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(answers).forEach(answer => {
-        counts[answer]++;
-      });
-      
-      const aCount = counts.A;
-      let result;
-      
-      if (aCount >= 9) {
-        result = {
-          icon: '',
-          title: 'Engagement Champion',
-          score: `${aCount} out of 12 A's`,
-          description: "You're leading the way! Your organization has the tools and insights to drive continuous improvement. Keep leveraging data to stay ahead.",
-          color: '#059669',
-          features: [
-            { name: 'AI-Powered Predictions', description: 'Stay ahead of potential issues with machine learning insights that predict engagement trends before they impact performance.' },
-            { name: 'Advanced Benchmarking', description: 'Compare your results against industry leaders and continuously optimize your engagement strategies.' },
-            { name: 'Executive Training Programs', description: 'Keep your leadership team at the forefront with data-driven management techniques and advanced people analytics.' },
-            { name: 'Custom Integration & API', description: 'Connect engagement data with your existing business intelligence systems for a complete performance picture.' }
-          ]
-        };
-      } else if (aCount >= 5) {
-        result = {
-          icon: '',
-          title: 'Growing Foundation', 
-          score: `${aCount} out of 12 A's`,
-          description: "You have solid basics in place, but there's room to elevate your real-time insights, action speed, and predictive capabilities.",
-          color: '#0284c7',
-          features: [
-            { name: 'Real-Time Visual Results', description: 'Move from periodic surveys to continuous pulse monitoring with instant visual dashboards and trend analysis.' },
-            { name: 'Smart Index & Analytics', description: 'Automatically compile engagement factors that predict turnover and absenteeism before they happen.' },
-            { name: 'Manager Training & Support', description: 'Equip your leaders with data interpretation skills and proven action frameworks to drive team performance.' },
-            { name: 'Advanced Team Structures', description: 'Support complex organizational setups with matrix teams, cross-functional insights, and localized management views.' }
-          ]
-        };
-      } else if (aCount >= 3) {
-        result = {
-          icon: '',
-          title: 'Critical Gap Zone',
-          score: `${aCount} out of 12 A's`, 
-          description: "Your engagement approach has significant blind spots that could be costing you talent and productivity. Time to modernize with data-driven tools.",
-          color: '#ea580c',
-          features: [
-            { name: 'Pulse Surveys & Research-Based Questions', description: 'Replace sporadic surveys with scientifically-backed pulse surveys that capture real-time employee sentiment.' },
-            { name: 'Automated Insights & Actions', description: 'Get AI-powered recommendations that tell managers exactly what to focus on and how to improve team engagement.' },
-            { name: 'Anonymous 2-Way Conversations', description: 'Create psychological safety with secure, anonymous feedback channels that encourage honest communication.' },
-            { name: 'Onboarding & Platform Training', description: 'Get your team up to speed quickly with comprehensive training and dedicated customer success support.' }
-          ]
-        };
-      } else {
-        result = {
-          icon: '',
-          title: 'Urgent Action Needed',
-          score: `${aCount} out of 12 A's`,
-          description: "Your organization is at high risk for turnover and low performance. Implementing a modern engagement platform should be an immediate priority.",
-          color: '#dc2626',
-          features: [
-            { name: 'Complete Platform Setup', description: 'Start from scratch with a turnkey engagement solution including research-based surveys, automated analytics, and expert guidance.' },
-            { name: 'Bullying & Discrimination Alerts', description: 'Protect your workforce and reduce legal risk with automated detection and alerting for critical workplace issues.' },
-            { name: 'Employee Turnover Analysis', description: 'Understand why people leave and identify at-risk employees before they decide to quit, saving costly replacement expenses.' },
-            { name: 'Managed Service & Expert Support', description: 'Let our experts handle the heavy lifting with managed services, custom surveys, and strategic consultation to get results fast.' }
-          ]
-        };
-      }
-      
-      quizRoot.innerHTML = `
-        <div style="max-width: 700px; margin: 0 auto;">
-          <div style="text-align: center; margin-bottom: 40px;">
-            <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" style="max-height: 120px; width: auto; margin-bottom: 20px;">
-          </div>
-          
-          <!-- Results Card -->
-          <div style="background: white; border-radius: 24px; padding: 40px; text-align: center; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid rgba(127, 38, 150, 0.1);">
-            <h2 style="font-size: 32px; font-weight: 700; color: ${result.color}; margin: 0 0 10px 0;">${result.title}</h2>
-            <div style="display: inline-block; background: rgba(127, 38, 150, 0.1); color: #7f2696; padding: 10px 20px; border-radius: 20px; font-size: 16px; font-weight: 600; margin-bottom: 25px;">
-              ${result.score}
-            </div>
-            <p style="font-size: 18px; color: #64748b; line-height: 1.6; max-width: 600px; margin: 0 auto;">
-              ${result.description}
-            </p>
-          </div>
-
-          <!-- Score Breakdown -->
-          <div style="background: white; border-radius: 24px; padding: 30px; margin-bottom: 30px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border: 1px solid rgba(127, 38, 150, 0.1);">
-            <h3 style="font-size: 20px; font-weight: 600; color: #1e293b; margin: 0 0 25px 0; text-align: center;">Your Score Breakdown</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 15px;">
-              ${['A', 'B', 'C', 'D'].map(letter => `
-                <div style="text-align: center; background: white; padding: 20px; border-radius: 12px; border: 1px solid rgba(127, 38, 150, 0.1); box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                  <div style="font-size: 32px; font-weight: 700; color: #7f2696; margin-bottom: 5px;">${counts[letter] || 0}</div>
-                  <div style="font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px;">${letter}'s</div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <!-- Personalized Features Section -->
-          <div style="background: #7f2696; border-radius: 24px; padding: 40px; color: white;">
-            <div style="text-align: center; margin-bottom: 35px;">
-              <h3 style="font-size: 28px; font-weight: 700; margin: 0 0 15px 0; color: white;">Here's How Winningtemp Can Help You</h3>
-              <p style="font-size: 16px; margin: 0; opacity: 0.9; line-height: 1.6;">
-                Based on your assessment results, these features will have the biggest impact on your organization:
-              </p>
-            </div>
-            
-            <div style="margin-bottom: 40px;">
-              ${result.features.map((feature, index) => `
-                <div style="border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding: 20px 0;">
-                  <button onclick="toggleFeature(${index})" style="width: 100%; text-align: left; background: none; border: none; color: white; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 0;">
-                    <div style="display: flex; align-items: center;">
-                      <img src="8dad6b59-3984-48ae-9e13-37c43bc6a4ae.avif" style="width: 20px; height: 20px; margin-right: 12px; opacity: 0.9; filter: brightness(0) invert(1);" alt="">
-                      <h4 style="font-size: 18px; font-weight: 600; margin: 0; color: white;">${feature.name}</h4>
+        function renderIntro() {
+            quizRoot.innerHTML = `
+                <div class="intro-container" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 0 15px;">
+                    <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" class="intro-logo" style="max-height: 100px; width: auto; margin-bottom: 25px;">
+                    
+                    <h1 class="intro-title" style="font-size: 28px; font-weight: 700; color: #1e293b; margin: 0 0 15px 0; line-height: 1.2;">
+                        Let's Measure Your Engagement Maturity
+                    </h1>
+                    
+                    <p class="intro-description" style="font-size: 16px; color: #64748b; margin-bottom: 25px; line-height: 1.4;">
+                        This assessment will help you understand where your organization stands and identify opportunities for improvement.
+                    </p>
+                    
+                    <div class="how-it-works" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 14px; padding: 25px; margin-bottom: 25px; text-align: left;">
+                        <h3 class="how-title" style="color: #7f2696; margin-bottom: 15px; font-size: 18px; text-align: center;">How This Works</h3>
+                        <p class="how-description" style="color: #64748b; margin-bottom: 12px; font-size: 14px; text-align: center;">You'll answer questions about your organization's engagement practices. Each has four options:</p>
+                        
+                        <div class="options-grid" style="display: grid; gap: 10px; margin-bottom: 15px;">
+                            <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(5, 150, 105, 0.05); border-radius: 6px;">
+                                <div class="option-circle" style="width: 26px; height: 26px; background: #059669; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">A</div>
+                                <div class="option-text" style="font-size: 13px;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
+                            </div>
+                            <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(2, 132, 199, 0.05); border-radius: 6px;">
+                                <div class="option-circle" style="width: 26px; height: 26px; background: #0284c7; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">B</div>
+                                <div class="option-text" style="font-size: 13px;"><strong>Developing:</strong> Some systems in place</div>
+                            </div>
+                            <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(234, 88, 12, 0.05); border-radius: 6px;">
+                                <div class="option-circle" style="width: 26px; height: 26px; background: #ea580c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">C</div>
+                                <div class="option-text" style="font-size: 13px;"><strong>Basic:</strong> Limited measurement and insights</div>
+                            </div>
+                            <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(220, 38, 38, 0.05); border-radius: 6px;">
+                                <div class="option-circle" style="width: 26px; height: 26px; background: #dc2626; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">D</div>
+                                <div class="option-text" style="font-size: 13px;"><strong>Minimal:</strong> Little to no systematic approach</div>
+                            </div>
+                        </div>
                     </div>
-                    <span id="arrow-${index}" style="font-size: 14px; transition: transform 0.3s ease;">▼</span>
-                  </button>
-                  <div id="feature-${index}" style="display: none; padding: 15px 0 5px 32px; opacity: 0.9; line-height: 1.5;">
-                    ${feature.description}
-                  </div>
+                    
+                    <button onclick="startQuestions()" class="start-button" style="background: #7f2696; color: white; border: none; border-radius: 50px; padding: 16px 32px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
+                        Let's Get Started →
+                    </button>
                 </div>
-              `).join('')}
-            </div>
-
-            <!-- Share Results Section -->
-            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 25px; margin-bottom: 30px; text-align: center;">
-              <h4 style="font-size: 20px; font-weight: 600; margin: 0 0 15px 0; color: white;">Get Your Detailed Results</h4>
-              <p style="font-size: 14px; margin: 0 0 20px 0; opacity: 0.9;">Receive a comprehensive PDF report with your answers, insights, and actionable recommendations</p>
-              
-              <!-- Email Form -->
-              <div style="background: rgba(255, 255, 255, 0.1); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
-                <div style="display: flex; gap: 10px; align-items: end; justify-content: center; flex-wrap: wrap;">
-                  <div style="flex-grow: 1; min-width: 200px; max-width: 300px;">
-                    <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; color: white; text-align: left;">Email Address</label>
-                    <input type="email" id="results-email" placeholder="your@email.com" style="width: 100%; padding: 12px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; background: rgba(255, 255, 255, 0.9); color: #333;">
-                  </div>
-                  <button onclick="emailResults()" style="background: white; color: #7f2696; border: none; border-radius: 8px; padding: 12px 20px; font-size: 14px; font-weight: 600; cursor: pointer; white-space: nowrap;">
-                    Email Results
-                  </button>
+                
+                <style>
+                    @media (max-width: 768px) {
+                        .intro-container {
+                            padding: 0 10px !important;
+                        }
+                        
+                        .intro-logo {
+                            max-height: 80px !important;
+                            margin-bottom: 20px !important;
+                        }
+                        
+                        .intro-title {
+                            font-size: 24px !important;
+                            margin-bottom: 12px !important;
+                        }
+                        
+                        .intro-description {
+                            font-size: 14px !important;
+                            margin-bottom: 20px !important;
+                        }
+                        
+                        .how-it-works {
+                            padding: 20px !important;
+                            margin-bottom: 20px !important;
+                            border-radius: 12px !important;
+                        }
+                        
+                        .how-title {
+                            font-size: 16px !important;
+                            margin-bottom: 12px !important;
+                        }
+                        
+                        .how-description {
+                            font-size: 13px !important;
+                            margin-bottom: 10px !important;
+                        }
+                        
+                        .options-grid {
+                            gap: 8px !important;
+                            margin-bottom: 12px !important;
+                        }
+                        
+                        .option-item {
+                            padding: 10px !important;
+                        }
+                        
+                        .option-circle {
+                            width: 24px !important;
+                            height: 24px !important;
+                            font-size: 11px !important;
+                            margin-right: 8px !important;
+                        }
+                        
+                        .option-text {
+                            font-size: 12px !important;
+                        }
+                        
+                        .start-button {
+                            padding: 14px 28px !important;
+                            font-size: 15px !important;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .intro-title {
+                            font-size: 22px !important;
+                        }
+                        
+                        .intro-description {
+                            font-size: 13px !important;
+                        }
+                        
+                        .how-it-works {
+                            padding: 15px !important;
+                        }
+                        
+                        .how-title {
+                            font-size: 15px !important;
+                        }
+                        
+                        .how-description {
+                            font-size: 12px !important;
+                        }
+                        
+                        .option-text {
+                            font-size: 11px !important;
+                        }
+                        
+                        .start-button {
+                            padding: 12px 24px !important;
+                            font-size: 14px !important;
+                        }
+                    }
+                </style>
+            `;
+        }
+        
+        function startQuestions() {
+            currentQuestion = 0;
+            renderQuestion();
+        }
+        
+        function renderQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+            
+            const question = questions[currentQuestion];
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            
+            quizRoot.innerHTML = `
+                <div style="max-width: 700px; margin: 0 auto; padding: 0 10px;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 15px;">
+                        <p style="color: #64748b; font-size: 14px;">Question ${currentQuestion + 1} of ${questions.length} • ${Math.round(progress)}% Complete</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="height: 6px; background: #f1f5f9; border-radius: 3px; overflow: hidden;">
+                            <div style="height: 100%; background: linear-gradient(90deg, #7f2696 0%, #9333ea 100%); transition: width 0.5s ease; border-radius: 3px; width: ${progress}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="question-card" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid rgba(127, 38, 150, 0.1);">
+                        <h2 class="question-title" style="font-size: 18px; font-weight: 600; color: #1e293b; margin: 0 0 15px 0; line-height: 1.3;">${question.question}</h2>
+                        
+                        <div style="margin-bottom: 15px;">
+                            ${question.options.map((option, index) => `
+                                <button onclick="selectAnswer('${option.value}')" class="option-btn" style="width: 100%; margin-bottom: 8px; padding: 12px; border: 2px solid rgba(127, 38, 150, 0.1); border-radius: 10px; background: white; cursor: pointer; text-align: left; display: flex; align-items: flex-start; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#7f2696'; this.style.backgroundColor='rgba(127, 38, 150, 0.03)'" onmouseout="this.style.borderColor='rgba(127, 38, 150, 0.1)'; this.style.backgroundColor='white'">
+                                    <div class="option-circle" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(127, 38, 150, 0.3); display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0; color: #64748b; font-weight: 600; font-size: 11px;">
+                                        ${option.value}
+                                    </div>
+                                    <span class="option-text" style="font-size: 13px; color: #1e293b; line-height: 1.4; flex: 1;">${option.text}</span>
+                                </button>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="why-matters" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 8px; padding: 12px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 6px;">
+                                <img src="8dad6b59-3984-48ae-9e13-37c43bc6a4ae.avif" style="width: 14px; height: 14px; margin-right: 5px;" alt="">
+                                <div class="why-title" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7f2696;">Why this matters</div>
+                            </div>
+                            <p class="why-text" style="font-size: 12px; color: #64748b; margin: 0; line-height: 1.3;">${question.why}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding: 0 10px;">
+                        <button onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''} class="prev-btn" style="background: transparent; color: #64748b; border: 2px solid rgba(127, 38, 150, 0.2); border-radius: 50px; padding: 10px 20px; font-weight: 500; cursor: pointer; font-size: 14px;">
+                            ← Previous
+                        </button>
+                    </div>
                 </div>
-              </div>
-              
-              <!-- Download Option -->
-              <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;">
-                <button onclick="downloadPDF()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 12px 20px; font-size: 14px; cursor: pointer;">
-                  Download PDF Report
-                </button>
-              </div>
-            </div>
+                
+                <style>
+                    @media (max-width: 768px) {
+                        .question-card {
+                            padding: 15px !important;
+                            border-radius: 12px !important;
+                        }
+                        
+                        .question-title {
+                            font-size: 16px !important;
+                            margin-bottom: 12px !important;
+                        }
+                        
+                        .option-btn {
+                            padding: 10px !important;
+                            margin-bottom: 6px !important;
+                        }
+                        
+                        .option-circle {
+                            width: 24px !important;
+                            height: 24px !important;
+                            font-size: 10px !important;
+                            margin-right: 8px !important;
+                        }
+                        
+                        .option-text {
+                            font-size: 12px !important;
+                        }
+                        
+                        .why-matters {
+                            padding: 10px !important;
+                        }
+                        
+                        .why-title {
+                            font-size: 11px !important;
+                        }
+                        
+                        .why-text {
+                            font-size: 11px !important;
+                        }
+                        
+                        .prev-btn {
+                            padding: 8px 16px !important;
+                            font-size: 12px !important;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .question-card {
+                            padding: 12px !important;
+                        }
+                        
+                        .question-title {
+                            font-size: 15px !important;
+                        }
+                        
+                        .option-text {
+                            font-size: 11px !important;
+                        }
+                        
+                        .why-text {
+                            font-size: 10px !important;
+                        }
+                    }
+                </style>
+            `;
+        }
+        
+        function selectAnswer(value) {
+            answers[currentQuestion] = value;
+            currentQuestion++;
+            setTimeout(renderQuestion, 300);
+        }
+        
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            } else {
+                currentQuestion = -1;
+                renderIntro();
+            }
+        }
+        
+        // --- Results and PDF Generation Functions (Continued from your original code) ---
+        
+        function generateResultsData() {
+            const counts = { A: 0, B: 0, C: 0, D: 0 };
+            Object.values(answers).forEach(answer => {
+                counts[answer]++;
+            });
+            
+            const aCount = counts.A;
+            let resultType = '';
+            let description = '';
+            
+            if (aCount >= 9) {
+                resultType = 'Engagement Champion';
+                description = 'Your organization has a sophisticated, continuous engagement strategy. You are data-driven, fast to act, and clearly link engagement to business outcomes. Focus on fine-tuning predictive analytics and manager coaching.';
+            } else if (aCount >= 5) {
+                resultType = 'Growing Foundation';
+                description = 'You have a good foundation for engagement measurement, likely doing quarterly or bi-annual surveys, but there are gaps in speed, manager actionability, or connecting feedback to business KPIs. Focus on adopting continuous pulse surveys and providing managers with clearer action plans.';
+            } else if (aCount >= 3) {
+                resultType = 'Critical Gap Zone';
+                description = 'Your engagement efforts are basic, inconsistent, or primarily annual. You lack the speed and data granularity to prevent issues like turnover. Urgent focus is needed on adopting a regular, data-backed system to build trust and increase response rates.';
+            } else {
+                resultType = 'Urgent Action Needed';
+                description = 'Engagement measurement is minimal or non-existent, leaving your organization blind to critical internal issues. You are at high risk for turnover and low productivity. Implementing a basic, consistent measurement tool must be the immediate priority.';
+            }
+            
+            return {
+                counts: counts,
+                aCount: aCount,
+                totalQuestions: questions.length,
+                resultType: resultType,
+                description: description,
+                answers: answers
+            };
+        }
 
-            <div style="text-align: center;">
-              <button onclick="window.open('https://winningtemp.com/book-demo', '_blank')" 
-                      style="background: white; color: #7f2696; border: none; border-radius: 50px; padding: 18px 36px; font-size: 18px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-                Book a Free Demo
-              </button>
-              <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">Get personalized recommendations for your organization</p>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-    
-    // Event listeners
-    closeBtn.addEventListener('click', closeQuiz);
-    
-    // Click outside to close
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeQuiz();
-      }
-    });
-    
-    // Global functions for inline onclick
-    window.openQuiz = openQuiz;
-    window.closeQuiz = closeQuiz;
-    window.startQuestions = startQuestions;
-    window.selectAnswer = selectAnswer;
-    window.previousQuestion = previousQuestion;
-    
-    console.log('Quiz ready!');
+        function showResults() {
+            const resultsData = generateResultsData();
+            const { counts, aCount, totalQuestions, resultType, description } = resultsData;
+            
+            const getIconColor = (letter) => {
+                switch (letter) {
+                    case 'A': return '#059669'; // Green
+                    case 'B': return '#0284c7'; // Blue
+                    case 'C': return '#ea580c'; // Orange
+                    case 'D': return '#dc2626'; // Red
+                    default: return '#64748b';
+                }
+            };
 
-    // Functions to open/close (no change needed here)
-function openQuiz() {
-  console.log('Opening quiz...');
-  modal.classList.add('active');
-  document.body.style.overflow = 'hidden';
-  renderIntro();
-}
-// ...
+            const featureItems = [
+                { title: "Real-time Feedback", desc: "Move beyond annual surveys. Continuous pulse surveys give you daily insights to act before issues escalate.", scoreKey: 0 },
+                { title: "Actionable Insights", desc: "Don't just collect data. Give managers AI-powered, specific recommendations to improve their team's score.", scoreKey: 2 },
+                { title: "Predictive Analytics", desc: "Identify employees and teams at risk of leaving *before* they resign, saving significant recruitment costs.", scoreKey: 9 },
+                { title: "Psychological Safety", desc: "Measure and support leaders in creating an environment where employees feel safe to share honest feedback and innovate.", scoreKey: 10 }
+            ];
 
-// VITAL: Auto-start the quiz on page load
-openQuiz(); 
-  </script>
+            quizRoot.innerHTML = `
+                <div style="max-width: 700px; margin: 0 auto; padding: 0 10px; text-align: center;">
+                    <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 25px;">
+                    
+                    <h1 style="font-size: 32px; font-weight: 700; color: #7f2696; margin-bottom: 10px; line-height: 1.2;">Your Engagement Maturity Score</h1>
+                    <h2 style="font-size: 24px; font-weight: 600; color: #1e293b; margin-bottom: 25px;">${resultType}</h2>
+
+                    <div style="background: rgba(127, 38, 150, 0.05); border-radius: 16px; padding: 25px; margin-bottom: 30px;">
+                        <p style="font-size: 16px; color: #64748b; margin-bottom: 20px;">${description}</p>
+                        
+                        <div style="display: flex; justify-content: space-around; gap: 10px;">
+                            ${Object.keys(counts).map(key => `
+                                <div style="flex: 1; padding: 15px 5px; border-radius: 10px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 1px solid rgba(127, 38, 150, 0.1);">
+                                    <div style="font-size: 28px; font-weight: 700; color: ${getIconColor(key)};">${counts[key]}</div>
+                                    <div style="font-size: 12px; font-weight: 600; color: #64748b;">${key}'s</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <h3 style="font-size: 20px; font-weight: 600; color: #1e293b; margin-bottom: 15px;">Key Areas for Improvement</h3>
+
+                    <div style="text-align: left; margin-bottom: 30px;">
+                        ${featureItems.map((item, index) => {
+                            const userScore = answers[item.scoreKey];
+                            const badgeColor = getIconColor(userScore);
+                            const badgeText = userScore === 'A' ? 'Strong' : userScore === 'B' ? 'Developing' : 'Weak';
+
+                            return `
+                                <div style="margin-bottom: 12px; padding: 15px; border: 1px solid #e2e8f0; border-radius: 12px; background: #f8fafc;">
+                                    <div onclick="toggleFeature(${index})" style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
+                                        <div style="display: flex; align-items: center;">
+                                            <span style="font-weight: 600; color: #1e293b; font-size: 16px; margin-right: 15px;">${item.title}</span>
+                                            <span style="font-size: 10px; font-weight: 700; padding: 4px 8px; border-radius: 4px; color: white; background-color: ${badgeColor};">${badgeText}</span>
+                                        </div>
+                                        <span id="arrow-${index}" style="font-size: 12px; color: #7f2696; transition: transform 0.3s;">▼</span>
+                                    </div>
+                                    <div id="feature-${index}" style="display: none; padding-top: 10px; border-top: 1px solid #e2e8f0; margin-top: 10px;">
+                                        <p style="font-size: 13px; color: #64748b; margin: 0;">${item.desc} (Your answer: ${userScore})</p>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+
+                    <h3 style="font-size: 20px; font-weight: 600; color: #7f2696; margin-bottom: 15px;">Get Your Full Report</h3>
+                    <p style="font-size: 14px; color: #64748b; margin-bottom: 20px;">Enter your email to receive a detailed PDF report with all your answers, analysis, and personalized next steps.</p>
+                    
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center; justify-content: center;">
+                        <input type="email" id="results-email" placeholder="Your work email address" style="padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; flex-grow: 1; max-width: 300px; font-size: 14px;">
+                        <button onclick="emailResults()" style="background: #7f2696; color: white; border: none; border-radius: 8px; padding: 12px 20px; font-weight: 600; cursor: pointer; font-size: 14px; transition: background 0.3s ease;">
+                            Send Report
+                        </button>
+                    </div>
+
+                    <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">Or share your results:</p>
+                    <div style="display: flex; justify-content: center; gap: 15px;">
+                        <button onclick="shareResults('linkedin')" style="background: #0a66c2; color: white; border: none; border-radius: 4px; padding: 8px 15px; font-size: 14px; font-weight: 500; cursor: pointer;">Share on LinkedIn</button>
+                        <button onclick="shareResults('twitter')" style="background: #1da1f2; color: white; border: none; border-radius: 4px; padding: 8px 15px; font-size: 14px; font-weight: 500; cursor: pointer;">Share on X</button>
+                    </div>
+
+                    <button onclick="closeQuiz()" style="background: transparent; color: #7f2696; border: none; margin-top: 30px; padding: 10px; font-size: 14px; cursor: pointer;">Close and return</button>
+                </div>
+            `;
+        }
+        
+        function toggleFeature(index) {
+            const content = document.getElementById(`feature-${index}`);
+            const arrow = document.getElementById(`arrow-${index}`);
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+                arrow.innerHTML = '▲';
+            } else {
+                content.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+                arrow.innerHTML = '▼';
+            }
+        }
+        
+        function shareResults(platform) {
+            const resultsData = generateResultsData();
+            const aCount = resultsData.aCount;
+            const resultType = resultsData.resultType;
+            
+            const text = `I just completed Winningtemp's Employee Engagement Assessment and scored as "${resultType}" with ${aCount} out of 12 A's. See how your organization measures up!`;
+            const url = 'https://winningtemp.com/assessment';
+            
+            switch(platform) {
+                case 'linkedin':
+                    // Note: LinkedIn sharing relies on a URL; text parameter is often ignored or used as a pre-fill suggestion.
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`, '_blank');
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+                    break;
+            }
+        }
+        
+        function emailResults() {
+            const email = document.getElementById('results-email').value;
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            const resultsData = generateResultsData();
+            
+            // In a real application, this would send an AJAX request to a server endpoint.
+            console.log('Simulating sending results to:', email, resultsData);
+            
+            // Show confirmation
+            alert('Your detailed results report has been simulated to be sent to ' + email + '!\n\nThe PDF includes:\n• Your complete assessment responses\n• Detailed analysis of each answer\n• Personalized recommendations\n• Next steps for improvement');
+            
+            // Log for CRM integration
+            console.log('Lead captured with results:', {
+                email: email,
+                results: resultsData,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Optional: Immediately trigger PDF download as a backup (Your original code was missing this function's closing bracket)
+            // downloadPDF(); 
+        }
+
+        // The downloadPDF function was cut off in the original code, but I'll add the closing bracket 
+        // to make the script valid and runnable up to the point it was cut.
+        
+        function downloadPDF() {
+            const resultsData = generateResultsData();
+            
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'a4');
+                
+                // Colors matching Winningtemp brand
+                const brandPurple = [127, 38, 150];
+                const lightPurple = [248, 244, 255];
+                const darkGray = [30, 41, 59];
+                const mediumGray = [100, 116, 139];
+                
+                let currentY = 50;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const margin = 50;
+                const contentWidth = pageWidth - (2 * margin);
+                
+                // Helper function to add new page if needed
+                function checkPageBreak(neededHeight = 60) {
+                    if (currentY + neededHeight > pageHeight - 50) {
+                        doc.addPage();
+                        currentY = 50;
+                        return true;
+                    }
+                    return false;
+                }
+                
+                // Helper function to add text with word wrap
+                function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray) {
+                    doc.setFontSize(fontSize);
+                    doc.setTextColor(...color);
+                    const lines = doc.splitTextToSize(text, maxWidth);
+                    doc.text(lines, x, y);
+                    return y + (lines.length * fontSize * 1.2);
+                }
+                
+                // HEADER SECTION
+                doc.setFillColor(...brandPurple);
+                doc.rect(0, 0, pageWidth, 120, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(28);
+                doc.setFont(undefined, 'bold');
+                doc.text('Employee Engagement', margin, 60);
+                doc.text('Assessment Results', margin, 90);
+                
+                currentY = 160;
+                
+                // EXECUTIVE SUMMARY SECTION
+                checkPageBreak(150);
+                doc.setFillColor(...lightPurple);
+                doc.rect(margin, currentY - 20, contentWidth, 120, 'F');
+                
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(22);
+                doc.setFont(undefined, 'bold');
+                doc.text('Your Result: ' + resultsData.resultType, margin + 20, currentY + 10);
+                
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(...mediumGray);
+                doc.text('Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions + ' A\'s', margin + 20, currentY + 35);
+                
+                currentY = addWrappedText(resultsData.description, margin + 20, currentY + 60, contentWidth - 40, 14, darkGray);
+                currentY += 40;
+                
+                // SCORE BREAKDOWN SECTION
+                checkPageBreak(200);
+                doc.setFillColor(255, 255, 255);
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(2);
+                doc.rect(margin, currentY, contentWidth, 150, 'FD');
+                
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Score Breakdown', margin + 20, currentY + 30);
+                
+                // Score boxes
+                const scoreBoxWidth = (contentWidth - 80) / 4;
+                const scoreTypes = [
+                    { letter: 'A', label: 'Advanced', count: resultsData.counts.A, color: [5, 150, 105] },
+                    { letter: 'B', label: 'Developing', count: resultsData.counts.B, color: [2, 132, 199] },
+                    { letter: 'C', label: 'Basic', count: resultsData.counts.C, color: [234, 88, 12] },
+                    { letter: 'D', label: 'Minimal', count: resultsData.counts.D, color: [220, 38, 38] }
+                ];
+                
+                scoreTypes.forEach((type, index) => {
+                    const x = margin + 20 + (index * (scoreBoxWidth + 10));
+                    const y = currentY + 50;
+                    
+                    doc.setFillColor(...type.color);
+                    doc.rect(x, y, scoreBoxWidth, 80, 'F');
+                    
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(32);
+                    doc.setFont(undefined, 'bold');
+                    doc.text(type.count.toString(), x + scoreBoxWidth/2, y + 40, { align: 'center' });
+                    
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'normal');
+                    doc.text(type.letter + '\'s', x + scoreBoxWidth/2, y + 60, { align: 'center' });
+                    doc.text(type.label, x + scoreBoxWidth/2, y + 75, { align: 'center' });
+                });
+                
+                currentY += 180;
+                
+                // DETAILED ANALYSIS SECTION
+                checkPageBreak(100);
+                doc.setFillColor(...brandPurple);
+                doc.rect(margin, currentY, contentWidth, 40, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Detailed Question Analysis', margin + 20, currentY + 25);
+                
+                currentY += 60;
+                
+                // Question Analysis
+                questions.forEach((question, index) => {
+                    checkPageBreak(120);
+                    
+                    const userAnswer = resultsData.answers[index];
+                    const selectedOption = question.options.find(opt => opt.value === userAnswer);
+                    
+                    // Question number and text
+                    doc.setFillColor(250, 250, 250);
+                    doc.rect(margin, currentY, contentWidth, 30, 'F');
+                    
+                    doc.setTextColor(...brandPurple);
+                    doc.setFontSize(14);
+                    doc.setFont(undefined, 'bold');
+                    doc.text(`Q${index + 1}:`, margin + 15, currentY + 20);
+                    
+                    currentY = addWrappedText(question.question, margin + 50, currentY + 20, contentWidth - 65, 12, darkGray);
+                    currentY += 10;
+                    
+                    // User Answer
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Your Answer:', margin + 15, currentY);
+                    
+                    doc.setFont(undefined, 'normal');
+                    doc.setTextColor(...mediumGray);
+                    currentY = addWrappedText(`(${userAnswer}) ${selectedOption ? selectedOption.text : 'N/A'}`, margin + 95, currentY, contentWidth - 110, 11, mediumGray);
+                    currentY += 10;
+
+                    // Why it matters
+                    doc.setTextColor(...brandPurple);
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Insight:', margin + 15, currentY);
+
+                    doc.setFont(undefined, 'normal');
+                    doc.setTextColor(...mediumGray);
+                    currentY = addWrappedText(question.why, margin + 55, currentY, contentWidth - 70, 11, mediumGray);
+                    currentY += 25; // Add space before next question
+                });
+
+                // End of document save
+                doc.save('Winningtemp_Engagement_Assessment_Results.pdf');
+            } catch (e) {
+                console.error("PDF generation failed. Ensure jspdf is loaded correctly.", e);
+                alert("PDF generation is not available. Check the console for details.");
+            }
+        } // Closing bracket for downloadPDF function
+        
+        // Ensure that the quiz opens immediately when the page loads, 
+        // to match the original intent of the embedded code.
+        document.addEventListener('DOMContentLoaded', () => {
+             // In a normal page, you'd click a button. For testing this standalone block, call it directly.
+             openQuiz();
+        });
+    </script>
 </body>
 </html>
