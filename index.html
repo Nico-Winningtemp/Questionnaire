@@ -124,40 +124,29 @@
     }
   </style>
 </head>
-<body> 
-  <!-- Landing Page -->
-  <div style="padding: 40px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div style="max-width: 600px; margin: 0 auto;">
-      <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp Logo" style="max-height: 120px; width: auto; margin-bottom: 30px;">
-      
-      <h1 style="color: #7f2696; margin-bottom: 20px; font-size: 32px; font-weight: 700; line-height: 1.2;">
-        Employee Engagement Assessment
-      </h1>
-      <p style="color: #64748b; margin-bottom: 40px; font-size: 18px; line-height: 1.6;">
-        Discover your organization's engagement strengths and opportunities in just 2 minutes. Get personalized insights and actionable recommendations.
-      </p>
-      
-      <button class="start-btn" id="startBtn">
-        Start Assessment
-        <span style="background: rgba(255,255,255,0.2); padding: 6px 10px; border-radius: 50%; font-size: 14px; line-height: 1;">→</span>
-      </button>
-      
-      <div style="margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; opacity: 0.7;">
-        <span style="font-size: 14px; color: #64748b;">✓ 2 minutes</span>
-        <span style="font-size: 14px; color: #64748b;">✓ Science-based</span>
-        <span style="font-size: 14px; color: #64748b;">✓ Actionable insights</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Quiz Modal -->
-  <div id="quiz-modal" class="quiz-modal">
-    <div class="modal-content">
-      <button class="close-btn" id="closeBtn">✕</button>
+<body>
+  <div id="quiz-content-wrapper" style="
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    min-height: 600px; /* Set a minimum height for centering */
+    padding: 20px 0; 
+  ">
+    <div class="modal-content" style="
+      background: white;
+      border-radius: 24px;
+      width: 100%;
+      max-width: 900px;
+      position: relative;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+      overflow: hidden; /* Important for containing content */
+    ">
+      <button class="close-btn" id="closeBtn" onclick="window.parent.postMessage('close-modal', '*')">✕</button> 
       <div id="quiz-root" style="padding: 40px;"></div>
     </div>
   </div>
 
+  <script>
   <script>
     console.log('Quiz script loading...');
     
