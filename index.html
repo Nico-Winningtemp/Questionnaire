@@ -124,7 +124,7 @@
     }
   </style>
 </head>
-<body>
+<body> 
   <!-- Landing Page -->
   <div style="padding: 40px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <div style="max-width: 600px; margin: 0 auto;">
@@ -291,7 +291,6 @@
     
     // DOM Elements
     const modal = document.getElementById('quiz-modal');
-    const startBtn = document.getElementById('startBtn');
     const closeBtn = document.getElementById('closeBtn');
     const quizRoot = document.getElementById('quiz-root');
     
@@ -1231,7 +1230,6 @@ Website: winningtemp.com
     }
     
     // Event listeners
-    startBtn.addEventListener('click', openQuiz);
     closeBtn.addEventListener('click', closeQuiz);
     
     // Click outside to close
@@ -1249,6 +1247,18 @@ Website: winningtemp.com
     window.previousQuestion = previousQuestion;
     
     console.log('Quiz ready!');
+
+    // Functions to open/close (no change needed here)
+function openQuiz() {
+  console.log('Opening quiz...');
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  renderIntro();
+}
+// ...
+
+// VITAL: Auto-start the quiz on page load
+openQuiz(); 
   </script>
 </body>
 </html>
