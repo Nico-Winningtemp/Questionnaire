@@ -23,7 +23,7 @@
       color: white;
       border: none;
       border-radius: 50px;
-      : 18px 36px;
+      padding: 18px 36px;
       font-weight: 600;
       font-size: 16px;
       cursor: pointer;
@@ -49,7 +49,7 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      padding: 0px;
+      padding: 10px;
     }
     
     .quiz-modal.active {
@@ -67,11 +67,11 @@
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
     }
     
-    @media (max-width: 768px) {style="padding: 40px;"
+    @media (max-width: 768px) {
       .quiz-modal {
-        padding: 0px;
+        padding: 5px;
         align-items: flex-start;
-        padding-top: 0px;
+        padding-top: 10px;
       }
       
       .modal-content {
@@ -126,7 +126,7 @@
 </head>
 <body>
   <!-- Landing Page -->
-  <div style="padding: 50px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+  <div style="padding: 40px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
     <div style="max-width: 600px; margin: 0 auto;">
       <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp Logo" style="max-height: 120px; width: auto; margin-bottom: 30px;">
       
@@ -154,7 +154,7 @@
   <div id="quiz-modal" class="quiz-modal">
     <div class="modal-content">
       <button class="close-btn" id="closeBtn">✕</button>
-      <div id="quiz-root" style="padding: 0px;"></div>
+      <div id="quiz-root" style="padding: 40px;"></div>
     </div>
   </div>
 
@@ -463,7 +463,7 @@
       const progress = ((currentQuestion + 1) / questions.length) * 100;
       
       quizRoot.innerHTML = `
-        <div style="max-width: 700px; margin: 0 auto; padding: 0 0px;">
+        <div style="max-width: 700px; margin: 0 auto; padding: 0 10px;">
           <div style="text-align: center; margin-bottom: 20px;">
             <img src="66057a5061eedf31d185a37e_6405afd56133a41e42700665_5a074626-7fdd-4c20-a121-f4fd00e441c1.png" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 15px;">
             <p style="color: #64748b; font-size: 14px;">Question ${currentQuestion + 1} of ${questions.length} • ${Math.round(progress)}% Complete</p>
