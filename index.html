@@ -1,316 +1,624 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Winningtemp Engagement Assessment</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-    }
-    
-    .start-btn {
-      background: #7f2696;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 18px 36px;
-      font-weight: 600;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      box-shadow: 0 4px 20px rgba(127, 38, 150, 0.3);
-    }
-    
-    .start-btn:hover {
-      background: #6b2280;
-    }
-    
-    .quiz-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: #7f2696;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      padding: 10px;
-    }
-    
-    .quiz-modal.active {
-      display: flex;
-    }
-    
-    .modal-content {
-      background: white;
-      border-radius: 24px;
-      width: 100%;
-      max-width: 900px;
-      max-height: 95vh;
-      overflow-y: auto;
-      position: relative;
-      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-    }
-    
-    @media (max-width: 768px) {
-      .quiz-modal {
-        padding: 5px;
-        align-items: flex-start;
-        padding-top: 10px;
-      }
-      
-      .modal-content {
-        border-radius: 16px;
-        max-height: 98vh;
-        min-height: 0;
-      }
-      
-      .close-btn {
-        top: 10px;
-        right: 10px;
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-      }
-    }
-    
-    .close-btn {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(127, 38, 150, 0.15);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-      color: #7f2696;
-      z-index: 10;
-    }
-    
-    .pin-icon {
-      width: 96px;
-      height: 96px;
-      opacity: 0.9;
-    }
-    
-    /* Hide scrollbar */
-    .modal-content::-webkit-scrollbar {
-      display: none;
-    }
-    
-    .modal-content {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winningtemp Engagement Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .start-btn {
+            background: #7f2696;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 18px 36px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 20px rgba(127, 38, 150, 0.3);
+        }
+
+        .start-btn:hover {
+            background: #6b2280;
+        }
+
+        .quiz-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #7f2696;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 10px;
+        }
+
+        .quiz-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 95vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .quiz-modal {
+                padding: 5px;
+                align-items: flex-start;
+                padding-top: 10px;
+            }
+
+            .modal-content {
+                border-radius: 16px;
+                max-height: 98vh;
+                min-height: 0;
+            }
+
+            .close-btn {
+                top: 10px;
+                right: 10px;
+                width: 36px;
+                height: 36px;
+                font-size: 16px;
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(127, 38, 150, 0.15);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            color: #7f2696;
+            z-index: 10;
+        }
+
+        .pin-icon {
+            width: 96px;
+            height: 96px;
+            opacity: 0.9;
+        }
+
+        /* Hide scrollbar */
+        .modal-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .modal-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .smiley-icon {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        /* Smiley animation styles */
+        .smiley-container {
+            position: relative;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+        .smiley-stack {
+            position: relative;
+            width: 28px;
+            height: 28px;
+        }
+
+        .smiley-animated {
+            position: absolute;
+            width: 28px;
+            height: 28px;
+            transition: right 0.3s ease;
+        }
+
+        .smiley-a {
+            right: 4px;
+            z-index: 5;
+        }
+
+        .smiley-b {
+            right: 3px;
+            z-index: 4;
+        }
+
+        .smiley-c {
+            right: 2px;
+            z-index: 3;
+        }
+
+        .smiley-d {
+            right: 1px;
+            z-index: 2;
+        }
+
+        .option-btn:hover .smiley-a {
+            right: 9px;
+        }
+
+        .option-btn:hover .smiley-b {
+            right: 6px;
+        }
+
+        .option-btn:hover .smiley-c {
+            right: 3px;
+        }
+
+        .option-btn:hover .smiley-d {
+            right: 1px;
+        }
+    </style>
 </head>
+
 <body>
-  <!-- Landing Page -->
-  <div style="padding: 40px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-    <div style="max-width: 600px; margin: 0 auto;">
-      <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp Logo" style="max-height: 120px; width: auto; margin-bottom: 30px;">
-      
-      <h1 style="color: #7f2696; margin-bottom: 20px; font-size: 32px; font-weight: 700; line-height: 1.2;">
-        Employee Engagement Assessment
-      </h1>
-      <p style="color: #64748b; margin-bottom: 40px; font-size: 18px; line-height: 1.6;">
-        Discover your organization's engagement strengths and opportunities in just 2 minutes. Get personalized insights and actionable recommendations.
-      </p>
-      
-      <button class="start-btn" id="startBtn">
-        Start Assessment
-        <span style="background: rgba(255,255,255,0.2); padding: 6px 10px; border-radius: 50%; font-size: 14px; line-height: 1;">→</span>
-      </button>
-      
-      <div style="margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; opacity: 0.7;">
-        <span style="font-size: 14px; color: #64748b;">✓ 2 minutes</span>
-        <span style="font-size: 14px; color: #64748b;">✓ Science-based</span>
-        <span style="font-size: 14px; color: #64748b;">✓ Actionable insights</span>
-      </div>
-    </div>
-  </div>
+    <!-- Landing Page -->
+    <div style="padding: 40px; text-align: center; background: linear-gradient(135deg, #ffffff 0%, #f8f4ff 100%); min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div style="max-width: 600px; margin: 0 auto;">
+            <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp Logo" style="max-height: 120px; width: auto; margin-bottom: 30px;">
 
-  <!-- Quiz Modal -->
-  <div id="quiz-modal" class="quiz-modal">
-    <div class="modal-content">
-      <button class="close-btn" id="closeBtn">✕</button>
-      <div id="quiz-root" style="padding: 40px;"></div>
-    </div>
-  </div>
+            <h1 style="color: #7f2696; margin-bottom: 20px; font-size: 32px; font-weight: 700; line-height: 1.2;">
+                Employee Engagement Assessment
+            </h1>
+            <p style="color: #64748b; margin-bottom: 40px; font-size: 18px; line-height: 1.6;">
+                Discover your organization's engagement strengths and opportunities in just 2 minutes. Get personalized insights and actionable recommendations.
+            </p>
 
-  <script>
-    console.log('Quiz script loading...');
-    
-    // Quiz data
-    const questions = [
-      {
-        question: "How often does your organization measure employee engagement?",
-        options: [
-          { text: "Weekly or bi-weekly with continuous pulse surveys", value: "A" },
-          { text: "Quarterly", value: "B" },
-          { text: "Annually", value: "C" },
-          { text: "Rarely or never", value: "D" }
-        ],
-        why: "Real-time insights help you spot challenges before they escalate into costly turnover."
-      },
-      {
-        question: "When engagement issues arise, how quickly can your leadership team identify and respond?",
-        options: [
-          { text: "Within days - we have real-time dashboards", value: "A" },
-          { text: "Within a few weeks", value: "B" },
-          { text: "Within 1-3 months", value: "C" },
-          { text: "We often don't know there's a problem until exit interviews", value: "D" }
-        ],
-        why: "Speed matters. Organizations that act fast on feedback see 25% higher retention rates."
-      },
-      {
-        question: "How confident are your managers in taking action based on employee feedback?",
-        options: [
-          { text: "Very confident - they receive AI-powered, research-based recommendations", value: "A" },
-          { text: "Somewhat confident - they get data but limited guidance", value: "B" },
-          { text: "Not very confident - they're unsure what actions to take", value: "C" },
-          { text: "They don't receive regular feedback to act on", value: "D" }
-        ],
-        why: "Data without actionable insights leads to analysis paralysis and missed opportunities."
-      },
-      {
-        question: "What's your current employee response rate to engagement surveys?",
-        options: [
-          { text: "Over 70%", value: "A" },
-          { text: "50-70%", value: "B" },
-          { text: "30-50%", value: "C" },
-          { text: "Below 30% or we don't survey regularly", value: "D" }
-        ],
-        why: "Low response rates indicate survey fatigue or lack of trust that action will be taken."
-      },
-      {
-        question: "Does your organization track the connection between employee engagement and business outcomes?",
-        options: [
-          { text: "Yes, we have clear metrics linking engagement to KPIs", value: "A" },
-          { text: "We track both separately but haven't connected them", value: "B" },
-          { text: "We only track business metrics", value: "C" },
-          { text: "We don't measure engagement consistently", value: "D" }
-        ],
-        why: "Engaged teams perform better - this should be a strategic business metric, not just an HR initiative."
-      },
-      {
-        question: "How much time does your HR team spend on administrative survey tasks vs. strategic action?",
-        options: [
-          { text: "Mostly strategic - our platform automates the admin work", value: "A" },
-          { text: "50/50 split", value: "B" },
-          { text: "Mostly admin - surveys take significant manual effort", value: "C" },
-          { text: "We lack resources for comprehensive engagement programs", value: "D" }
-        ],
-        why: "HR should drive strategy, not get buried in spreadsheets. Automation frees up 15+ hours per month."
-      },
-      {
-        question: "Can your leadership team identify which specific factors are driving engagement in different teams?",
-        options: [
-          { text: "Yes, we have granular insights by team, department, and demographic", value: "A" },
-          { text: "We have organization-wide data but limited team-level detail", value: "B" },
-          { text: "We have general insights but can't pinpoint specific drivers", value: "C" },
-          { text: "We don't have this level of visibility", value: "D" }
-        ],
-        why: "One-size-fits-all solutions don't work. Different teams have different needs."
-      },
-      {
-        question: "How does your organization handle anonymous feedback?",
-        options: [
-          { text: "We have a secure platform for continuous anonymous input", value: "A" },
-          { text: "We collect anonymous surveys occasionally", value: "B" },
-          { text: "Most feedback requires identification", value: "C" },
-          { text: "We don't have a formal anonymous feedback mechanism", value: "D" }
-        ],
-        why: "Psychological safety drives honest feedback - anonymity is critical for sensitive issues."
-      },
-      {
-        question: "What happens after you collect employee feedback?",
-        options: [
-          { text: "We get AI-powered action recommendations and track progress", value: "A" },
-          { text: "Managers review results and decide on actions independently", value: "B" },
-          { text: "HR compiles reports but follow-through is inconsistent", value: "C" },
-          { text: "The data sits in spreadsheets with minimal action", value: "D" }
-        ],
-        why: "Collecting feedback without action destroys trust and worsens engagement."
-      },
-      {
-        question: "How well can your organization predict potential retention risks?",
-        options: [
-          { text: "Very well - we have early warning indicators and trend analysis", value: "A" },
-          { text: "Somewhat - we notice patterns but can't predict accurately", value: "B" },
-          { text: "Not well - we're usually surprised by resignations", value: "C" },
-          { text: "We don't have predictive capabilities", value: "D" }
-        ],
-        why: "Replacing an employee costs 1.5-2x their annual salary. Prevention is far cheaper than reaction."
-      },
-      {
-        question: "Does your employee engagement strategy support leaders in creating psychologically safe environments?",
-        options: [
-          { text: "Yes, we provide tools, training, and data-driven guidance", value: "A" },
-          { text: "We provide some training but limited ongoing support", value: "B" },
-          { text: "It's mentioned but not actively supported with tools", value: "C" },
-          { text: "This isn't currently a focus area", value: "D" }
-        ],
-        why: "Psychological safety is the foundation of engagement, innovation, and team performance."
-      },
-      {
-        question: "How aligned are your organization's engagement efforts with scientific research and best practices?",
-        options: [
-          { text: "Highly aligned - our platform is research-based and continuously updated", value: "A" },
-          { text: "Somewhat aligned - we follow general best practices", value: "B" },
-          { text: "Limited alignment - we use intuition more than research", value: "C" },
-          { text: "We're not sure what current best practices are", value: "D" }
-        ],
-        why: "Science-backed approaches deliver measurable results. Guesswork leads to wasted resources."
-      }
-    ];
-    
-    // State
-    let currentQuestion = -1; // Start with intro
-    let answers = {};
-    
-    // DOM Elements
-    const modal = document.getElementById('quiz-modal');
-    const startBtn = document.getElementById('startBtn');
-    const closeBtn = document.getElementById('closeBtn');
-    const quizRoot = document.getElementById('quiz-root');
-    
-    // Functions
-    function openQuiz() {
-      console.log('Opening quiz...');
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      renderIntro();
-    }
-    
-    function closeQuiz() {
-      console.log('Closing quiz...');
-      modal.classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-    
-    function renderIntro() {
-      quizRoot.innerHTML = `
+            <button class="start-btn" id="startBtn">
+                Start Assessment
+                <span style="background: rgba(255,255,255,0.2); padding: 6px 10px; border-radius: 50%; font-size: 14px; line-height: 1;">→</span>
+            </button>
+
+            <div style="margin-top: 40px; display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; opacity: 0.7;">
+                <span style="font-size: 14px; color: #64748b;">✓ 2 minutes</span>
+                <span style="font-size: 14px; color: #64748b;">✓ Industry benchmark</span>
+                <span style="font-size: 14px; color: #64748b;">✓ Actionable insights</span>
+                <span style="font-size: 14px; color: #64748b;">✓ Free & Sharable PDF Results</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div id="quiz-modal" class="quiz-modal">
+        <div class="modal-content">
+            <button class="close-btn" id="closeBtn">✕</button>
+            <div id="quiz-root" style="padding: 40px;"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('Quiz script loading...');
+
+        // Quiz data
+        const questions = [{
+                question: "How often does your organization measure employee engagement?",
+                options: [{
+                        text: "Weekly or every two weeks with continuous surveys",
+                        value: "A"
+                    },
+                    {
+                        text: "Quarterly or monthly",
+                        value: "B"
+                    },
+                    {
+                        text: "Annually",
+                        value: "C"
+                    },
+                    {
+                        text: "Rarely or never",
+                        value: "D"
+                    }
+                ],
+                why: "Real-time insights help you spot challenges before they escalate into costly turnover."
+            },
+            {
+                question: "When engagement issues arise, how quickly can your leadership team identify and respond?",
+                options: [{
+                        text: "Within days - we have real-time dashboards",
+                        value: "A"
+                    },
+                    {
+                        text: "Within a few weeks",
+                        value: "B"
+                    },
+                    {
+                        text: "Within 1-3 months",
+                        value: "C"
+                    },
+                    {
+                        text: "We often don't know there's a problem until exit interviews",
+                        value: "D"
+                    }
+                ],
+                why: "Speed matters. Organizations that act fast on feedback see 25% higher retention rates."
+            },
+            {
+                question: "How confident are your managers in taking action based on employee feedback?",
+                options: [{
+                        text: "Very confident - they receive AI-powered, research-based recommendations",
+                        value: "A"
+                    },
+                    {
+                        text: "Somewhat confident - they get data but limited guidance",
+                        value: "B"
+                    },
+                    {
+                        text: "Not very confident - they're unsure what actions to take",
+                        value: "C"
+                    },
+                    {
+                        text: "They don't receive regular feedback to act on",
+                        value: "D"
+                    }
+                ],
+                why: "Data without actionable insights leads to analysis paralysis and missed opportunities."
+            },
+            {
+                question: "What's your current employee response rate to engagement surveys?",
+                options: [{
+                        text: "Over 70%",
+                        value: "A"
+                    },
+                    {
+                        text: "50-70%",
+                        value: "B"
+                    },
+                    {
+                        text: "30-50%",
+                        value: "C"
+                    },
+                    {
+                        text: "Below 30% or we don't survey regularly",
+                        value: "D"
+                    }
+                ],
+                why: "Low response rates indicate survey fatigue or lack of trust that action will be taken."
+            },
+            {
+                question: "To what extent does your organization understand the connection between employee engagement and business outcomes?",
+                options: [{
+                        text: "Fully",
+                        value: "A"
+                    },
+                    {
+                        text: "Largely",
+                        value: "B"
+                    },
+                    {
+                        text: "Somewhat",
+                        value: "C"
+                    },
+                    {
+                        text: "Not at all",
+                        value: "D"
+                    }
+                ],
+                why: "Engaged teams perform better - this should be a strategic business metric, not just an HR initiative."
+            },
+            {
+                question: "Does your organization track the connection between employee engagement and business outcomes?",
+                options: [{
+                        text: "Yes, we have clear metrics linking engagement to KPIs",
+                        value: "A"
+                    },
+                    {
+                        text: "We track both separately but haven't connected them",
+                        value: "B"
+                    },
+                    {
+                        text: "We only track business metrics",
+                        value: "C"
+                    },
+                    {
+                        text: "We don't measure engagement consistently",
+                        value: "D"
+                    }
+                ],
+                why: "Engaged teams perform better - this should be a strategic business metric, not just an HR initiative."
+            },
+            {
+                question: "How much time does your HR team spend on administrative survey tasks vs. strategic action?",
+                options: [{
+                        text: "Mostly strategic - our platform automates the admin work",
+                        value: "A"
+                    },
+                    {
+                        text: "50/50 split",
+                        value: "B"
+                    },
+                    {
+                        text: "Mostly admin - surveys take significant manual effort",
+                        value: "C"
+                    },
+                    {
+                        text: "We lack resources for comprehensive engagement programs",
+                        value: "D"
+                    }
+                ],
+                why: "HR should drive strategy, not get buried in spreadsheets. Automation frees up 15+ hours per month."
+            },
+            {
+                question: "Can your leadership team identify which specific factors are driving engagement in different teams?",
+                options: [{
+                        text: "Yes, we have granular insights by team, department, and demographic",
+                        value: "A"
+                    },
+                    {
+                        text: "We have organization-wide data but limited team-level detail",
+                        value: "B"
+                    },
+                    {
+                        text: "We have general insights but can't pinpoint specific drivers",
+                        value: "C"
+                    },
+                    {
+                        text: "We don't have this level of visibility",
+                        value: "D"
+                    }
+                ],
+                why: "One-size-fits-all solutions don't work. Different teams have different needs."
+            },
+            {
+                question: "How does your organization handle anonymous feedback?",
+                options: [{
+                        text: "We have a secure platform for continuous anonymous input",
+                        value: "A"
+                    },
+                    {
+                        text: "We collect anonymous surveys occasionally",
+                        value: "B"
+                    },
+                    {
+                        text: "Most feedback requires identification",
+                        value: "C"
+                    },
+                    {
+                        text: "We don't have a formal anonymous feedback mechanism",
+                        value: "D"
+                    }
+                ],
+                why: "Psychological safety drives honest feedback - anonymity is critical for sensitive issues."
+            },
+            {
+                question: "What happens after you collect employee feedback?",
+                options: [{
+                        text: "We get AI-powered action recommendations and track progress",
+                        value: "A"
+                    },
+                    {
+                        text: "Managers review results and decide on actions independently",
+                        value: "B"
+                    },
+                    {
+                        text: "HR compiles reports but follow-through is inconsistent",
+                        value: "C"
+                    },
+                    {
+                        text: "The data sits in spreadsheets with minimal action",
+                        value: "D"
+                    }
+                ],
+                why: "Collecting feedback without action destroys trust and worsens engagement."
+            },
+            {
+                question: "How well can your organization predict potential retention risks?",
+                options: [{
+                        text: "Very well - we have early warning indicators and trend analysis",
+                        value: "A"
+                    },
+                    {
+                        text: "Somewhat - we notice patterns but can't predict accurately",
+                        value: "B"
+                    },
+                    {
+                        text: "Not well - we're usually surprised by resignations",
+                        value: "C"
+                    },
+                    {
+                        text: "We don't have predictive capabilities",
+                        value: "D"
+                    }
+                ],
+                why: "Replacing an employee costs 1.5-2x their annual salary. Prevention is far cheaper than reaction."
+            },
+            {
+                question: "Does your employee engagement strategy support leaders in creating psychologically safe environments?",
+                options: [{
+                        text: "Yes, we provide tools, training, and data-driven guidance",
+                        value: "A"
+                    },
+                    {
+                        text: "We provide some training but limited ongoing support",
+                        value: "B"
+                    },
+                    {
+                        text: "It's mentioned but not actively supported with tools",
+                        value: "C"
+                    },
+                    {
+                        text: "This isn't currently a focus area",
+                        value: "D"
+                    }
+                ],
+                why: "Psychological safety is the foundation of engagement, innovation, and team performance."
+            },
+            {
+                question: "How aligned are your organization's engagement efforts with scientific research and best practices?",
+                options: [{
+                        text: "Highly aligned - our platform is research-based and continuously updated",
+                        value: "A"
+                    },
+                    {
+                        text: "Somewhat aligned - we follow general best practices",
+                        value: "B"
+                    },
+                    {
+                        text: "Limited alignment - we use intuition more than research",
+                        value: "C"
+                    },
+                    {
+                        text: "We're not sure what current best practices are",
+                        value: "D"
+                    }
+                ],
+                why: "Science-backed approaches deliver measurable results. Guesswork leads to wasted resources."
+            }
+        ];
+
+        // State
+        let currentQuestion = -1; // Start with intro
+        let answers = {};
+
+        // DOM Elements
+        const modal = document.getElementById('quiz-modal');
+        const startBtn = document.getElementById('startBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const quizRoot = document.getElementById('quiz-root');
+
+        // Smiley SVG functions for each option
+        function getSmileyIcon(option) {
+            const smileys = {
+                'A': `<div class="smiley-stack">
+                    <svg class="smiley-animated smiley-a" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#45CB1C"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.6301 5.5829C7.91034 8.51058 6 13.547 6 19C6 22.2986 6.66319 25.3779 7.81098 27.9847C8.48158 29.5077 7.51669 30.1983 6.38454 29.0037C3.66694 26.136 2 22.2626 2 18C2 12.2419 5.04407 7.21939 9.60581 4.37613C10.9353 3.54747 11.4473 4.70319 10.6301 5.5829Z"></path>
+                        <path d="M24.0012 23.1752C24.0012 26.4885 21.3153 29.1744 18.002 29.1744C14.8151 29.1744 12.2085 26.6894 12.0144 23.5514C11.9745 22.9067 12.3179 22.5867 12.7701 22.5709C17.3549 22.4071 20.7935 22.2842 23.0859 22.2023C23.9304 22.1721 24.0012 22.8337 24.0012 23.1752Z" fill="#353A40"></path>
+                        <path d="M9.2931 14.5209C10.711 14.3216 12.0268 15.344 12.232 16.8043C12.4299 18.2125 11.2844 18.1521 9.93097 18.3246L9.7798 18.3448C8.36191 18.5441 7.30265 18.9863 7.09741 17.5259C6.89217 16.0656 7.87521 14.7202 9.2931 14.5209Z" fill="#353A40"></path>
+                        <path d="M25.8329 14.5209C27.2507 14.7202 28.2338 16.0656 28.0285 17.5259C27.8306 18.9342 26.8386 18.5733 25.4967 18.367L25.3462 18.3448C23.9283 18.1456 22.6887 18.2647 22.8939 16.8043C23.0992 15.344 24.415 14.3216 25.8329 14.5209Z" fill="#353A40"></path>
+                    </svg>
+                    <svg class="smiley-animated smiley-b" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#B3E818"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.6301 5.5829C7.91034 8.51058 6 13.547 6 19C6 22.2986 6.66319 25.3779 7.81098 27.9847C8.48158 29.5077 7.51669 30.1983 6.38454 29.0037C3.66694 26.136 2 22.2626 2 18C2 12.2419 5.04407 7.21939 9.60581 4.37613C10.9353 3.54747 11.4473 4.70319 10.6301 5.5829Z"></path>
+                        <path d="M23.8968 24.7197C24.2658 25.0426 24.3032 25.6036 23.9803 25.9727C21.9496 28.2934 19.5691 28.9113 17.4719 28.6866C15.4317 28.468 13.6794 27.4575 12.7601 26.5382C12.4133 26.1914 12.4133 25.6292 12.7601 25.2824C13.1068 24.9356 13.6691 24.9356 14.0158 25.2824C14.6635 25.9301 16.0451 26.7477 17.6611 26.9208C19.2202 27.0878 21.0182 26.6611 22.6438 24.8032C22.9667 24.4342 23.5277 24.3968 23.8968 24.7197Z" fill="#353A40"></path>
+                        <path d="M10.45 15.6C11.8031 15.6 12.9 16.6969 12.9 18.05C12.9 19.4031 11.8031 20.5 10.45 20.5C9.0969 20.5 8 19.4031 8 18.05C8 16.6969 9.0969 15.6 10.45 15.6Z" fill="#353A40"></path>
+                        <path d="M25.45 15.6C26.8031 15.6 27.9 16.6969 27.9 18.05C27.9 19.4031 26.8031 20.5 25.45 20.5C24.0969 20.5 23 19.4031 23 18.05C23 16.6969 24.0969 15.6 25.45 15.6Z" fill="#353A40"></path>
+                    </svg>
+                    <svg class="smiley-animated smiley-c" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FFA000"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.6301 5.58296C7.91034 8.51064 6 13.5471 6 19C6 22.2987 6.66319 25.3779 7.81098 27.9847C8.48158 29.5078 7.51669 30.1984 6.38454 29.0037C3.66694 26.136 2 22.2627 2 18C2 12.242 5.04407 7.21945 9.60581 4.37619C10.9353 3.54753 11.4473 4.70325 10.6301 5.58296Z"></path>
+                        <path d="M14.5 27.7001C16.5 26.2001 20.5 25.2001 25 26.4001" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M10.9502 14.9001C12.1928 14.9001 13.2002 15.9074 13.2002 17.1501C13.2002 18.3927 12.1928 19.4001 10.9502 19.4001C9.70755 19.4001 8.7002 18.3927 8.7002 17.1501C8.7002 15.9074 9.70755 14.9001 10.9502 14.9001Z" fill="#353A40"></path>
+                        <path d="M26.4502 14.9001C27.6928 14.9001 28.7002 15.9074 28.7002 17.1501C28.7002 18.3927 27.6928 19.4001 26.4502 19.4001C25.2076 19.4001 24.2002 18.3927 24.2002 17.1501C24.2002 15.9074 25.2076 14.9001 26.4502 14.9001Z" fill="#353A40"></path>
+                    </svg>
+                    <svg class="smiley-animated smiley-d" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FF5C61"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.63 5.583C7.91 8.511 6 13.547 6 19C6 22.299 6.663 25.378 7.811 27.985C8.482 29.508 7.517 30.198 6.385 29.004C3.667 26.136 2 22.263 2 18C2 12.242 5.044 7.219 9.606 4.376C10.935 3.548 11.447 4.703 10.63 5.583Z"></path>
+                        <path d="M14 29.2C17 27.7 20 26.3 24.7 28.4" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M9.457 17.523L11.864 17.948C12.677 18.091 13.221 18.867 13.077 19.681C12.934 20.495 12.158 21.038 11.344 20.895L8.937 20.47C8.123 20.327 7.58 19.551 7.723 18.737C7.867 17.923 8.643 17.38 9.457 17.523Z" fill="#353A40"></path>
+                        <path d="M28.713 17.523C29.527 17.38 30.303 17.923 30.446 18.737C30.581 19.503 30.108 20.235 29.373 20.438L29.233 20.47L26.826 20.895C26.012 21.038 25.236 20.495 25.092 19.681C24.957 18.915 25.431 18.182 26.165 17.979L26.306 17.948L28.713 17.523Z" fill="#353A40"></path>
+                    </svg>
+                </div>`,
+                'B': `<div class="smiley-stack">
+                    <svg class="smiley-animated smiley-b" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#B3E818"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.6301 5.5829C7.91034 8.51058 6 13.547 6 19C6 22.2986 6.66319 25.3779 7.81098 27.9847C8.48158 29.5077 7.51669 30.1983 6.38454 29.0037C3.66694 26.136 2 22.2626 2 18C2 12.2419 5.04407 7.21939 9.60581 4.37613C10.9353 3.54747 11.4473 4.70319 10.6301 5.5829Z"></path>
+                        <path d="M23.8968 24.7197C24.2658 25.0426 24.3032 25.6036 23.9803 25.9727C21.9496 28.2934 19.5691 28.9113 17.4719 28.6866C15.4317 28.468 13.6794 27.4575 12.7601 26.5382C12.4133 26.1914 12.4133 25.6292 12.7601 25.2824C13.1068 24.9356 13.6691 24.9356 14.0158 25.2824C14.6635 25.9301 16.0451 26.7477 17.6611 26.9208C19.2202 27.0878 21.0182 26.6611 22.6438 24.8032C22.9667 24.4342 23.5277 24.3968 23.8968 24.7197Z" fill="#353A40"></path>
+                        <path d="M10.45 15.6C11.8031 15.6 12.9 16.6969 12.9 18.05C12.9 19.4031 11.8031 20.5 10.45 20.5C9.0969 20.5 8 19.4031 8 18.05C8 16.6969 9.0969 15.6 10.45 15.6Z" fill="#353A40"></path>
+                        <path d="M25.45 15.6C26.8031 15.6 27.9 16.6969 27.9 18.05C27.9 19.4031 26.8031 20.5 25.45 20.5C24.0969 20.5 23 19.4031 23 18.05C23 16.6969 24.0969 15.6 25.45 15.6Z" fill="#353A40"></path>
+                    </svg>
+                    <svg class="smiley-animated smiley-c" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FFA000"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.6301 5.58296C7.91034 8.51064 6 13.5471 6 19C6 22.2987 6.66319 25.3779 7.81098 27.9847C8.48158 29.5078 7.51669 30.1984 6.38454 29.0037C3.66694 26.136 2 22.2627 2 18C2 12.242 5.04407 7.21945 9.60581 4.37619C10.9353 3.54753 11.4473 4.70325 10.6301 5.58296Z"></path>
+                        <path d="M14.5 27.7001C16.5 26.2001 20.5 25.2001 25 26.4001" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M10.9502 14.9001C12.1928 14.9001 13.2002 15.9074 13.2002 17.1501C13.2002 18.3927 12.1928 19.4001 10.9502 19.4001C9.70755 19.4001 8.7002 18.3927 8.7002 17.1501C8.7002 15.9074 9.70755 14.9001 10.9502 14.9001Z" fill="#353A40"></path>
+                        <path d="M26.4502 14.9001C27.6928 14.9001 28.7002 15.9074 28.7002 17.1501C28.7002 18.3927 27.6928 19.4001 26.4502 19.4001C25.2076 19.4001 24.2002 18.3927 24.2002 17.1501C24.2002 15.9074 25.2076 14.9001 26.4502 14.9001Z" fill="#353A40"></path>
+                    </svg>
+                    <svg class="smiley-animated smiley-d" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FF5C61"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.63 5.583C7.91 8.511 6 13.547 6 19C6 22.299 6.663 25.378 7.811 27.985C8.482 29.508 7.517 30.198 6.385 29.004C3.667 26.136 2 22.263 2 18C2 12.242 5.044 7.219 9.606 4.376C10.935 3.548 11.447 4.703 10.63 5.583Z"></path>
+                        <path d="M14 29.2C17 27.7 20 26.3 24.7 28.4" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M9.457 17.523L11.864 17.948C12.677 18.091 13.221 18.867 13.077 19.681C12.934 20.495 12.158 21.038 11.344 20.895L8.937 20.47C8.123 20.327 7.58 19.551 7.723 18.737C7.867 17.923 8.643 17.38 9.457 17.523Z" fill="#353A40"></path>
+                        <path d="M28.713 17.523C29.527 17.38 30.303 17.923 30.446 18.737C30.581 19.503 30.108 20.235 29.373 20.438L29.233 20.47L26.826 20.895C26.012 21.038 25.236 20.495 25.092 19.681C24.957 18.915 25.431 18.182 26.165 17.979L26.306 17.948L28.713 17.523Z" fill="#353A40"></path>
+                    </svg>
+                </div>`,
+                'C': `<div class="smiley-stack">
+                    <svg class="smiley-animated smiley-c" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FFA000"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.6301 5.58296C7.91034 8.51064 6 13.5471 6 19C6 22.2987 6.66319 25.3779 7.81098 27.9847C8.48158 29.5078 7.51669 30.1984 6.38454 29.0037C3.66694 26.136 2 22.2627 2 18C2 12.242 5.04407 7.21945 9.60581 4.37619C10.9353 3.54753 11.4473 4.70325 10.6301 5.58296Z"></path>
+                        <path d="M14.5 27.7001C16.5 26.2001 20.5 25.2001 25 26.4001" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M10.9502 14.9001C12.1928 14.9001 13.2002 15.9074 13.2002 17.1501C13.2002 18.3927 12.1928 19.4001 10.9502 19.4001C9.70755 19.4001 8.7002 18.3927 8.7002 17.1501C8.7002 15.9074 9.70755 14.9001 10.9502 14.9001Z" fill="#353A40"></path>
+                        <path d="M26.4502 14.9001C27.6928 14.9001 28.7002 15.9074 28.7002 17.1501C28.7002 18.3927 27.6928 19.4001 26.4502 19.4001C25.2076 19.4001 24.2002 18.3927 24.2002 17.1501C24.2002 15.9074 25.2076 14.9001 26.4502 14.9001Z" fill="#353A40"></path>
+                    </svg>
+                    <svg class="smiley-animated smiley-d" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FF5C61"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.63 5.583C7.91 8.511 6 13.547 6 19C6 22.299 6.663 25.378 7.811 27.985C8.482 29.508 7.517 30.198 6.385 29.004C3.667 26.136 2 22.263 2 18C2 12.242 5.044 7.219 9.606 4.376C10.935 3.548 11.447 4.703 10.63 5.583Z"></path>
+                        <path d="M14 29.2C17 27.7 20 26.3 24.7 28.4" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M9.457 17.523L11.864 17.948C12.677 18.091 13.221 18.867 13.077 19.681C12.934 20.495 12.158 21.038 11.344 20.895L8.937 20.47C8.123 20.327 7.58 19.551 7.723 18.737C7.867 17.923 8.643 17.38 9.457 17.523Z" fill="#353A40"></path>
+                        <path d="M28.713 17.523C29.527 17.38 30.303 17.923 30.446 18.737C30.581 19.503 30.108 20.235 29.373 20.438L29.233 20.47L26.826 20.895C26.012 21.038 25.236 20.495 25.092 19.681C24.957 18.915 25.431 18.182 26.165 17.979L26.306 17.948L28.713 17.523Z" fill="#353A40"></path>
+                    </svg>
+                </div>`,
+                'D': `<div class="smiley-stack">
+                    <svg class="smiley-animated smiley-d" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" fill="none">
+                        <circle cx="18" cy="18" r="18" fill="#FF5C61"></circle>
+                        <path fill="white" fill-opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M10.63 5.583C7.91 8.511 6 13.547 6 19C6 22.299 6.663 25.378 7.811 27.985C8.482 29.508 7.517 30.198 6.385 29.004C3.667 26.136 2 22.263 2 18C2 12.242 5.044 7.219 9.606 4.376C10.935 3.548 11.447 4.703 10.63 5.583Z"></path>
+                        <path d="M14 29.2C17 27.7 20 26.3 24.7 28.4" stroke="#353A40" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                        <path d="M9.457 17.523L11.864 17.948C12.677 18.091 13.221 18.867 13.077 19.681C12.934 20.495 12.158 21.038 11.344 20.895L8.937 20.47C8.123 20.327 7.58 19.551 7.723 18.737C7.867 17.923 8.643 17.38 9.457 17.523Z" fill="#353A40"></path>
+                        <path d="M28.713 17.523C29.527 17.38 30.303 17.923 30.446 18.737C30.581 19.503 30.108 20.235 29.373 20.438L29.233 20.47L26.826 20.895C26.012 21.038 25.236 20.495 25.092 19.681C24.957 18.915 25.431 18.182 26.165 17.979L26.306 17.948L28.713 17.523Z" fill="#353A40"></path>
+                    </svg>
+                </div>`
+            };
+            return smileys[option] || '';
+        }
+
+        // Functions
+        function openQuiz() {
+            console.log('Opening quiz...');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            renderIntro();
+        }
+
+        function closeQuiz() {
+            console.log('Closing quiz...');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function renderIntro() {
+            quizRoot.innerHTML = `
         <div class="intro-container" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 0 15px;">
           <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 100px; width: auto; margin-bottom: 25px;">
           
@@ -328,19 +636,19 @@
             
             <div class="options-grid" style="display: grid; gap: 10px; margin-bottom: 15px;">
               <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(5, 150, 105, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #059669; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">A</div>
+                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('A')}</div>
                 <div class="option-text" style="font-size: 13px;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
               </div>
               <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(2, 132, 199, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #0284c7; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">B</div>
+                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('B')}</div>
                 <div class="option-text" style="font-size: 13px;"><strong>Developing:</strong> Some systems in place</div>
               </div>
               <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(234, 88, 12, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #ea580c; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">C</div>
+                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('C')}</div>
                 <div class="option-text" style="font-size: 13px;"><strong>Basic:</strong> Limited measurement and insights</div>
               </div>
               <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(220, 38, 38, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; background: #dc2626; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; margin-right: 10px; font-size: 12px;">D</div>
+                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('D')}</div>
                 <div class="option-text" style="font-size: 13px;"><strong>Minimal:</strong> Little to no systematic approach</div>
               </div>
             </div>
@@ -446,23 +754,23 @@
           }
         </style>
       `;
-    }
-    
-    function startQuestions() {
-      currentQuestion = 0;
-      renderQuestion();
-    }
-    
-    function renderQuestion() {
-      if (currentQuestion >= questions.length) {
-        showResults();
-        return;
-      }
-      
-      const question = questions[currentQuestion];
-      const progress = ((currentQuestion + 1) / questions.length) * 100;
-      
-      quizRoot.innerHTML = `
+        }
+
+        function startQuestions() {
+            currentQuestion = 0;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            if (currentQuestion >= questions.length) {
+                showResults();
+                return;
+            }
+
+            const question = questions[currentQuestion];
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+
+            quizRoot.innerHTML = `
         <div style="max-width: 700px; margin: 0 auto; padding: 0 10px;">
           <div style="text-align: center; margin-bottom: 20px;">
             <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 15px;">
@@ -481,8 +789,8 @@
             <div style="margin-bottom: 15px;">
               ${question.options.map((option, index) => `
                 <button onclick="selectAnswer('${option.value}')" class="option-btn" style="width: 100%; margin-bottom: 8px; padding: 12px; border: 2px solid rgba(127, 38, 150, 0.1); border-radius: 10px; background: white; cursor: pointer; text-align: left; display: flex; align-items: flex-start; transition: all 0.3s ease;" onmouseover="this.style.borderColor='#7f2696'; this.style.backgroundColor='rgba(127, 38, 150, 0.03)'" onmouseout="this.style.borderColor='rgba(127, 38, 150, 0.1)'; this.style.backgroundColor='white'">
-                  <div class="option-circle" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(127, 38, 150, 0.3); display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0; color: #64748b; font-weight: 600; font-size: 11px;">
-                    ${option.value}
+                  <div class="option-circle" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">
+                    ${getSmileyIcon(option.value)}
                   </div>
                   <span class="option-text" style="font-size: 13px; color: #1e293b; line-height: 1.4; flex: 1;">${option.text}</span>
                 </button>
@@ -570,406 +878,443 @@
           }
         </style>
       `;
-    }
-    
-    function selectAnswer(value) {
-      answers[currentQuestion] = value;
-      currentQuestion++;
-      setTimeout(renderQuestion, 300);
-    }
-    
-    function previousQuestion() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        renderQuestion();
-      } else {
-        currentQuestion = -1;
-        renderIntro();
-      }
-    }
-    
-    function toggleFeature(index) {
-      const content = document.getElementById(`feature-${index}`);
-      const arrow = document.getElementById(`arrow-${index}`);
-      
-      if (content.style.display === 'none') {
-        content.style.display = 'block';
-        arrow.style.transform = 'rotate(180deg)';
-        arrow.innerHTML = '▲';
-      } else {
-        content.style.display = 'none';
-        arrow.style.transform = 'rotate(0deg)';
-        arrow.innerHTML = '▼';
-      }
-    }
-    
-    function shareResults(platform) {
-      const counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(answers).forEach(answer => {
-        counts[answer]++;
-      });
-      
-      const aCount = counts.A;
-      let resultType = '';
-      if (aCount >= 9) resultType = 'Engagement Champion';
-      else if (aCount >= 5) resultType = 'Growing Foundation';
-      else if (aCount >= 3) resultType = 'Critical Gap Zone';
-      else resultType = 'Urgent Action Needed';
-      
-      const text = `I just completed Winningtemp's Employee Engagement Assessment and scored as "${resultType}" with ${aCount} out of 12 A's. See how your organization measures up!`;
-      const url = 'https://winningtemp.com/assessment';
-      
-      switch(platform) {
-        case 'linkedin':
-          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
-          break;
-        case 'twitter':
-          window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
-          break;
-      }
-    }
-    
-    function emailResults() {
-      const email = document.getElementById('results-email').value;
-      if (!email) {
-        alert('Please enter your email address');
-        return;
-      }
-      
-      const resultsData = generateResultsData();
-      
-      // Simulate sending email (replace with actual backend call)
-      console.log('Sending results to:', email, resultsData);
-      
-      // Show confirmation
-      alert('Your detailed results report has been sent to ' + email + '!\\n\\nThe PDF includes:\\n• Your complete assessment responses\\n• Detailed analysis of each answer\\n• Personalized recommendations\\n• Next steps for improvement');
-      
-      // Log for CRM integration
-      console.log('Lead captured with results:', {
-        email: email,
-        results: resultsData,
-        timestamp: new Date().toISOString()
-      });
-    }
-    
-    function downloadPDF() {
-      const resultsData = generateResultsData();
-      
-      try {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'pt', 'a4');
-        
-        // Colors matching Winningtemp brand
-        const brandPurple = [127, 38, 150];
-        const lightPurple = [248, 244, 255];
-        const darkGray = [30, 41, 59];
-        const mediumGray = [100, 116, 139];
-        
-        let currentY = 50;
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-        const margin = 50;
-        const contentWidth = pageWidth - (2 * margin);
-        
-        // Helper function to add new page if needed
-        function checkPageBreak(neededHeight = 60) {
-          if (currentY + neededHeight > pageHeight - 50) {
-            doc.addPage();
-            currentY = 50;
-            return true;
-          }
-          return false;
         }
-        
-        // Helper function to add text with word wrap
-        function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray) {
-          doc.setFontSize(fontSize);
-          doc.setTextColor(...color);
-          const lines = doc.splitTextToSize(text, maxWidth);
-          doc.text(lines, x, y);
-          return y + (lines.length * fontSize * 1.2);
+
+        function selectAnswer(value) {
+            answers[currentQuestion] = value;
+            currentQuestion++;
+            setTimeout(renderQuestion, 300);
         }
-        
-        // HEADER SECTION
-        doc.setFillColor(...brandPurple);
-        doc.rect(0, 0, pageWidth, 120, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(28);
-        doc.setFont(undefined, 'bold');
-        doc.text('Employee Engagement', margin, 60);
-        doc.text('Assessment Results', margin, 90);
-        
-        currentY = 160;
-        
-        // EXECUTIVE SUMMARY SECTION
-        checkPageBreak(150);
-        doc.setFillColor(...lightPurple);
-        doc.rect(margin, currentY - 20, contentWidth, 120, 'F');
-        
-        doc.setTextColor(...brandPurple);
-        doc.setFontSize(22);
-        doc.setFont(undefined, 'bold');
-        doc.text('Your Result: ' + resultsData.resultType, margin + 20, currentY + 10);
-        
-        doc.setFontSize(16);
-        doc.setFont(undefined, 'normal');
-        doc.setTextColor(...mediumGray);
-        doc.text('Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions + ' A\'s', margin + 20, currentY + 35);
-        
-        currentY = addWrappedText(resultsData.description, margin + 20, currentY + 60, contentWidth - 40, 14, darkGray);
-        currentY += 40;
-        
-        // SCORE BREAKDOWN SECTION
-        checkPageBreak(200);
-        doc.setFillColor(255, 255, 255);
-        doc.setDrawColor(...brandPurple);
-        doc.setLineWidth(2);
-        doc.rect(margin, currentY, contentWidth, 150, 'FD');
-        
-        doc.setTextColor(...brandPurple);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Score Breakdown', margin + 20, currentY + 30);
-        
-        // Score boxes
-        const scoreBoxWidth = (contentWidth - 80) / 4;
-        const scoreTypes = [
-          { letter: 'A', label: 'Advanced', count: resultsData.counts.A, color: [5, 150, 105] },
-          { letter: 'B', label: 'Developing', count: resultsData.counts.B, color: [2, 132, 199] },
-          { letter: 'C', label: 'Basic', count: resultsData.counts.C, color: [234, 88, 12] },
-          { letter: 'D', label: 'Minimal', count: resultsData.counts.D, color: [220, 38, 38] }
-        ];
-        
-        scoreTypes.forEach((type, index) => {
-          const x = margin + 20 + (index * (scoreBoxWidth + 10));
-          const y = currentY + 50;
-          
-          doc.setFillColor(...type.color);
-          doc.rect(x, y, scoreBoxWidth, 80, 'F');
-          
-          doc.setTextColor(255, 255, 255);
-          doc.setFontSize(32);
-          doc.setFont(undefined, 'bold');
-          doc.text(type.count.toString(), x + scoreBoxWidth/2, y + 40, { align: 'center' });
-          
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'normal');
-          doc.text(type.letter + '\'s', x + scoreBoxWidth/2, y + 60, { align: 'center' });
-          doc.text(type.label, x + scoreBoxWidth/2, y + 75, { align: 'center' });
-        });
-        
-        currentY += 180;
-        
-        // DETAILED ANALYSIS SECTION
-        checkPageBreak(100);
-        doc.setFillColor(...brandPurple);
-        doc.rect(margin, currentY, contentWidth, 40, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Detailed Question Analysis', margin + 20, currentY + 25);
-        
-        currentY += 60;
-        
-        // Question Analysis
-        questions.forEach((question, index) => {
-          checkPageBreak(120);
-          
-          const userAnswer = resultsData.answers[index];
-          const selectedOption = question.options.find(opt => opt.value === userAnswer);
-          
-          // Question number and text
-          doc.setFillColor(250, 250, 250);
-          doc.rect(margin, currentY, contentWidth, 30, 'F');
-          
-          doc.setTextColor(...brandPurple);
-          doc.setFontSize(14);
-          doc.setFont(undefined, 'bold');
-          doc.text(`Q${index + 1}:`, margin + 15, currentY + 20);
-          
-          currentY = addWrappedText(question.question, margin + 50, currentY + 20, contentWidth - 65, 12, darkGray);
-          currentY += 10;
-          
-          // Answer
-          doc.setTextColor(...mediumGray);
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'bold');
-          doc.text('Your Answer:', margin + 15, currentY + 15);
-          
-          const answerColor = userAnswer === 'A' ? [5, 150, 105] : 
-                            userAnswer === 'B' ? [2, 132, 199] :
-                            userAnswer === 'C' ? [234, 88, 12] : [220, 38, 38];
-          
-          doc.setTextColor(...answerColor);
-          doc.text(`(${userAnswer}) ${selectedOption ? selectedOption.text : 'Not answered'}`, margin + 100, currentY + 15);
-          
-          currentY += 30;
-          
-          // Why it matters
-          doc.setTextColor(...mediumGray);
-          doc.setFontSize(11);
-          doc.setFont(undefined, 'bold');
-          doc.text('Why This Matters:', margin + 15, currentY + 15);
-          
-          currentY = addWrappedText(question.why, margin + 15, currentY + 30, contentWidth - 30, 10, mediumGray);
-          currentY += 20;
-        });
-        
-        // RECOMMENDATIONS SECTION
-        checkPageBreak(150);
-        doc.setFillColor(...brandPurple);
-        doc.rect(margin, currentY, contentWidth, 40, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Personalized Recommendations', margin + 20, currentY + 25);
-        
-        currentY += 60;
-        
-        // Add recommendations based on score
-        let recommendations = [];
-        if (resultsData.aCount >= 9) {
-          recommendations = [
-            'AI-Powered Predictions - Stay ahead with machine learning insights',
-            'Advanced Benchmarking - Compare against industry leaders',
-            'Executive Training Programs - Keep leadership at the forefront',
-            'Custom Integration & API - Connect with existing BI systems'
-          ];
-        } else if (resultsData.aCount >= 5) {
-          recommendations = [
-            'Real-Time Visual Results - Move to continuous pulse monitoring',
-            'Smart Index & Analytics - Predict turnover before it happens',
-            'Manager Training & Support - Build data interpretation skills',
-            'Advanced Team Structures - Support complex organizational setups'
-          ];
-        } else if (resultsData.aCount >= 3) {
-          recommendations = [
-            'Pulse Surveys & Research-Based Questions - Replace sporadic surveys',
-            'Automated Insights & Actions - Get AI-powered recommendations',
-            'Anonymous 2-Way Conversations - Create psychological safety',
-            'Onboarding & Platform Training - Quick implementation support'
-          ];
-        } else {
-          recommendations = [
-            'Complete Platform Setup - Turnkey engagement solution',
-            'Bullying & Discrimination Alerts - Protect workforce and reduce risk',
-            'Employee Turnover Analysis - Understand and prevent departures',
-            'Managed Service & Expert Support - Let experts handle the heavy lifting'
-          ];
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                renderQuestion();
+            } else {
+                currentQuestion = -1;
+                renderIntro();
+            }
         }
-        
-        recommendations.forEach((rec, index) => {
-          checkPageBreak(40);
-          
-          doc.setFillColor(250, 250, 250);
-          doc.rect(margin, currentY, contentWidth, 30, 'F');
-          
-          doc.setTextColor(...brandPurple);
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'bold');
-          doc.text('•', margin + 20, currentY + 20);
-          
-          currentY = addWrappedText(rec, margin + 40, currentY + 20, contentWidth - 60, 12, darkGray);
-          currentY += 15;
-        });
-        
-        // NEXT STEPS SECTION
-        checkPageBreak(120);
-        doc.setFillColor(...lightPurple);
-        doc.rect(margin, currentY, contentWidth, 100, 'F');
-        
-        doc.setTextColor(...brandPurple);
-        doc.setFontSize(18);
-        doc.setFont(undefined, 'bold');
-        doc.text('Next Steps', margin + 20, currentY + 30);
-        
-        const nextSteps = [
-          'Book a free demo at https://www.winningtemp.com/book-a-demo',
-          'Discuss your specific challenges with our engagement experts',
-          'Create a customized implementation plan for your organization',
-          'Start measuring engagement systematically within 30 days'
-        ];
-        
-        nextSteps.forEach((step, index) => {
-          doc.setTextColor(...darkGray);
-          doc.setFontSize(12);
-          doc.setFont(undefined, 'normal');
-          doc.text(`${index + 1}. ${step}`, margin + 20, currentY + 55 + (index * 15));
-        });
-        
-        // FOOTER
-        checkPageBreak(60);
-        currentY = pageHeight - 80;
-        doc.setFillColor(...brandPurple);
-        doc.rect(0, currentY, pageWidth, 80, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(12);
-        doc.setFont(undefined, 'normal');
-        doc.text('© ' + new Date().getFullYear() + ' Winningtemp. All rights reserved.', margin, currentY + 30);
-        doc.text('Contact: info@winningtemp.com | winningtemp.com', margin, currentY + 45);
-        
-        // Generate and download the PDF
-        const fileName = `Winningtemp_Engagement_Assessment_${resultsData.resultType.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
-        doc.save(fileName);
-        
-      } catch (error) {
-        console.error('PDF generation error:', error);
-        // Fallback to text download
-        const pdfContent = generatePDFContent(resultsData);
-        const blob = new Blob([pdfContent], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'Winningtemp_Engagement_Assessment_Results.txt';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        alert('PDF generation failed, downloading as text file instead.');
-      }
-    }
-    
-    function generateResultsData() {
-      const counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(answers).forEach(answer => {
-        counts[answer]++;
-      });
-      
-      const aCount = counts.A;
-      let resultType = '';
-      let description = '';
-      
-      if (aCount >= 9) {
-        resultType = 'Engagement Champion';
-        description = 'Your organization demonstrates advanced engagement practices with data-driven insights and predictive capabilities.';
-      } else if (aCount >= 5) {
-        resultType = 'Growing Foundation';
-        description = 'You have solid engagement basics but opportunity to enhance real-time insights and predictive capabilities.';
-      } else if (aCount >= 3) {
-        resultType = 'Critical Gap Zone';  
-        description = 'Significant engagement blind spots exist that may be impacting talent retention and productivity.';
-      } else {
-        resultType = 'Urgent Action Needed';
-        description = 'High risk for turnover and low performance without systematic engagement measurement.';
-      }
-      
-      return {
-        resultType,
-        description,
-        aCount,
-        totalQuestions: questions.length,
-        counts,
-        answers: answers,
-        completedAt: new Date().toISOString()
-      };
-    }
-    
-    function generatePDFContent(data) {
-      let content = `WINNINGTEMP EMPLOYEE ENGAGEMENT ASSESSMENT RESULTS
+
+        function toggleFeature(index) {
+            const content = document.getElementById(`feature-${index}`);
+            const arrow = document.getElementById(`arrow-${index}`);
+
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
+                arrow.innerHTML = '▲';
+            } else {
+                content.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
+                arrow.innerHTML = '▼';
+            }
+        }
+
+        function shareResults(platform) {
+            const counts = {
+                A: 0,
+                B: 0,
+                C: 0,
+                D: 0
+            };
+            Object.values(answers).forEach(answer => {
+                counts[answer]++;
+            });
+
+            const aCount = counts.A;
+            let resultType = '';
+            if (aCount >= 9) resultType = 'Engagement Champion';
+            else if (aCount >= 5) resultType = 'Growing Foundation';
+            else if (aCount >= 3) resultType = 'Critical Gap Zone';
+            else resultType = 'Urgent Action Needed';
+
+            const text = `I just completed Winningtemp's Employee Engagement Assessment and scored as "${resultType}" with ${aCount} out of 12 A's. See how your organization measures up!`;
+            const url = 'https://winningtemp.com/assessment';
+
+            switch (platform) {
+                case 'linkedin':
+                    window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`);
+                    break;
+                case 'twitter':
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+                    break;
+            }
+        }
+
+        function emailResults() {
+            const email = document.getElementById('results-email').value;
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+
+            const resultsData = generateResultsData();
+
+            // Simulate sending email (replace with actual backend call)
+            console.log('Sending results to:', email, resultsData);
+
+            // Show confirmation
+            alert('Your detailed results report has been sent to ' + email + '!\\n\\nThe PDF includes:\\n• Your complete assessment responses\\n• Detailed analysis of each answer\\n• Personalized recommendations\\n• Next steps for improvement');
+
+            // Log for CRM integration
+            console.log('Lead captured with results:', {
+                email: email,
+                results: resultsData,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        function downloadPDF() {
+            const resultsData = generateResultsData();
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'a4');
+
+                // Colors matching Winningtemp brand
+                const brandPurple = [127, 38, 150];
+                const lightPurple = [248, 244, 255];
+                const darkGray = [30, 41, 59];
+                const mediumGray = [100, 116, 139];
+
+                let currentY = 50;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const margin = 50;
+                const contentWidth = pageWidth - (2 * margin);
+
+                // Helper function to add new page if needed
+                function checkPageBreak(neededHeight = 60) {
+                    if (currentY + neededHeight > pageHeight - 50) {
+                        doc.addPage();
+                        currentY = 50;
+                        return true;
+                    }
+                    return false;
+                }
+
+                // Helper function to add text with word wrap
+                function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray) {
+                    doc.setFontSize(fontSize);
+                    doc.setTextColor(...color);
+                    const lines = doc.splitTextToSize(text, maxWidth);
+                    doc.text(lines, x, y);
+                    return y + (lines.length * fontSize * 1.2);
+                }
+
+                // HEADER SECTION
+                doc.setFillColor(...brandPurple);
+                doc.rect(0, 0, pageWidth, 120, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(28);
+                doc.setFont(undefined, 'bold');
+                doc.text('Employee Engagement', margin, 60);
+                doc.text('Assessment Results', margin, 90);
+
+                currentY = 160;
+
+                // EXECUTIVE SUMMARY SECTION
+                checkPageBreak(150);
+                doc.setFillColor(...lightPurple);
+                doc.rect(margin, currentY - 20, contentWidth, 120, 'F');
+
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(22);
+                doc.setFont(undefined, 'bold');
+                doc.text('Your Result: ' + resultsData.resultType, margin + 20, currentY + 10);
+
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(...mediumGray);
+                doc.text('Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions + ' A\'s', margin + 20, currentY + 35);
+
+                currentY = addWrappedText(resultsData.description, margin + 20, currentY + 60, contentWidth - 40, 14, darkGray);
+                currentY += 40;
+
+                // SCORE BREAKDOWN SECTION
+                checkPageBreak(200);
+                doc.setFillColor(255, 255, 255);
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(2);
+                doc.rect(margin, currentY, contentWidth, 150, 'FD');
+
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Score Breakdown', margin + 20, currentY + 30);
+
+                // Score boxes
+                const scoreBoxWidth = (contentWidth - 80) / 4;
+                const scoreTypes = [{
+                        letter: 'A',
+                        label: 'Advanced',
+                        count: resultsData.counts.A,
+                        color: [5, 150, 105]
+                    },
+                    {
+                        letter: 'B',
+                        label: 'Developing',
+                        count: resultsData.counts.B,
+                        color: [2, 132, 199]
+                    },
+                    {
+                        letter: 'C',
+                        label: 'Basic',
+                        count: resultsData.counts.C,
+                        color: [234, 88, 12]
+                    },
+                    {
+                        letter: 'D',
+                        label: 'Minimal',
+                        count: resultsData.counts.D,
+                        color: [220, 38, 38]
+                    }
+                ];
+
+                scoreTypes.forEach((type, index) => {
+                    const x = margin + 20 + (index * (scoreBoxWidth + 10));
+                    const y = currentY + 50;
+
+                    doc.setFillColor(...type.color);
+                    doc.rect(x, y, scoreBoxWidth, 80, 'F');
+
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(32);
+                    doc.setFont(undefined, 'bold');
+                    doc.text(type.count.toString(), x + scoreBoxWidth / 2, y + 40, {
+                        align: 'center'
+                    });
+
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'normal');
+                    doc.text(type.letter + '\'s', x + scoreBoxWidth / 2, y + 60, {
+                        align: 'center'
+                    });
+                    doc.text(type.label, x + scoreBoxWidth / 2, y + 75, {
+                        align: 'center'
+                    });
+                });
+
+                currentY += 180;
+
+                // DETAILED ANALYSIS SECTION
+                checkPageBreak(100);
+                doc.setFillColor(...brandPurple);
+                doc.rect(margin, currentY, contentWidth, 40, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Detailed Question Analysis', margin + 20, currentY + 25);
+
+                currentY += 60;
+
+                // Question Analysis
+                questions.forEach((question, index) => {
+                    checkPageBreak(120);
+
+                    const userAnswer = resultsData.answers[index];
+                    const selectedOption = question.options.find(opt => opt.value === userAnswer);
+
+                    // Question number and text
+                    doc.setFillColor(250, 250, 250);
+                    doc.rect(margin, currentY, contentWidth, 30, 'F');
+
+                    doc.setTextColor(...brandPurple);
+                    doc.setFontSize(14);
+                    doc.setFont(undefined, 'bold');
+                    doc.text(`Q${index + 1}:`, margin + 15, currentY + 20);
+
+                    currentY = addWrappedText(question.question, margin + 50, currentY + 20, contentWidth - 65, 12, darkGray);
+                    currentY += 10;
+
+                    // Answer
+                    doc.setTextColor(...mediumGray);
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Your Answer:', margin + 15, currentY + 15);
+
+                    const answerColor = userAnswer === 'A' ? [5, 150, 105] :
+                        userAnswer === 'B' ? [2, 132, 199] :
+                        userAnswer === 'C' ? [234, 88, 12] : [220, 38, 38];
+
+                    doc.setTextColor(...answerColor);
+                    doc.text(`(${userAnswer}) ${selectedOption ? selectedOption.text : 'Not answered'}`, margin + 100, currentY + 15);
+
+                    currentY += 30;
+
+                    // Why it matters
+                    doc.setTextColor(...mediumGray);
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Why This Matters:', margin + 15, currentY + 15);
+
+                    currentY = addWrappedText(question.why, margin + 15, currentY + 30, contentWidth - 30, 10, mediumGray);
+                    currentY += 20;
+                });
+
+                // RECOMMENDATIONS SECTION
+                checkPageBreak(150);
+                doc.setFillColor(...brandPurple);
+                doc.rect(margin, currentY, contentWidth, 40, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Personalized Recommendations', margin + 20, currentY + 25);
+
+                currentY += 60;
+
+                // Add recommendations based on score
+                let recommendations = [];
+                if (resultsData.aCount >= 9) {
+                    recommendations = [
+                        'AI-Powered Predictions - Stay ahead with machine learning insights',
+                        'Advanced Benchmarking - Compare against industry leaders',
+                        'Executive Training Programs - Keep leadership at the forefront',
+                        'Custom Integration & API - Connect with existing BI systems'
+                    ];
+                } else if (resultsData.aCount >= 5) {
+                    recommendations = [
+                        'Real-Time Visual Results - Move to continuous pulse monitoring',
+                        'Smart Index & Analytics - Predict turnover before it happens',
+                        'Manager Training & Support - Build data interpretation skills',
+                        'Advanced Team Structures - Support complex organizational setups'
+                    ];
+                } else if (resultsData.aCount >= 3) {
+                    recommendations = [
+                        'Pulse Surveys & Research-Based Questions - Replace sporadic surveys',
+                        'Automated Insights & Actions - Get AI-powered recommendations',
+                        'Anonymous 2-Way Conversations - Create psychological safety',
+                        'Onboarding & Platform Training - Quick implementation support'
+                    ];
+                } else {
+                    recommendations = [
+                        'Complete Platform Setup - Turnkey engagement solution',
+                        'Bullying & Discrimination Alerts - Protect workforce and reduce risk',
+                        'Employee Turnover Analysis - Understand and prevent departures',
+                        'Managed Service & Expert Support - Let experts handle the heavy lifting'
+                    ];
+                }
+
+                recommendations.forEach((rec, index) => {
+                    checkPageBreak(40);
+
+                    doc.setFillColor(250, 250, 250);
+                    doc.rect(margin, currentY, contentWidth, 30, 'F');
+
+                    doc.setTextColor(...brandPurple);
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('•', margin + 20, currentY + 20);
+
+                    currentY = addWrappedText(rec, margin + 40, currentY + 20, contentWidth - 60, 12, darkGray);
+                    currentY += 15;
+                });
+
+                // NEXT STEPS SECTION
+                checkPageBreak(120);
+                doc.setFillColor(...lightPurple);
+                doc.rect(margin, currentY, contentWidth, 100, 'F');
+
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Next Steps', margin + 20, currentY + 30);
+
+                const nextSteps = [
+                    'Book a free demo at https://www.winningtemp.com/book-a-demo',
+                    'Discuss your specific challenges with our engagement experts',
+                    'Create a customized implementation plan for your organization',
+                    'Start measuring engagement systematically within 30 days'
+                ];
+
+                nextSteps.forEach((step, index) => {
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(12);
+                    doc.setFont(undefined, 'normal');
+                    doc.text(`${index + 1}. ${step}`, margin + 20, currentY + 55 + (index * 15));
+                });
+
+                // FOOTER
+                checkPageBreak(60);
+                currentY = pageHeight - 80;
+                doc.setFillColor(...brandPurple);
+                doc.rect(0, currentY, pageWidth, 80, 'F');
+
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'normal');
+                doc.text('© ' + new Date().getFullYear() + ' Winningtemp. All rights reserved.', margin, currentY + 30);
+                doc.text('Contact: info@winningtemp.com | winningtemp.com', margin, currentY + 45);
+
+                // Generate and download the PDF
+                const fileName = `Winningtemp_Engagement_Assessment_${resultsData.resultType.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+                doc.save(fileName);
+
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                // Fallback to text download
+                const pdfContent = generatePDFContent(resultsData);
+                const blob = new Blob([pdfContent], {
+                    type: 'text/plain'
+                });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Winningtemp_Engagement_Assessment_Results.txt';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                alert('PDF generation failed, downloading as text file instead.');
+            }
+        }
+
+        function generateResultsData() {
+            const counts = {
+                A: 0,
+                B: 0,
+                C: 0,
+                D: 0
+            };
+            Object.values(answers).forEach(answer => {
+                counts[answer]++;
+            });
+
+            const aCount = counts.A;
+            let resultType = '';
+            let description = '';
+
+            if (aCount >= 9) {
+                resultType = 'Engagement Champion';
+                description = 'Your organization demonstrates advanced engagement practices with data-driven insights and predictive capabilities.';
+            } else if (aCount >= 5) {
+                resultType = 'Growing Foundation';
+                description = 'You have solid engagement basics but opportunity to enhance real-time insights and predictive capabilities.';
+            } else if (aCount >= 3) {
+                resultType = 'Critical Gap Zone';
+                description = 'Significant engagement blind spots exist that may be impacting talent retention and productivity.';
+            } else {
+                resultType = 'Urgent Action Needed';
+                description = 'High risk for turnover and low performance without systematic engagement measurement.';
+            }
+
+            return {
+                resultType,
+                description,
+                aCount,
+                totalQuestions: questions.length,
+                counts,
+                answers: answers,
+                completedAt: new Date().toISOString()
+            };
+        }
+
+        function generatePDFContent(data) {
+            let content = `WINNINGTEMP EMPLOYEE ENGAGEMENT ASSESSMENT RESULTS
 ================================================================
 
 Assessment Completed: ${new Date(data.completedAt).toLocaleDateString()}
@@ -992,66 +1337,66 @@ YOUR RESPONSES & ANALYSIS
 
 `;
 
-      questions.forEach((question, index) => {
-        const userAnswer = data.answers[index];
-        const selectedOption = question.options.find(opt => opt.value === userAnswer);
-        
-        content += `${index + 1}. ${question.question}
+            questions.forEach((question, index) => {
+                const userAnswer = data.answers[index];
+                const selectedOption = question.options.find(opt => opt.value === userAnswer);
+
+                content += `${index + 1}. ${question.question}
 Your Answer: (${userAnswer}) ${selectedOption ? selectedOption.text : 'Not answered'}
 
 Why This Matters: ${question.why}
 
 Analysis: `;
-        
-        switch(userAnswer) {
-          case 'A':
-            content += 'Excellent! This indicates advanced, data-driven engagement practices.';
-            break;
-          case 'B':
-            content += 'Good foundation with room for improvement in frequency and depth of insights.';
-            break;
-          case 'C':
-            content += 'Basic approach that may be limiting your ability to retain top talent.';
-            break;
-          case 'D':
-            content += 'Significant gap that requires immediate attention to reduce turnover risk.';
-            break;
-        }
-        
-        content += '\\n\\n';
-      });
-      
-      content += `
+
+                switch (userAnswer) {
+                    case 'A':
+                        content += 'Excellent! This indicates advanced, data-driven engagement practices.';
+                        break;
+                    case 'B':
+                        content += 'Good foundation with room for improvement in frequency and depth of insights.';
+                        break;
+                    case 'C':
+                        content += 'Basic approach that may be limiting your ability to retain top talent.';
+                        break;
+                    case 'D':
+                        content += 'Significant gap that requires immediate attention to reduce turnover risk.';
+                        break;
+                }
+
+                content += '\\n\\n';
+            });
+
+            content += `
 PERSONALIZED RECOMMENDATIONS
 -----------------------------
 Based on your results, we recommend focusing on these Winningtemp features:
 
 `;
 
-      // Add personalized recommendations based on score
-      if (data.aCount >= 9) {
-        content += `• AI-Powered Predictions - Stay ahead with machine learning insights
+            // Add personalized recommendations based on score
+            if (data.aCount >= 9) {
+                content += `• AI-Powered Predictions - Stay ahead with machine learning insights
 • Advanced Benchmarking - Compare against industry leaders
 • Executive Training Programs - Keep leadership at the forefront
 • Custom Integration & API - Connect with existing BI systems`;
-      } else if (data.aCount >= 5) {
-        content += `• Real-Time Visual Results - Move to continuous pulse monitoring  
+            } else if (data.aCount >= 5) {
+                content += `• Real-Time Visual Results - Move to continuous pulse monitoring  
 • Smart Index & Analytics - Predict turnover before it happens
 • Manager Training & Support - Build data interpretation skills
 • Advanced Team Structures - Support complex organizational setups`;
-      } else if (data.aCount >= 3) {
-        content += `• Pulse Surveys & Research-Based Questions - Replace sporadic surveys
+            } else if (data.aCount >= 3) {
+                content += `• Pulse Surveys & Research-Based Questions - Replace sporadic surveys
 • Automated Insights & Actions - Get AI-powered recommendations
 • Anonymous 2-Way Conversations - Create psychological safety
 • Onboarding & Platform Training - Quick implementation support`;
-      } else {
-        content += `• Complete Platform Setup - Turnkey engagement solution
+            } else {
+                content += `• Complete Platform Setup - Turnkey engagement solution
 • Bullying & Discrimination Alerts - Protect workforce and reduce risk
 • Employee Turnover Analysis - Understand and prevent departures  
 • Managed Service & Expert Support - Let experts handle the heavy lifting`;
-      }
-      
-      content += `
+            }
+
+            content += `
 
 NEXT STEPS
 ----------
@@ -1066,77 +1411,126 @@ Website: winningtemp.com
 
 © ${new Date().getFullYear()} Winningtemp. All rights reserved.`;
 
-      return content;
-    }
-    
-    function showResults() {
-      const counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(answers).forEach(answer => {
-        counts[answer]++;
-      });
-      
-      const aCount = counts.A;
-      let result;
-      
-      if (aCount >= 9) {
-        result = {
-          icon: '',
-          title: 'Engagement Champion',
-          score: `${aCount} out of 12 A's`,
-          description: "You're leading the way! Your organization has the tools and insights to drive continuous improvement. Keep leveraging data to stay ahead.",
-          color: '#059669',
-          features: [
-            { name: 'AI-Powered Predictions', description: 'Stay ahead of potential issues with machine learning insights that predict engagement trends before they impact performance.' },
-            { name: 'Advanced Benchmarking', description: 'Compare your results against industry leaders and continuously optimize your engagement strategies.' },
-            { name: 'Executive Training Programs', description: 'Keep your leadership team at the forefront with data-driven management techniques and advanced people analytics.' },
-            { name: 'Custom Integration & API', description: 'Connect engagement data with your existing business intelligence systems for a complete performance picture.' }
-          ]
-        };
-      } else if (aCount >= 5) {
-        result = {
-          icon: '',
-          title: 'Growing Foundation', 
-          score: `${aCount} out of 12 A's`,
-          description: "You have solid basics in place, but there's room to elevate your real-time insights, action speed, and predictive capabilities.",
-          color: '#0284c7',
-          features: [
-            { name: 'Real-Time Visual Results', description: 'Move from periodic surveys to continuous pulse monitoring with instant visual dashboards and trend analysis.' },
-            { name: 'Smart Index & Analytics', description: 'Automatically compile engagement factors that predict turnover and absenteeism before they happen.' },
-            { name: 'Manager Training & Support', description: 'Equip your leaders with data interpretation skills and proven action frameworks to drive team performance.' },
-            { name: 'Advanced Team Structures', description: 'Support complex organizational setups with matrix teams, cross-functional insights, and localized management views.' }
-          ]
-        };
-      } else if (aCount >= 3) {
-        result = {
-          icon: '',
-          title: 'Critical Gap Zone',
-          score: `${aCount} out of 12 A's`, 
-          description: "Your engagement approach has significant blind spots that could be costing you talent and productivity. Time to modernize with data-driven tools.",
-          color: '#ea580c',
-          features: [
-            { name: 'Pulse Surveys & Research-Based Questions', description: 'Replace sporadic surveys with scientifically-backed pulse surveys that capture real-time employee sentiment.' },
-            { name: 'Automated Insights & Actions', description: 'Get AI-powered recommendations that tell managers exactly what to focus on and how to improve team engagement.' },
-            { name: 'Anonymous 2-Way Conversations', description: 'Create psychological safety with secure, anonymous feedback channels that encourage honest communication.' },
-            { name: 'Onboarding & Platform Training', description: 'Get your team up to speed quickly with comprehensive training and dedicated customer success support.' }
-          ]
-        };
-      } else {
-        result = {
-          icon: '',
-          title: 'Urgent Action Needed',
-          score: `${aCount} out of 12 A's`,
-          description: "Your organization is at high risk for turnover and low performance. Implementing a modern engagement platform should be an immediate priority.",
-          color: '#dc2626',
-          features: [
-            { name: 'Complete Platform Setup', description: 'Start from scratch with a turnkey engagement solution including research-based surveys, automated analytics, and expert guidance.' },
-            { name: 'Bullying & Discrimination Alerts', description: 'Protect your workforce and reduce legal risk with automated detection and alerting for critical workplace issues.' },
-            { name: 'Employee Turnover Analysis', description: 'Understand why people leave and identify at-risk employees before they decide to quit, saving costly replacement expenses.' },
-            { name: 'Managed Service & Expert Support', description: 'Let our experts handle the heavy lifting with managed services, custom surveys, and strategic consultation to get results fast.' }
-          ]
-        };
-      }
-      
-      quizRoot.innerHTML = `
+            return content;
+        }
+
+        function showResults() {
+            const counts = {
+                A: 0,
+                B: 0,
+                C: 0,
+                D: 0
+            };
+            Object.values(answers).forEach(answer => {
+                counts[answer]++;
+            });
+
+            const aCount = counts.A;
+            let result;
+
+            if (aCount >= 9) {
+                result = {
+                    icon: '',
+                    title: 'Engagement Champion',
+                    score: `${aCount} out of 12 A's`,
+                    description: "You're leading the way! Your organization has the tools and insights to drive continuous improvement. Keep leveraging data to stay ahead.",
+                    color: '#059669',
+                    features: [{
+                            name: 'AI-Powered Predictions',
+                            description: 'Stay ahead of potential issues with machine learning insights that predict engagement trends before they impact performance.'
+                        },
+                        {
+                            name: 'Advanced Benchmarking',
+                            description: 'Compare your results against industry leaders and continuously optimize your engagement strategies.'
+                        },
+                        {
+                            name: 'Executive Training Programs',
+                            description: 'Keep your leadership team at the forefront with data-driven management techniques and advanced people analytics.'
+                        },
+                        {
+                            name: 'Custom Integration & API',
+                            description: 'Connect engagement data with your existing business intelligence systems for a complete performance picture.'
+                        }
+                    ]
+                };
+            } else if (aCount >= 5) {
+                result = {
+                    icon: '',
+                    title: 'Growing Foundation',
+                    score: `${aCount} out of 12 A's`,
+                    description: "You have solid basics in place, but there's room to elevate your real-time insights, action speed, and predictive capabilities.",
+                    color: '#0284c7',
+                    features: [{
+                            name: 'Real-Time Visual Results',
+                            description: 'Move from periodic surveys to continuous pulse monitoring with instant visual dashboards and trend analysis.'
+                        },
+                        {
+                            name: 'Smart Index & Analytics',
+                            description: 'Automatically compile engagement factors that predict turnover and absenteeism before they happen.'
+                        },
+                        {
+                            name: 'Manager Training & Support',
+                            description: 'Equip your leaders with data interpretation skills and proven action frameworks to drive team performance.'
+                        },
+                        {
+                            name: 'Advanced Team Structures',
+                            description: 'Support complex organizational setups with matrix teams, cross-functional insights, and localized management views.'
+                        }
+                    ]
+                };
+            } else if (aCount >= 3) {
+                result = {
+                    icon: '',
+                    title: 'Critical Gap Zone',
+                    score: `${aCount} out of 12 A's`,
+                    description: "Your engagement approach has significant blind spots that could be costing you talent and productivity. Time to modernize with data-driven tools.",
+                    color: '#ea580c',
+                    features: [{
+                            name: 'Pulse Surveys & Research-Based Questions',
+                            description: 'Replace sporadic surveys with scientifically-backed pulse surveys that capture real-time employee sentiment.'
+                        },
+                        {
+                            name: 'Automated Insights & Actions',
+                            description: 'Get AI-powered recommendations that tell managers exactly what to focus on and how to improve team engagement.'
+                        },
+                        {
+                            name: 'Anonymous 2-Way Conversations',
+                            description: 'Create psychological safety with secure, anonymous feedback channels that encourage honest communication.'
+                        },
+                        {
+                            name: 'Onboarding & Platform Training',
+                            description: 'Get your team up to speed quickly with comprehensive training and dedicated customer success support.'
+                        }
+                    ]
+                };
+            } else {
+                result = {
+                    icon: '',
+                    title: 'Urgent Action Needed',
+                    score: `${aCount} out of 12 A's`,
+                    description: "Your organization is at high risk for turnover and low performance. Implementing a modern engagement platform should be an immediate priority.",
+                    color: '#dc2626',
+                    features: [{
+                            name: 'Complete Platform Setup',
+                            description: 'Start from scratch with a turnkey engagement solution including research-based surveys, automated analytics, and expert guidance.'
+                        },
+                        {
+                            name: 'Bullying & Discrimination Alerts',
+                            description: 'Protect your workforce and reduce legal risk with automated detection and alerting for critical workplace issues.'
+                        },
+                        {
+                            name: 'Employee Turnover Analysis',
+                            description: 'Understand why people leave and identify at-risk employees before they decide to quit, saving costly replacement expenses.'
+                        },
+                        {
+                            name: 'Managed Service & Expert Support',
+                            description: 'Let our experts handle the heavy lifting with managed services, custom surveys, and strategic consultation to get results fast.'
+                        }
+                    ]
+                };
+            }
+
+            quizRoot.innerHTML = `
         <div style="max-width: 700px; margin: 0 auto;">
           <div style="text-align: center; margin-bottom: 40px;">
             <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 120px; width: auto; margin-bottom: 20px;">
@@ -1228,27 +1622,32 @@ Website: winningtemp.com
           </div>
         </div>
       `;
-    }
-    
-    // Event listeners
-    startBtn.addEventListener('click', openQuiz);
-    closeBtn.addEventListener('click', closeQuiz);
-    
-    // Click outside to close
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) {
-        closeQuiz();
-      }
-    });
-    
-    // Global functions for inline onclick
-    window.openQuiz = openQuiz;
-    window.closeQuiz = closeQuiz;
-    window.startQuestions = startQuestions;
-    window.selectAnswer = selectAnswer;
-    window.previousQuestion = previousQuestion;
-    
-    console.log('Quiz ready!');
-  </script>
+        }
+
+        // Event listeners
+        startBtn.addEventListener('click', openQuiz);
+        closeBtn.addEventListener('click', closeQuiz);
+
+        // Click outside to close
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeQuiz();
+            }
+        });
+
+        // Global functions for inline onclick
+        window.openQuiz = openQuiz;
+        window.closeQuiz = closeQuiz;
+        window.startQuestions = startQuestions;
+        window.selectAnswer = selectAnswer;
+        window.previousQuestion = previousQuestion;
+        window.toggleFeature = toggleFeature;
+        window.emailResults = emailResults;
+        window.downloadPDF = downloadPDF;
+        window.shareResults = shareResults;
+
+        console.log('Quiz ready!');
+    </script>
 </body>
+
 </html>
