@@ -827,6 +827,8 @@
 
         function emailResults() {
             const email = document.getElementById('results-email').value;
+            const marketingConsent = document.getElementById('marketing-consent').checked;
+            
             if (!email) {
                 alert('Please enter your email address');
                 return;
@@ -844,10 +846,17 @@
             console.log('Lead captured with results:', {
                 email: email,
                 results: resultsData,
+                marketingConsent: marketingConsent,
                 timestamp: new Date().toISOString()
             });
-        }
 
+            // If marketing consent is given, add to marketing list
+            if (marketingConsent) {
+                console.log('User opted into marketing emails:', email);
+                // Here you would typically send this to your marketing automation system
+                // Example: addToMarketingList(email, resultsData);
+            }
+        }
         function downloadPDF() {
             const resultsData = generateResultsData();
 
@@ -1488,6 +1497,15 @@ Website: winningtemp.com
                     Email Results
                   </button>
                 </div>
+              </div>
+
+                            
+              <!-- Marketing Consent Checkbox -->
+              <div style="margin-top: 15px; text-align: left;">
+                <label style="display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
+                  <input type="checkbox" id="marketing-consent" style="width: 16px; height: 16px; accent-color: #7f2696;">
+                  <span>Yes, send me updates and recommendations!</span>
+                </label>
               </div>
               
               <!-- Download Option -->
