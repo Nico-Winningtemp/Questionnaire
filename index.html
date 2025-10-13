@@ -814,7 +814,7 @@
             console.log('Sending results to:', email, resultsData);
 
             // Show confirmation
-            alert('Your detailed results report has been sent to ' + email + '!\\n\\nThe PDF includes:\\n• Your complete assessment responses\\n• Detailed analysis of each answer\\n• Personalized recommendations\\n• Next steps for improvement');
+            alert('Your detailed results report has been sent to ' + email + '!\\n\\nYour report includes:\\n• Your complete assessment responses\\n• Detailed analysis of each answer\\n• Personalized recommendations\\n• Next steps for improvement\\n• Professional PDF report\\n• Executive slide deck');
 
             // Log for CRM integration
             console.log('Lead captured with results:', {
@@ -1250,6 +1250,294 @@
             }
         }
 
+        function downloadSlides() {
+            const resultsData = generateResultsData();
+
+            try {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF('p', 'pt', 'a4');
+
+                // Colors matching winningtemp.com
+                const brandPurple = [127, 38, 150];
+                const darkGray = [16, 0, 20];
+                const mediumGray = [100, 116, 139];
+                const lightGray = [248, 250, 252];
+                const white = [255, 255, 255];
+                const green = [69, 203, 28];
+
+                let currentY = 40;
+                const pageWidth = doc.internal.pageSize.getWidth();
+                const pageHeight = doc.internal.pageSize.getHeight();
+                const margin = 50;
+                const contentWidth = pageWidth - (2 * margin);
+
+                // Helper function to add new page if needed
+                function checkPageBreak(neededHeight = 60) {
+                    if (currentY + neededHeight > pageHeight - 50) {
+                        doc.addPage();
+                        currentY = 50;
+                        return true;
+                    }
+                    return false;
+                }
+
+                // Helper function to add text with word wrap
+                function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray, fontStyle = 'normal') {
+                    doc.setFontSize(fontSize);
+                    doc.setFont(undefined, fontStyle);
+                    doc.setTextColor(...color);
+                    const lines = doc.splitTextToSize(text, maxWidth);
+                    doc.text(lines, x, y);
+                    return y + (lines.length * fontSize * 1.4);
+                }
+
+                // Get maturity level and color based on score
+                function getMaturityLevel(aCount) {
+                    const percentage = Math.round((aCount / 12) * 100);
+                    let level, color, summary, actionItems = [];
+                    
+                    if (aCount >= 9) { // 75% - 100%
+                        level = "Advanced";
+                        color = green;
+                        summary = `Your organization is an Engagement Leader (${percentage}% Maturity). You utilize continuous feedback, empower managers with specific, AI-driven action plans, and actively link engagement to core business KPIs. Your focus should now be on optimizing predictive analytics and scaling your world-class practices across all departments.`;
+                        actionItems = [
+                            "Optimize your current AI-driven action plans for even greater efficiency and measurable ROI.",
+                            "Focus on embedding Psychological Safety training at all leadership levels to maintain a high-trust, innovative culture.",
+                            "Use predictive analytics to preemptively address micro-risks in high-performing teams before they escalate into turnover.",
+                            "Explore advanced integration of engagement data with broader business intelligence systems."
+                        ];
+                    } else if (aCount >= 5) { // 42% - 75%
+                        level = "Developing";
+                        color = [179, 232, 24];
+                        summary = `You are at a Developing level (${percentage}% Maturity). You have key systems in place, such as periodic surveys, but you are likely spending too much HR time on manual analysis. This prevents a shift from reactive measurement to continuous, proactive action, limiting manager empowerment.`;
+                        actionItems = [
+                            "Implement a continuous, short-pulse survey system to capture real-time feedback and increase speed.",
+                            "Adopt a platform that delivers managers AI-powered, research-based actions to take immediately on their results.",
+                            "Work to formally track and communicate the clear financial linkage between engagement data and business outcomes.",
+                            "Reduce HR administrative time by automating data collection and reporting."
+                        ];
+                    } else if (aCount >= 3) { // 25% - 42%
+                        level = "Basic";
+                        color = [255, 160, 0];
+                        summary = `Your organization is at a Basic maturity level (${percentage}% Maturity). You are aware of the need for engagement but are likely relying on infrequent, high-effort surveys that result in low response rates. This provides lagging indicators, making swift intervention nearly impossible.`;
+                        actionItems = [
+                            "Transition to shorter, more frequent 'pulse' surveys to improve response rates and gather timely data.",
+                            "Invest in basic training for managers on interpreting engagement data and empower them to own the follow-through.",
+                            "Centralize feedback channels to ensure anonymous input is safely collected and acted upon, building employee trust.",
+                            "Establish a clear, single source of truth for all employee feedback."
+                        ];
+                    } else { // Below 25%
+                        level = "Minimal";
+                        color = [255, 92, 97];
+                        summary = `You have a Minimal engagement strategy (${percentage}% Maturity). Feedback mechanisms are likely non-existent or purely annual, leaving leadership consistently surprised by resignations. This exposes the company to significant hidden costs of turnover and low productivity.`;
+                        actionItems = [
+                            "Start with a small, simple, and anonymous engagement survey to establish a baseline and open a communication channel.",
+                            "Educate leadership on the 'Real Cost of Disengaged Teams' and the financial benefits of preventative action.",
+                            "Prioritize building psychological safety by actively communicating how feedback will be used.",
+                            "Define clear ownership for the engagement initiative within the leadership team."
+                        ];
+                    }
+
+                    return { level, percentage, color, summary, actionItems };
+                }
+
+                const maturity = getMaturityLevel(resultsData.aCount);
+
+                // SLIDE 1: TITLE SLIDE
+                // Header with logo and title
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(28);
+                doc.setFont(undefined, 'bold');
+                doc.text('Winningtemp', margin, 100);
+
+                // Main Title
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(48);
+                doc.setFont(undefined, 'bold');
+                doc.text('Employee Engagement', margin, 160);
+                doc.text('Maturity Report', margin, 220);
+
+                // Subtitle
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'normal');
+                doc.text('Assessment Results & Action Plan', margin, 280);
+
+                // Divider line
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(4);
+                doc.line(margin, 320, pageWidth - margin, 320);
+
+                // Date
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'normal');
+                doc.text(new Date().toLocaleDateString(), margin, 360);
+
+                // Add new page for slide 2
+                doc.addPage();
+                currentY = 50;
+
+                // SLIDE 2: MATURITY LEVEL
+                // Slide title
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(32);
+                doc.setFont(undefined, 'bold');
+                doc.text('Your Current Maturity Level', margin, currentY);
+                currentY += 60;
+
+                // Maturity level card
+                doc.setFillColor(...white);
+                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'F');
+                doc.setDrawColor(220, 220, 220);
+                doc.setLineWidth(2);
+                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'S');
+
+                // Maturity level text - properly spaced
+                doc.setFontSize(20);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(...darkGray);
+                doc.text('Your organization is operating at a', margin + 40, currentY + 60);
+                
+                doc.setTextColor(...maturity.color);
+                doc.setFontSize(36);
+                doc.setFont(undefined, 'bold');
+                doc.text(maturity.level, margin + 40, currentY + 100);
+                
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(20);
+                doc.setFont(undefined, 'normal');
+                doc.text('level of engagement maturity.', margin + 40, currentY + 150);
+
+                // Progress bar
+                const barWidth = 400;
+                const barHeight = 16;
+                const barX = margin + 40;
+                const barY = currentY + 180;
+                
+                doc.setFillColor(240, 240, 240);
+                doc.roundedRect(barX, barY, barWidth, barHeight, 8, 8, 'F');
+                
+                doc.setFillColor(...maturity.color);
+                doc.roundedRect(barX, barY, (barWidth * maturity.percentage) / 100, barHeight, 8, 8, 'F');
+                
+                doc.setTextColor(...maturity.color);
+                doc.setFontSize(28);
+                doc.setFont(undefined, 'bold');
+                doc.text(maturity.percentage + '%', barX + barWidth + 30, barY + 12);
+
+                // Summary text
+                currentY = addWrappedText(maturity.summary, margin + 40, currentY + 220, contentWidth - 80, 16, darkGray);
+                currentY += 30;
+
+                // Score info
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text('Total Assessment Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions, margin + 40, currentY + 10);
+
+                // Add new page for slide 3
+                doc.addPage();
+                currentY = 50;
+
+                // SLIDE 3: ACTION ROADMAP
+                // Slide title
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(32);
+                doc.setFont(undefined, 'bold');
+                doc.text('Your Actionable Roadmap', margin, currentY);
+                currentY += 50;
+
+                // Subtitle
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'normal');
+                currentY = addWrappedText('Focus on these critical, data-backed steps to quickly improve your maturity and drive measurable business impact.', margin, currentY, contentWidth, 18, mediumGray);
+                currentY += 40;
+
+                // Action items with purple circles and connecting lines
+                maturity.actionItems.forEach((item, index) => {
+                    checkPageBreak(100);
+                    
+                    // Purple circle with number
+                    doc.setFillColor(...brandPurple);
+                    doc.circle(margin + 40, currentY + 30, 28, 'F');
+                    doc.setTextColor(255, 255, 255);
+                    doc.setFontSize(20);
+                    doc.setFont(undefined, 'bold');
+                    doc.text((index + 1).toString(), margin + 40, currentY + 38, { align: 'center' });
+
+                    // Vertical line (except for last item)
+                    if (index < maturity.actionItems.length - 1) {
+                        doc.setDrawColor(...brandPurple);
+                        doc.setLineWidth(6);
+                        doc.line(margin + 40, currentY + 58, margin + 40, currentY + 90);
+                    }
+
+                    // Action item text
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(16);
+                    doc.setFont(undefined, 'normal');
+                    currentY = addWrappedText(item, margin + 90, currentY + 20, contentWidth - 130, 16, darkGray);
+                    currentY += 30;
+                });
+
+                currentY += 50;
+
+                // CALL TO ACTION SECTION
+                checkPageBreak(120);
+                
+                // CTA Card with purple border
+                doc.setFillColor(...white);
+                doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'F');
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(4);
+                doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'S');
+
+                // CTA Title
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(24);
+                doc.setFont(undefined, 'bold');
+                doc.text('Ready to Build a Better Workplace?', margin + 40, currentY + 40);
+
+                // CTA Description
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(...mediumGray);
+                currentY = addWrappedText(`Let's walk through your personalized ${maturity.level} report and map out a tailored strategy to reach the Advanced level with Winningtemp.`, margin + 40, currentY + 70, contentWidth - 80, 16, mediumGray);
+                currentY += 30;
+
+                // CTA Button (simulated)
+                doc.setFillColor(...brandPurple);
+                doc.roundedRect(margin + 40, currentY + 10, 280, 40, 20, 20, 'F');
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text('Book Your Free Consultation →', margin + 180, currentY + 35, { align: 'center' });
+
+                // FOOTER
+                currentY = pageHeight - 60;
+                
+                // Footer line
+                doc.setDrawColor(...mediumGray);
+                doc.setLineWidth(2);
+                doc.line(margin, currentY, pageWidth - margin, currentY);
+                
+                doc.setTextColor(...mediumGray);
+                doc.setFontSize(12);
+                doc.setFont(undefined, 'normal');
+                doc.text('© ' + new Date().getFullYear() + ' Winningtemp | The Science of Employee Engagement', margin, currentY + 25);
+
+                // Generate and download the PDF
+                const fileName = `Winningtemp_Engagement_Maturity_Slides_${maturity.level.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+                doc.save(fileName);
+
+            } catch (error) {
+                console.error('Slide generation error:', error);
+                alert('Slide generation failed. Please try again or download the PDF report instead.');
+            }
+        }
+
         function generateResultsData() {
             const counts = {
                 A: 0,
@@ -1597,11 +1885,14 @@ Website: winningtemp.com
                 <button onclick="downloadPDF()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">
                   Download PDF Report
                 </button>
+                <button onclick="downloadSlides()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">
+                  Download Slide Deck
+                </button>
               </div>
             </div>
 
             <div style="text-align: center;">
-              <button onclick="window.open('https://www.winningtemp.com/book-a-demo', '_blank')" 
+              <button onclick="window.location.href = 'https://www.winningtemp.com/book-a-demo'" 
                       style="background: white; color: #7f2696; border: none; border-radius: 25px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.15);">
                 Book a Free Demo
               </button>
@@ -1628,6 +1919,7 @@ Website: winningtemp.com
         window.toggleFeature = toggleFeature;
         window.emailResults = emailResults;
         window.downloadPDF = downloadPDF;
+        window.downloadSlides = downloadSlides;
         window.shareResults = shareResults;
 
         // Auto-start the quiz when page loads
