@@ -44,7 +44,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #fffff;
+            background: transparent;
             display: none;
             align-items: center;
             justify-content: center;
@@ -57,13 +57,14 @@
         }
 
         .modal-content {
-            background: white;
+            background: transparent;
             border-radius: 0;
             width: 100%;
             max-width: 100%;
             max-height: 100vh;
             overflow-y: auto;
             position: relative;
+            padding: 20px;
         }
 
         @media (max-width: 768px) {
@@ -126,7 +127,7 @@
     <!-- Quiz Modal -->
     <div id="quiz-modal" class="quiz-modal active">
         <div class="modal-content">
-            <div id="quiz-root" style="padding: 40px;"></div>
+            <div id="quiz-root" style="padding: 0;"></div>
         </div>
     </div>
 
@@ -456,42 +457,42 @@
 
         function renderIntro() {
             quizRoot.innerHTML = `
-        <div class="intro-container" style="text-align: center; max-width: 600px; margin: 0 auto; padding: 0 15px; display: flex; flex-direction: column; align-items: center;">
-          <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 100px; width: auto; margin-bottom: 25px; display: block;">
+        <div class="intro-container" style="text-align: center; max-width: 500px; margin: 0 auto; padding: 0 10px; display: flex; flex-direction: column; align-items: center;">
+          <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 60px; width: auto; margin-bottom: 15px; display: block;">
           
-          <h1 class="intro-title" style="font-size: 3.2rem; font-weight: 500; color: #100014; margin: 0 0 15px 0; line-height: 130%; font-family: 'Poppins', sans-serif !important;">
+          <h1 class="intro-title" style="font-size: 2.2rem; font-weight: 500; color: #100014; margin: 0 0 10px 0; line-height: 120%; font-family: 'Poppins', sans-serif !important;">
             Let's Measure Your Engagement Maturity
           </h1>
           
-          <p class="intro-description" style="font-size: 16px; color: #18181B; margin-bottom: 25px; line-height: 1.4;">
+          <p class="intro-description" style="font-size: 14px; color: #18181B; margin-bottom: 20px; line-height: 1.4;">
             This assessment will help you understand where your organization stands and identify opportunities for improvement.
           </p>
           
-          <div class="how-it-works" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 14px; padding: 25px; margin-bottom: 25px; text-align: left;">
-            <h3 class="how-title" style="color: #7f2696; margin-bottom: 15px; font-size: 18px; text-align: center;">How This Works</h3>
-            <p class="how-description" style="color: #1e293b; margin-bottom: 12px; font-size: 14px; text-align: center;">You'll answer questions about your organization's engagement practices. Each has four options:</p>
+          <div class="how-it-works" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left;">
+            <h3 class="how-title" style="color: #7f2696; margin-bottom: 10px; font-size: 16px; text-align: center;">How This Works</h3>
+            <p class="how-description" style="color: #1e293b; margin-bottom: 10px; font-size: 12px; text-align: center;">You'll answer questions about your organization's engagement practices. Each has four options:</p>
             
-            <div class="options-grid" style="display: grid; gap: 10px; margin-bottom: 15px;">
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(5, 150, 105, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('A')}</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
+            <div class="options-grid" style="display: grid; gap: 6px; margin-bottom: 10px;">
+              <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(5, 150, 105, 0.05); border-radius: 4px;">
+                <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('A')}</div>
+                <div class="option-text" style="font-size: 11px;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
               </div>
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(2, 132, 199, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('B')}</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Developing:</strong> Some systems in place</div>
+              <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(2, 132, 199, 0.05); border-radius: 4px;">
+                <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('B')}</div>
+                <div class="option-text" style="font-size: 11px;"><strong>Developing:</strong> Some systems in place</div>
               </div>
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(234, 88, 12, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('C')}</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Basic:</strong> Limited measurement and insights</div>
+              <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(234, 88, 12, 0.05); border-radius: 4px;">
+                <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('C')}</div>
+                <div class="option-text" style="font-size: 11px;"><strong>Basic:</strong> Limited measurement and insights</div>
               </div>
-              <div class="option-item" style="display: flex; align-items: center; padding: 12px; background: rgba(220, 38, 38, 0.05); border-radius: 6px;">
-                <div class="option-circle" style="width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-right: 10px;">${getSmileyIcon('D')}</div>
-                <div class="option-text" style="font-size: 13px;"><strong>Minimal:</strong> Little to no systematic approach</div>
+              <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(220, 38, 38, 0.05); border-radius: 4px;">
+                <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('D')}</div>
+                <div class="option-text" style="font-size: 11px;"><strong>Minimal:</strong> Little to no systematic approach</div>
               </div>
             </div>
           </div>
           
-          <button onclick="startQuestions()" class="start-button" style="background: #7f2696; color: white; border: none; border-radius: 50px; padding: 16px 32px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
+          <button onclick="startQuestions()" class="start-button" style="background: #7f2696; color: white; border: none; border-radius: 50px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
             Let's Get Started →
           </button>
         </div>
@@ -819,16 +820,17 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF('p', 'pt', 'a4');
 
-                // Colors matching Winningtemp brand
+                // Colors matching the reference PDF
                 const brandPurple = [127, 38, 150];
                 const lightPurple = [248, 244, 255];
                 const darkGray = [30, 41, 59];
                 const mediumGray = [100, 116, 139];
+                const lightGray = [240, 240, 240];
 
                 let currentY = 50;
                 const pageWidth = doc.internal.pageSize.getWidth();
                 const pageHeight = doc.internal.pageSize.getHeight();
-                const margin = 50;
+                const margin = 60;
                 const contentWidth = pageWidth - (2 * margin);
 
                 // Helper function to add new page if needed
@@ -842,25 +844,68 @@
                 }
 
                 // Helper function to add text with word wrap
-                function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray) {
+                function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray, fontStyle = 'normal') {
                     doc.setFontSize(fontSize);
+                    doc.setFont(undefined, fontStyle);
                     doc.setTextColor(...color);
                     const lines = doc.splitTextToSize(text, maxWidth);
                     doc.text(lines, x, y);
                     return y + (lines.length * fontSize * 1.2);
                 }
 
-                // HEADER SECTION
-                doc.setFillColor(...brandPurple);
-                doc.rect(0, 0, pageWidth, 120, 'F');
+                // Helper function to add rounded rectangle
+                function addRoundedRect(x, y, width, height, fillColor, textColor, text, fontSize = 12, fontStyle = 'normal') {
+                    doc.setFillColor(...fillColor);
+                    doc.roundedRect(x, y, width, height, 8, 8, 'F');
+                    doc.setTextColor(...textColor);
+                    doc.setFontSize(fontSize);
+                    doc.setFont(undefined, fontStyle);
+                    doc.text(text, x + width/2, y + height/2 + fontSize/3, { align: 'center' });
+                }
 
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(28);
+                // COVER PAGE
+                // Background
+                doc.setFillColor(...lightGray);
+                doc.rect(0, 0, pageWidth, pageHeight, 'F');
+
+                // Winningtemp Logo (simplified)
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(24);
                 doc.setFont(undefined, 'bold');
-                doc.text('Employee Listening Maturity', margin, 60);
-                doc.text('Assessment Results', margin, 90);
+                doc.text('Winningtemp', margin, 80);
 
-                currentY = 160;
+                // Main Title
+                doc.setTextColor(...darkGray);
+                doc.setFontSize(36);
+                doc.setFont(undefined, 'bold');
+                const titleLines = doc.splitTextToSize('Employee Listening Maturity Assessment Results', contentWidth);
+                doc.text(titleLines, margin, 150);
+
+                // Subtitle
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(...mediumGray);
+                doc.text('Your personalized engagement analysis and recommendations', margin, 200);
+
+                // Result Card
+                doc.setFillColor(255, 255, 255);
+                doc.roundedRect(margin, 250, contentWidth, 120, 12, 12, 'F');
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(2);
+                doc.roundedRect(margin, 250, contentWidth, 120, 12, 12, 'S');
+
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(24);
+                doc.setFont(undefined, 'bold');
+                doc.text('Your Result: ' + resultsData.resultType, margin + 30, 290);
+
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'normal');
+                doc.setTextColor(...mediumGray);
+                doc.text('Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions + ' A\'s', margin + 30, 315);
+
+                currentY = addWrappedText(resultsData.description, margin + 30, 340, contentWidth - 60, 14, darkGray);
+                currentY = 400;
 
                 // EXECUTIVE SUMMARY SECTION
                 checkPageBreak(150);
