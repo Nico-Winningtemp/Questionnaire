@@ -839,18 +839,19 @@
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF('p', 'pt', 'a4');
 
-                // Colors matching the reference PDF
+                // Colors matching winningtemp.com
                 const brandPurple = [127, 38, 150];
                 const lightPurple = [248, 244, 255];
-                const darkGray = [30, 41, 59];
+                const darkGray = [16, 0, 20]; // #100014
                 const mediumGray = [100, 116, 139];
                 const lightGray = [248, 250, 252];
                 const white = [255, 255, 255];
+                const green = [69, 203, 28];
 
-                let currentY = 50;
+                let currentY = 40;
                 const pageWidth = doc.internal.pageSize.getWidth();
                 const pageHeight = doc.internal.pageSize.getHeight();
-                const margin = 60;
+                const margin = 50;
                 const contentWidth = pageWidth - (2 * margin);
 
                 // Helper function to add new page if needed
@@ -870,7 +871,7 @@
                     doc.setTextColor(...color);
                     const lines = doc.splitTextToSize(text, maxWidth);
                     doc.text(lines, x, y);
-                    return y + (lines.length * fontSize * 1.2);
+                    return y + (lines.length * fontSize * 1.4);
                 }
 
                 // Helper function to add rounded rectangle
@@ -890,7 +891,7 @@
                     
                     if (aCount >= 9) { // 75% - 100%
                         level = "Advanced";
-                        color = [69, 203, 28]; // Green
+                        color = green;
                         summary = `Your organization is an Engagement Leader (${percentage}% Maturity). You utilize continuous feedback, empower managers with specific, AI-driven action plans, and actively link engagement to core business KPIs. Your focus should now be on optimizing predictive analytics and scaling your world-class practices across all departments.`;
                         actionItems = [
                             "Optimize your current AI-driven action plans for even greater efficiency and measurable ROI.",
@@ -936,65 +937,62 @@
                 const maturity = getMaturityLevel(resultsData.aCount);
 
                 // HEADER SECTION
-                // Background
-                doc.setFillColor(...lightGray);
-                doc.rect(0, 0, pageWidth, pageHeight, 'F');
-
                 // Header with logo and title
                 doc.setTextColor(...brandPurple);
-                doc.setFontSize(20);
+                doc.setFontSize(22);
                 doc.setFont(undefined, 'bold');
-                doc.text('Winningtemp', margin, 80);
+                doc.text('Winningtemp', margin, 70);
 
                 // Main Title
                 doc.setTextColor(...darkGray);
-                doc.setFontSize(32);
+                doc.setFontSize(36);
                 doc.setFont(undefined, 'bold');
-                doc.text('Engagement Maturity Report', margin, 120);
+                doc.text('Engagement Maturity Report', margin, 105);
 
                 // Divider line
                 doc.setDrawColor(...mediumGray);
-                doc.setLineWidth(1);
-                doc.line(margin, 140, pageWidth - margin, 140);
+                doc.setLineWidth(2);
+                doc.line(margin, 120, pageWidth - margin, 120);
 
-                currentY = 170;
+                currentY = 140;
 
                 // MAIN CONTENT SECTION
                 checkPageBreak(200);
                 
-                // Maturity Level Card
+                // Maturity Level Card - Clean white box with subtle border
                 doc.setFillColor(...white);
-                doc.roundedRect(margin, currentY, contentWidth, 180, 12, 12, 'F');
-                doc.setDrawColor(...mediumGray);
-                doc.setLineWidth(1);
-                doc.roundedRect(margin, currentY, contentWidth, 180, 12, 12, 'S');
+                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'F');
+                doc.setDrawColor(220, 220, 220);
+                doc.setLineWidth(2);
+                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'S');
 
                 // Card title
                 doc.setTextColor(...darkGray);
-                doc.setFontSize(24);
+                doc.setFontSize(26);
                 doc.setFont(undefined, 'bold');
-                doc.text('Your Current Maturity Level', margin + 30, currentY + 35);
+                doc.text('Your Current Maturity Level', margin + 40, currentY + 40);
 
-                // Maturity level text
+                // Maturity level text - properly aligned
                 doc.setFontSize(18);
                 doc.setFont(undefined, 'normal');
-                doc.text('Your organization is operating at a', margin + 30, currentY + 65);
+                doc.setTextColor(...darkGray);
+                doc.text('Your organization is operating at a', margin + 40, currentY + 75);
                 
                 doc.setTextColor(...maturity.color);
-                doc.setFontSize(24);
+                doc.setFontSize(26);
                 doc.setFont(undefined, 'bold');
-                doc.text(maturity.level, margin + 30, currentY + 90);
+                doc.text(maturity.level, margin + 40, currentY + 105);
                 
                 doc.setTextColor(...darkGray);
                 doc.setFontSize(18);
                 doc.setFont(undefined, 'normal');
-                doc.text('level of engagement maturity.', margin + 30, currentY + 90);
+                doc.text('level of engagement maturity.', margin + 40, currentY + 105);
 
                 // Progress bar
-                const barWidth = 300;
+                const barWidth = 350;
                 const barHeight = 12;
-                const barX = margin + 30;
-                const barY = currentY + 110;
+                const barX = margin + 40;
+                const barY = currentY + 125;
                 
                 doc.setFillColor(240, 240, 240);
                 doc.roundedRect(barX, barY, barWidth, barHeight, 6, 6, 'F');
@@ -1003,19 +1001,19 @@
                 doc.roundedRect(barX, barY, (barWidth * maturity.percentage) / 100, barHeight, 6, 6, 'F');
                 
                 doc.setTextColor(...maturity.color);
-                doc.setFontSize(20);
+                doc.setFontSize(22);
                 doc.setFont(undefined, 'bold');
-                doc.text(maturity.percentage + '%', barX + barWidth + 20, barY + 8);
+                doc.text(maturity.percentage + '%', barX + barWidth + 25, barY + 8);
 
                 // Summary text
-                currentY = addWrappedText(maturity.summary, margin + 30, currentY + 140, contentWidth - 60, 12, darkGray);
-                currentY += 20;
+                currentY = addWrappedText(maturity.summary, margin + 40, currentY + 155, contentWidth - 80, 14, darkGray);
+                currentY += 25;
 
                 // Score info
                 doc.setTextColor(...mediumGray);
-                doc.setFontSize(12);
+                doc.setFontSize(13);
                 doc.setFont(undefined, 'bold');
-                doc.text('Total Assessment Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions, margin + 30, currentY + 10);
+                doc.text('Total Assessment Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions, margin + 40, currentY + 5);
 
                 currentY += 50;
 
@@ -1024,7 +1022,7 @@
                 
                 // Section title
                 doc.setTextColor(...darkGray);
-                doc.setFontSize(20);
+                doc.setFontSize(22);
                 doc.setFont(undefined, 'bold');
                 doc.text('Your Actionable Roadmap to Advance', margin, currentY);
                 currentY += 30;
@@ -1034,50 +1032,50 @@
                 doc.setFontSize(14);
                 doc.setFont(undefined, 'normal');
                 currentY = addWrappedText('Based on your assessment, focus on these critical, data-backed steps to quickly improve your maturity and drive measurable business impact.', margin, currentY, contentWidth, 14, mediumGray);
-                currentY += 20;
+                currentY += 25;
 
-                // Action items
+                // Action items with purple circles and connecting lines
                 maturity.actionItems.forEach((item, index) => {
-                    checkPageBreak(80);
+                    checkPageBreak(90);
                     
-                    // Action item card
-                    doc.setFillColor(...white);
-                    doc.roundedRect(margin, currentY, contentWidth, 60, 8, 8, 'F');
-                    doc.setDrawColor(...brandPurple);
-                    doc.setLineWidth(2);
-                    doc.line(margin, currentY, margin, currentY + 60);
-
-                    // Number
+                    // Purple circle with number
                     doc.setFillColor(...brandPurple);
-                    doc.circle(margin + 25, currentY + 20, 12, 'F');
+                    doc.circle(margin + 30, currentY + 25, 22, 'F');
                     doc.setTextColor(255, 255, 255);
-                    doc.setFontSize(12);
+                    doc.setFontSize(16);
                     doc.setFont(undefined, 'bold');
-                    doc.text((index + 1).toString(), margin + 25, currentY + 25, { align: 'center' });
+                    doc.text((index + 1).toString(), margin + 30, currentY + 32, { align: 'center' });
+
+                    // Vertical line (except for last item)
+                    if (index < maturity.actionItems.length - 1) {
+                        doc.setDrawColor(...brandPurple);
+                        doc.setLineWidth(4);
+                        doc.line(margin + 30, currentY + 47, margin + 30, currentY + 70);
+                    }
 
                     // Action item text
                     doc.setTextColor(...darkGray);
-                    doc.setFontSize(12);
+                    doc.setFontSize(14);
                     doc.setFont(undefined, 'normal');
-                    currentY = addWrappedText(item, margin + 50, currentY + 20, contentWidth - 70, 12, darkGray);
-                    currentY += 20;
+                    currentY = addWrappedText(item, margin + 70, currentY + 20, contentWidth - 100, 14, darkGray);
+                    currentY += 25;
                 });
 
                 currentY += 30;
 
                 // CALL TO ACTION SECTION
-                checkPageBreak(150);
+                checkPageBreak(120);
                 
-                // CTA Card
+                // CTA Card with purple border
                 doc.setFillColor(...white);
                 doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'F');
                 doc.setDrawColor(...brandPurple);
-                doc.setLineWidth(2);
+                doc.setLineWidth(3);
                 doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'S');
 
                 // CTA Title
                 doc.setTextColor(...darkGray);
-                doc.setFontSize(20);
+                doc.setFontSize(22);
                 doc.setFont(undefined, 'bold');
                 doc.text('Ready to Build a Better Workplace?', margin + 30, currentY + 35);
 
@@ -1086,171 +1084,151 @@
                 doc.setFont(undefined, 'normal');
                 doc.setTextColor(...mediumGray);
                 currentY = addWrappedText(`Let's walk through your personalized ${maturity.level} report and map out a tailored strategy to reach the Advanced level with Winningtemp.`, margin + 30, currentY + 60, contentWidth - 60, 14, mediumGray);
-                currentY += 20;
+                currentY += 25;
 
                 // CTA Button (simulated)
                 doc.setFillColor(...brandPurple);
-                doc.roundedRect(margin + 30, currentY + 10, 200, 30, 15, 15, 'F');
+                doc.roundedRect(margin + 30, currentY + 5, 220, 35, 15, 15, 'F');
                 doc.setTextColor(255, 255, 255);
-                doc.setFontSize(14);
+                doc.setFontSize(13);
                 doc.setFont(undefined, 'bold');
-                doc.text('Book Your Free Consultation →', margin + 130, currentY + 30, { align: 'center' });
+                doc.text('Book Your Free Consultation →', margin + 140, currentY + 25, { align: 'center' });
 
                 currentY += 60;
 
-                // DETAILED ANALYSIS SECTION
+                // DETAILED QUESTION ANALYSIS SECTION
                 checkPageBreak(100);
+                
+                // Purple banner
                 doc.setFillColor(...brandPurple);
-                doc.rect(margin, currentY, contentWidth, 40, 'F');
-
+                doc.rect(margin, currentY, contentWidth, 35, 'F');
+                
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(18);
                 doc.setFont(undefined, 'bold');
-                doc.text('Detailed Question Analysis', margin + 20, currentY + 25);
+                doc.text('Detailed Question Analysis', margin + 20, currentY + 23);
+                
+                currentY += 50;
 
-                currentY += 60;
-
-                // Question Analysis
+                // Questions and answers with proper formatting
                 questions.forEach((question, index) => {
                     checkPageBreak(120);
-
-                    const userAnswer = resultsData.answers[index];
-                    const selectedOption = question.options.find(opt => opt.value === userAnswer);
-
-                    // Question number and text
-                    doc.setFillColor(250, 250, 250);
-                    doc.rect(margin, currentY, contentWidth, 30, 'F');
-
+                    
+                    // Question number and text with background
+                    doc.setFillColor(248, 250, 252);
+                    doc.rect(margin, currentY, contentWidth, 40, 'F');
+                    
                     doc.setTextColor(...brandPurple);
                     doc.setFontSize(14);
                     doc.setFont(undefined, 'bold');
-                    doc.text(`Q${index + 1}:`, margin + 15, currentY + 20);
-
-                    currentY = addWrappedText(question.question, margin + 50, currentY + 20, contentWidth - 65, 12, darkGray);
-                    currentY += 10;
-
-                    // Answer
-                    doc.setTextColor(...mediumGray);
-                    doc.setFontSize(12);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Your Answer:', margin + 15, currentY + 15);
-
-                    const answerColor = userAnswer === 'A' ? [5, 150, 105] :
-                        userAnswer === 'B' ? [2, 132, 199] :
-                        userAnswer === 'C' ? [234, 88, 12] : [220, 38, 38];
-
-                    doc.setTextColor(...answerColor);
-                    doc.text(`(${userAnswer}) ${selectedOption ? selectedOption.text : 'Not answered'}`, margin + 100, currentY + 15);
-
-                    currentY += 30;
-
-                    // Why it matters
-                    doc.setTextColor(...mediumGray);
-                    doc.setFontSize(11);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Why This Matters:', margin + 15, currentY + 15);
-
-                    currentY = addWrappedText(question.why, margin + 15, currentY + 30, contentWidth - 30, 10, mediumGray);
-                    currentY += 20;
-                });
-
-                // RECOMMENDATIONS SECTION
-                checkPageBreak(150);
-                doc.setFillColor(...brandPurple);
-                doc.rect(margin, currentY, contentWidth, 40, 'F');
-
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(18);
-                doc.setFont(undefined, 'bold');
-                doc.text('Personalized Recommendations', margin + 20, currentY + 25);
-
-                currentY += 60;
-
-                // Add recommendations based on score
-                let recommendations = [];
-                if (resultsData.aCount >= 9) {
-                    recommendations = [
-                        'AI-Powered Predictions - Stay ahead with machine learning insights',
-                        'Advanced Benchmarking - Compare against industry leaders',
-                        'Executive Training Programs - Keep leadership at the forefront',
-                        'Custom Integration & API - Connect with existing BI systems'
-                    ];
-                } else if (resultsData.aCount >= 5) {
-                    recommendations = [
-                        'Real-Time Visual Results - Move to continuous pulse monitoring',
-                        'Smart Index & Analytics - Predict turnover before it happens',
-                        'Manager Training & Support - Build data interpretation skills',
-                        'Advanced Team Structures - Support complex organizational setups'
-                    ];
-                } else if (resultsData.aCount >= 3) {
-                    recommendations = [
-                        'Pulse Surveys & Research-Based Questions - Replace sporadic surveys',
-                        'Automated Insights & Actions - Get AI-powered recommendations',
-                        'Anonymous 2-Way Conversations - Create psychological safety',
-                        'Onboarding & Platform Training - Quick implementation support'
-                    ];
-                } else {
-                    recommendations = [
-                        'Complete Platform Setup - Turnkey engagement solution',
-                        'Bullying & Discrimination Alerts - Protect workforce and reduce risk',
-                        'Employee Turnover Analysis - Understand and prevent departures',
-                        'Managed Service & Expert Support - Let experts handle the heavy lifting'
-                    ];
-                }
-
-                recommendations.forEach((rec, index) => {
-                    checkPageBreak(40);
-
-                    doc.setFillColor(250, 250, 250);
-                    doc.rect(margin, currentY, contentWidth, 30, 'F');
-
-                    doc.setTextColor(...brandPurple);
-                    doc.setFontSize(12);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('•', margin + 20, currentY + 20);
-
-                    currentY = addWrappedText(rec, margin + 40, currentY + 20, contentWidth - 60, 12, darkGray);
+                    doc.text(`Q${index + 1}:`, margin + 20, currentY + 25);
+                    
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(13);
+                    doc.setFont(undefined, 'normal');
+                    currentY = addWrappedText(question.question, margin + 60, currentY + 25, contentWidth - 80, 13, darkGray);
                     currentY += 15;
-                });
-
-                // NEXT STEPS SECTION
-                checkPageBreak(120);
-                doc.setFillColor(...lightPurple);
-                doc.rect(margin, currentY, contentWidth, 100, 'F');
-
-                doc.setTextColor(...brandPurple);
-                doc.setFontSize(18);
-                doc.setFont(undefined, 'bold');
-                doc.text('Next Steps', margin + 20, currentY + 30);
-
-                const nextSteps = [
-                    'Book a free demo at https://www.winningtemp.com/book-a-demo',
-                    'Discuss your specific challenges with our engagement experts',
-                    'Create a customized implementation plan for your organization',
-                    'Start measuring engagement systematically within 30 days'
-                ];
-
-                nextSteps.forEach((step, index) => {
+                    
+                    // Answer section
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(13);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Your Answer:', margin + 20, currentY + 20);
+                    
+                    const answer = answers[index] || 'Not answered';
+                    const answerText = question.options.find(opt => opt.value === answer)?.text || answer;
+                    
+                    doc.setTextColor(...green);
+                    doc.setFontSize(13);
+                    doc.setFont(undefined, 'bold');
+                    doc.text(`(${answer}) ${answerText}`, margin + 120, currentY + 20);
+                    currentY += 30;
+                    
+                    // Why this matters section
+                    doc.setTextColor(...brandPurple);
+                    doc.setFontSize(13);
+                    doc.setFont(undefined, 'bold');
+                    doc.text('Why This Matters:', margin + 20, currentY + 20);
+                    
                     doc.setTextColor(...darkGray);
                     doc.setFontSize(12);
                     doc.setFont(undefined, 'normal');
-                    doc.text(`${index + 1}. ${step}`, margin + 20, currentY + 55 + (index * 15));
+                    currentY = addWrappedText(question.why, margin + 20, currentY + 40, contentWidth - 40, 12, darkGray);
+                    currentY += 25;
+                });
+
+                // PERSONALIZED RECOMMENDATIONS SECTION
+                checkPageBreak(100);
+                
+                // Purple banner
+                doc.setFillColor(...brandPurple);
+                doc.rect(margin, currentY, contentWidth, 35, 'F');
+                
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(18);
+                doc.setFont(undefined, 'bold');
+                doc.text('Personalized Recommendations', margin + 20, currentY + 23);
+                
+                currentY += 50;
+
+                // Recommendations based on maturity level
+                const recommendations = [
+                    "• AI-Powered Predictions - Stay ahead with machine learning insights",
+                    "• Advanced Benchmarking - Compare against industry leaders", 
+                    "• Executive Training Programs - Keep leadership at the forefront",
+                    "• Custom Integration & API - Connect with existing BI systems"
+                ];
+
+                recommendations.forEach(rec => {
+                    checkPageBreak(30);
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(13);
+                    doc.setFont(undefined, 'normal');
+                    currentY = addWrappedText(rec, margin + 20, currentY, contentWidth - 40, 13, darkGray);
+                    currentY += 10;
+                });
+
+                // NEXT STEPS SECTION
+                checkPageBreak(80);
+                
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(20);
+                doc.setFont(undefined, 'bold');
+                doc.text('Next Steps', margin, currentY);
+                currentY += 30;
+
+                const nextSteps = [
+                    "1. Book a free demo at https://www.winningtemp.com/book-a-demo",
+                    "2. Discuss your specific challenges with our engagement experts",
+                    "3. Create a customized implementation plan for your organization",
+                    "4. Start measuring engagement systematically within 30 days"
+                ];
+
+                nextSteps.forEach(step => {
+                    checkPageBreak(30);
+                    doc.setTextColor(...darkGray);
+                    doc.setFontSize(13);
+                    doc.setFont(undefined, 'normal');
+                    currentY = addWrappedText(step, margin + 20, currentY, contentWidth - 40, 13, darkGray);
+                    currentY += 10;
                 });
 
                 // FOOTER
-                checkPageBreak(60);
+                checkPageBreak(40);
                 currentY = pageHeight - 60;
+                
+                // Footer line
                 doc.setDrawColor(...mediumGray);
-                doc.setLineWidth(1);
-                doc.line(margin, currentY - 20, pageWidth - margin, currentY - 20);
+                doc.setLineWidth(2);
+                doc.line(margin, currentY, pageWidth - margin, currentY);
                 
                 doc.setTextColor(...mediumGray);
-                doc.setFontSize(10);
+                doc.setFontSize(11);
                 doc.setFont(undefined, 'normal');
-                doc.text('© ' + new Date().getFullYear() + ' Winningtemp | The Science of Employee Engagement', margin, currentY);
+                doc.text('© ' + new Date().getFullYear() + ' Winningtemp | The Science of Employee Engagement', margin, currentY + 25);
 
                 // Generate and download the PDF
-                const fileName = `Winningtemp_Engagement_Assessment_${resultsData.resultType.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
+                const fileName = `Winningtemp_Engagement_Maturity_Report_${maturity.level.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
                 doc.save(fileName);
 
             } catch (error) {
