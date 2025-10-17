@@ -10,6 +10,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NF42R37');</script>
+    <!-- End Google Tag Manager -->
 
     <style>
         body {
@@ -143,6 +151,11 @@
 </head>
 
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF42R37"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    
     <!-- Quiz Modal -->
     <div id="quiz-modal" class="quiz-modal active">
         <div class="modal-content">
@@ -152,6 +165,119 @@
 
     <script>
         console.log('Quiz script loading...');
+        
+        // Google Analytics 4 and GTM Tracking Functions
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        
+        // Track quiz events
+        function trackQuizEvent(eventName, parameters = {}) {
+            // GTM DataLayer push
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': eventName,
+                'quiz_type': 'employee_engagement_assessment',
+                'page_url': window.location.href,
+                'timestamp': new Date().toISOString(),
+                ...parameters
+            });
+            
+            // GA4 gtag (if available)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    'custom_parameter_1': 'employee_engagement_assessment',
+                    'custom_parameter_2': window.location.href,
+                    ...parameters
+                });
+            }
+            
+            console.log('Tracked event:', eventName, parameters);
+        }
+        
+        // Track quiz start
+        function trackQuizStart() {
+            trackQuizEvent('quiz_start', {
+                'quiz_name': 'Employee Engagement Assessment',
+                'quiz_version': '1.0'
+            });
+        }
+        
+        // Track question answered
+        function trackQuestionAnswered(questionNumber, answer, questionText) {
+            trackQuizEvent('quiz_question_answered', {
+                'question_number': questionNumber,
+                'question_text': questionText,
+                'answer_value': answer,
+                'answer_label': getAnswerLabel(answer)
+            });
+        }
+        
+        // Track quiz completion
+        function trackQuizCompletion(results) {
+            trackQuizEvent('quiz_completed', {
+                'quiz_score': results.aCount,
+                'total_questions': results.totalQuestions,
+                'result_type': results.resultType,
+                'completion_time': Date.now() - quizStartTime,
+                'answers': results.breakdown.map(q => ({
+                    question: q.question,
+                    answer: q.selected,
+                    score: q.score
+                }))
+            });
+        }
+        
+        // Track PDF download
+        function trackPDFDownload() {
+            trackQuizEvent('pdf_download', {
+                'download_type': 'engagement_assessment_report',
+                'file_format': 'pdf'
+            });
+        }
+        
+        // Track workbook download
+        function trackWorkbookDownload() {
+            trackQuizEvent('workbook_download', {
+                'download_type': 'step_by_step_workbook',
+                'file_format': 'pdf'
+            });
+        }
+        
+        // Track form submission
+        function trackFormSubmission(email, firstName, lastName, marketingConsent) {
+            trackQuizEvent('form_submission', {
+                'form_type': 'quiz_results_request',
+                'has_email': !!email,
+                'has_first_name': !!firstName,
+                'has_last_name': !!lastName,
+                'marketing_consent': marketingConsent,
+                'lead_quality': 'high' // Quiz completers are high-quality leads
+            });
+        }
+        
+        // Helper function to get answer labels
+        function getAnswerLabel(answer) {
+            const labels = {
+                'A': 'Advanced',
+                'B': 'Developing', 
+                'C': 'Basic',
+                'D': 'Minimal'
+            };
+            return labels[answer] || answer;
+        }
+        
+        // Track page view
+        function trackPageView() {
+            trackQuizEvent('page_view', {
+                'page_title': 'Employee Engagement Assessment',
+                'page_location': window.location.href
+            });
+        }
+        
+        // Initialize tracking
+        let quizStartTime = Date.now();
+        trackPageView();
 
         // Quiz data
         const questions = [{
@@ -617,6 +743,7 @@
 
         function startQuestions() {
             currentQuestion = 0;
+            trackQuizStart();
             renderQuestion();
         }
 
@@ -741,6 +868,11 @@
 
         function selectAnswer(value) {
             answers[currentQuestion] = value;
+            
+            // Track question answered
+            const question = questions[currentQuestion];
+            trackQuestionAnswered(currentQuestion + 1, value, question.question);
+            
             currentQuestion++;
             setTimeout(renderQuestion, 300);
         }
@@ -836,6 +968,9 @@
 
         function renderResults() {
             const results = generateResultsData();
+            
+            // Track quiz completion
+            trackQuizCompletion(results);
 
             quizRoot.innerHTML = `
                 <div class="results-container" style="max-width: 800px; margin: 0 auto; padding: 20px; text-align: center;">
@@ -891,6 +1026,9 @@
             if (!checkDownloadRequirements()) {
                 return;
             }
+            
+            // Track PDF download
+            trackPDFDownload();
             
             console.log('Starting PDF generation...');
             const resultsData = generateResultsData();
@@ -1426,6 +1564,9 @@
             if (!checkDownloadRequirements()) {
                 return;
             }
+            
+            // Track workbook download
+            trackWorkbookDownload();
             // Open the workbook PDF in a new tab
             window.open('https://5566319.fs1.hubspotusercontent-eu1.net/hubfs/5566319/Guides/English%20guides/Workbook%20-%20Building%20a%20business%20for%20an%20employee%20engagement%20platform.pdf', '_blank');
         }
@@ -1492,6 +1633,9 @@
                 alert('Please check the marketing consent box to proceed');
                 return;
             }
+            
+            // Track form submission
+            trackFormSubmission(email, firstName, lastName, marketingConsent);
             
             // Submit directly to HubSpot using their API
             submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
