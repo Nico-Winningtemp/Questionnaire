@@ -66,22 +66,22 @@
             position: relative;
             padding: 20px;
         }
-        
+
         /* Show scrollbar */
         .modal-content::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         .modal-content::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.1);
             border-radius: 4px;
         }
-        
+
         .modal-content::-webkit-scrollbar-thumb {
             background: #7f2696;
             border-radius: 4px;
         }
-        
+
         .modal-content::-webkit-scrollbar-thumb:hover {
             background: #6b2280;
         }
@@ -436,6 +436,8 @@
         // DOM Elements
         const modal = document.getElementById('quiz-modal');
         const quizRoot = document.getElementById('quiz-root');
+        
+        
 
         // Smiley SVG functions for each option
         function getSmileyIcon(option) {
@@ -477,41 +479,41 @@
         function renderIntro() {
             quizRoot.innerHTML = `
         <div class="intro-container" style="text-align: center; max-width: 500px; margin: 0 auto; padding: 0 10px; display: flex; flex-direction: column; align-items: center;">
-          <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 78px; width: auto; margin-bottom: 15px; display: block;">
+          <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 120px; width: auto; margin-bottom: 25px; display: block; filter: drop-shadow(0 4px 8px rgba(127, 38, 150, 0.2));">
           
           <h1 class="intro-title" style="font-size: 2.2rem; font-weight: 500; color: #100014; margin: 0 0 10px 0; line-height: 120%; font-family: 'Poppins', sans-serif !important;">
             Let's Measure Your Engagement Maturity
           </h1>
           
-          <p class="intro-description" style="font-size: 14px; color: #18181B; margin-bottom: 20px; line-height: 1.4;">
+          <p class="intro-description" style="font-size: 14px; color: #18181B; margin-bottom: 20px; line-height: 1.4; font-family: 'Poppins', sans-serif;">
             This assessment will help you understand where your organization stands and identify opportunities for improvement.
           </p>
           
           <div class="how-it-works" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 12px; padding: 15px; margin-bottom: 20px; text-align: left;">
-            <h3 class="how-title" style="color: #7f2696; margin-bottom: 10px; font-size: 16px; text-align: center;">How This Works</h3>
-            <p class="how-description" style="color: #1e293b; margin-bottom: 10px; font-size: 12px; text-align: center;">You'll answer questions about your organization's engagement practices. Each has four options:</p>
+            <h3 class="how-title" style="color: #7f2696; margin-bottom: 10px; font-size: 16px; text-align: center; font-family: 'Poppins', sans-serif;">How This Works</h3>
+            <p class="how-description" style="color: #1e293b; margin-bottom: 10px; font-size: 12px; text-align: center; font-family: 'Poppins', sans-serif;">You'll answer questions about your organization's engagement practices. Each has four options:</p>
             
             <div class="options-grid" style="display: grid; gap: 6px; margin-bottom: 10px;">
               <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(5, 150, 105, 0.05); border-radius: 4px;">
                 <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('A')}</div>
-                <div class="option-text" style="font-size: 11px;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
+                <div class="option-text" style="font-size: 11px; font-family: 'Poppins', sans-serif;"><strong>Advanced:</strong> Sophisticated, data-driven practices</div>
               </div>
               <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(2, 132, 199, 0.05); border-radius: 4px;">
                 <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('B')}</div>
-                <div class="option-text" style="font-size: 11px;"><strong>Developing:</strong> Some systems in place</div>
+                <div class="option-text" style="font-size: 11px; font-family: 'Poppins', sans-serif;"><strong>Developing:</strong> Some systems in place</div>
               </div>
               <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(234, 88, 12, 0.05); border-radius: 4px;">
                 <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('C')}</div>
-                <div class="option-text" style="font-size: 11px;"><strong>Basic:</strong> Limited measurement and insights</div>
+                <div class="option-text" style="font-size: 11px; font-family: 'Poppins', sans-serif;"><strong>Basic:</strong> Limited measurement and insights</div>
               </div>
               <div class="option-item" style="display: flex; align-items: center; padding: 8px; background: rgba(220, 38, 38, 0.05); border-radius: 4px;">
                 <div class="option-circle" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">${getSmileyIcon('D')}</div>
-                <div class="option-text" style="font-size: 11px;"><strong>Minimal:</strong> Little to no systematic approach</div>
+                <div class="option-text" style="font-size: 11px; font-family: 'Poppins', sans-serif;"><strong>Minimal:</strong> Little to no systematic approach</div>
               </div>
             </div>
           </div>
           
-          <button onclick="startQuestions()" class="start-button" style="background: #7f2696; color: white; border: none; border-radius: 50px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease;">
+          <button onclick="startQuestions()" class="start-button" style="background: #7f2696; color: white; border: none; border-radius: 50px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease; font-family: 'Poppins', sans-serif;">
             Let's Get Started →
           </button>
         </div>
@@ -641,7 +643,7 @@
           </div>
           
           <div class="question-card" style="background: white; border-radius: 16px; padding: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 1px solid rgba(127, 38, 150, 0.1);">
-            <h2 class="question-title" style="font-size: 18px; font-weight: 600; color: #1e293b; margin: 0 0 15px 0; line-height: 1.3;">${question.question}</h2>
+            <h2 class="question-title" style="font-size: 18px; font-weight: 600; color: #1e293b; margin: 0 0 15px 0; line-height: 1.3; font-family: 'Poppins', sans-serif;">${question.question}</h2>
             
             <div style="margin-bottom: 15px;">
               ${question.options.map((option, index) => `
@@ -649,7 +651,7 @@
                   <div class="option-circle" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; margin-right: 10px; flex-shrink: 0;">
                     ${getSmileyIcon(option.value)}
                   </div>
-                  <span class="option-text" style="font-size: 13px; color: #1e293b; line-height: 1.4; flex: 1;">${option.text}</span>
+                  <span class="option-text" style="font-size: 13px; color: #1e293b; line-height: 1.4; flex: 1; font-family: 'Poppins', sans-serif;">${option.text}</span>
                 </button>
               `).join('')}
             </div>
@@ -657,14 +659,14 @@
             <div class="why-matters" style="background: rgba(127, 38, 150, 0.05); border: 1px solid rgba(127, 38, 150, 0.1); border-radius: 8px; padding: 12px;">
               <div style="display: flex; align-items: center; margin-bottom: 6px;">
                 <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/pinLogo.svg" style="width: 14px; height: 14px; margin-right: 5px;" alt="">
-                <div class="why-title" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7f2696;">Why this matters</div>
+                <div class="why-title" style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #7f2696; font-family: 'Poppins', sans-serif;">Why this matters</div>
               </div>
-              <p class="why-text" style="font-size: 12px; color: #1e293b; margin: 0; line-height: 1.3;">${question.why}</p>
+              <p class="why-text" style="font-size: 12px; color: #1e293b; margin: 0; line-height: 1.3; font-family: 'Poppins', sans-serif;">${question.why}</p>
             </div>
           </div>
           
           <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding: 0 10px;">
-            <button onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''} class="prev-btn" style="background: transparent; color: #1e293b; border: 2px solid rgba(127, 38, 150, 0.2); border-radius: 50px; padding: 10px 20px; font-weight: 500; cursor: pointer; font-size: 14px;">
+            <button onclick="previousQuestion()" ${currentQuestion === 0 ? 'disabled style="opacity: 0.4; cursor: not-allowed;"' : ''} class="prev-btn" style="background: transparent; color: #1e293b; border: 2px solid rgba(127, 38, 150, 0.2); border-radius: 50px; padding: 10px 20px; font-weight: 500; cursor: pointer; font-size: 14px; font-family: 'Poppins', sans-serif;">
               ← Previous
             </button>
           </div>
@@ -802,7 +804,7 @@
         function emailResults() {
             const email = document.getElementById('results-email').value;
             const marketingConsent = document.getElementById('marketing-consent').checked;
-            
+
             if (!email) {
                 alert('Please enter your email address');
                 return;
@@ -832,433 +834,760 @@
             }
         }
 
+        function renderResults() {
+            const results = generateResultsData();
+
+            quizRoot.innerHTML = `
+                <div class="results-container" style="max-width: 800px; margin: 0 auto; padding: 20px; text-align: center;">
+                    <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 50px; margin-bottom: 15px;">
+                    
+                    <h1 style="font-size: 2rem; font-weight: 700; color: #7f2696; margin-bottom: 10px;">Your Engagement Maturity Result</h1>
+                    <p style="font-size: 16px; color: #4b5563; margin-bottom: 30px;">See your score and detailed breakdown below.</p>
+
+                    <div class="result-box" style="padding: 30px; border-radius: 12px; background: ${results.resultColor}; color: white; margin-bottom: 30px; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+                        <div style="font-size: 3rem; font-weight: 800; line-height: 1;">${results.aCount}</div>
+                        <div style="font-size: 1.1rem; font-weight: 500; margin-bottom: 15px;">'Advanced' Answers out of ${results.totalQuestions}</div>
+                        <h2 style="font-size: 2.2rem; font-weight: 700; margin: 0 0 10px 0;">${results.resultType}</h2>
+                        <p style="font-size: 16px; font-weight: 400; max-width: 600px; margin: 0 auto;">${results.resultDescription}</p>
+                    </div>
+
+                    <div class="breakdown-section" style="text-align: left; margin-top: 40px;">
+                        <h3 style="font-size: 1.8rem; color: #1e293b; border-bottom: 2px solid #f3f4f6; padding-bottom: 10px; margin-bottom: 20px;">Detailed Analysis</h3>
+                        
+                        ${results.breakdown.map((item, index) => `
+                            <div class="question-result-item" style="margin-bottom: 30px; padding: 15px; border-left: 5px solid #7f2696; background: #f9fafb; border-radius: 8px;">
+                                <p style="font-weight: 600; color: #7f2696; margin-bottom: 5px;">Question ${index + 1}:</p>
+                                <p style="font-weight: 500; color: #1e293b; margin-bottom: 10px;">${item.question}</p>
+                                <div style="display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 10px;">
+                                    <span style="font-weight: 600; color: #4b5563;">Your Answer:</span>
+                                    <span style="color: #4b5563;">${item.selected} (${item.score})</span>
+                                </div>
+                                <div style="font-size: 14px; color: #4b5563; border-top: 1px dashed #e5e7eb; padding-top: 10px;">
+                                    <span style="font-weight: 600; color: #1e293b;">Why it matters:</span> ${item.why}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div id="main-download-section" style="margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 20px; display: none; flex-direction: column; align-items: center; gap: 15px;">
+                        <p style="color: #4b5563; font-size: 14px; margin: 0; text-align: center;">Please provide your email and consent to access your downloads</p>
+                        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                            <button onclick="downloadPDF()" class="download-btn" style="background: #7f2696; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease; display: inline-flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif;" onmouseover="this.style.background='#6b2280'" onmouseout="this.style.background='#7f2696'">
+                                Download PDF Report
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            </button>
+                            <button onclick="downloadWorkbook()" class="workbook-btn" style="background: #059669; color: white; border: none; border-radius: 8px; padding: 12px 24px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.3s ease; display: inline-flex; align-items: center; gap: 8px; font-family: 'Poppins', sans-serif;" onmouseover="this.style.background='#047857'" onmouseout="this.style.background='#059669'">
+                                Download Step-by-Step Workbook
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-book"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
         function downloadPDF() {
+            // Check if user has provided email and consent
+            if (!checkDownloadRequirements()) {
+                return;
+            }
+            
+            console.log('Starting PDF generation...');
             const resultsData = generateResultsData();
+            console.log('Results data generated:', resultsData);
 
             try {
+                // Check if jsPDF is available
+                console.log('Checking jsPDF availability...');
+                console.log('window.jspdf:', typeof window.jspdf);
+                console.log('window.jsPDF:', typeof window.jsPDF);
+                
+                if (typeof window.jspdf === 'undefined') {
+                    console.error('jsPDF library not found on window.jspdf');
+                    throw new Error('jsPDF library not loaded. Please refresh the page and try again.');
+                }
+                
                 const { jsPDF } = window.jspdf;
+                console.log('jsPDF constructor:', typeof jsPDF);
                 const doc = new jsPDF('p', 'pt', 'a4');
+                console.log('PDF document created successfully');
 
-                // Colors matching winningtemp.com
-                const brandPurple = [127, 38, 150];
+                // Winningtemp brand colors (RGB)
+                const brandPurple = [128, 38, 150];
                 const lightPurple = [248, 244, 255];
-                const darkGray = [16, 0, 20]; // #100014
+                const darkGray = [30, 41, 59];
                 const mediumGray = [100, 116, 139];
-                const lightGray = [248, 250, 252];
-                const white = [255, 255, 255];
-                const green = [69, 203, 28];
+                const accentGreen = [5, 150, 105];
+                const accentBlue = [2, 132, 199];
+                const accentOrange = [234, 88, 12];
+                const accentRed = [220, 38, 38];
 
                 let currentY = 40;
                 const pageWidth = doc.internal.pageSize.getWidth();
                 const pageHeight = doc.internal.pageSize.getHeight();
-                const margin = 50;
+                const margin = 45;
                 const contentWidth = pageWidth - (2 * margin);
 
-                // Helper function to add new page if needed
+                // Helper: Check page break
                 function checkPageBreak(neededHeight = 60) {
-                    if (currentY + neededHeight > pageHeight - 50) {
+                    if (currentY + neededHeight > pageHeight - 60) {
+                        addFooter();
                         doc.addPage();
-                        currentY = 50;
+                        currentY = 40;
                         return true;
                     }
                     return false;
                 }
 
-                // Helper function to add text with word wrap
-                function addWrappedText(text, x, y, maxWidth, fontSize = 12, color = darkGray, fontStyle = 'normal') {
+                // Helper: Add text with word wrap
+                function addWrappedText(text, x, y, maxWidth, fontSize = 11, color = darkGray, lineHeight = 1.4) {
                     doc.setFontSize(fontSize);
-                    doc.setFont(undefined, fontStyle);
                     doc.setTextColor(...color);
+                    // jspdf splitTextToSize automatically handles lineHeight, but we multiply by fontSize and a multiplier for spacing
                     const lines = doc.splitTextToSize(text, maxWidth);
-                    doc.text(lines, x, y);
-                    return y + (lines.length * fontSize * 1.4);
+                    doc.text(lines, x, y, {
+                        lineHeightFactor: lineHeight
+                    });
+                    // Calculate the new Y position
+                    return y + (lines.length * fontSize * lineHeight);
                 }
 
-                // Helper function to add rounded rectangle
-                function addRoundedRect(x, y, width, height, fillColor, textColor, text, fontSize = 12, fontStyle = 'normal') {
-                    doc.setFillColor(...fillColor);
-                    doc.roundedRect(x, y, width, height, 8, 8, 'F');
-                    doc.setTextColor(...textColor);
-                    doc.setFontSize(fontSize);
-                    doc.setFont(undefined, fontStyle);
-                    doc.text(text, x + width/2, y + height/2 + fontSize/3, { align: 'center' });
-                }
-
-                // Get maturity level and color based on score
-                function getMaturityLevel(aCount) {
-                    const percentage = Math.round((aCount / 12) * 100);
-                    let level, color, summary, actionItems = [];
-                    
-                    if (aCount >= 9) { // 75% - 100%
-                        level = "Advanced";
-                        color = green;
-                        summary = `Your organization is an Engagement Leader (${percentage}% Maturity). You utilize continuous feedback, empower managers with specific, AI-driven action plans, and actively link engagement to core business KPIs. Your focus should now be on optimizing predictive analytics and scaling your world-class practices across all departments.`;
-                        actionItems = [
-                            "Optimize your current AI-driven action plans for even greater efficiency and measurable ROI.",
-                            "Focus on embedding Psychological Safety training at all leadership levels to maintain a high-trust, innovative culture.",
-                            "Use predictive analytics to preemptively address micro-risks in high-performing teams before they escalate into turnover.",
-                            "Explore advanced integration of engagement data with broader business intelligence systems."
-                        ];
-                    } else if (aCount >= 5) { // 42% - 75%
-                        level = "Developing";
-                        color = [179, 232, 24]; // Light Green/Yellow
-                        summary = `You are at a Developing level (${percentage}% Maturity). You have key systems in place, such as periodic surveys, but you are likely spending too much HR time on manual analysis. This prevents a shift from reactive measurement to continuous, proactive action, limiting manager empowerment.`;
-                        actionItems = [
-                            "Implement a continuous, short-pulse survey system to capture real-time feedback and increase speed.",
-                            "Adopt a platform that delivers managers AI-powered, research-based actions to take immediately on their results.",
-                            "Work to formally track and communicate the clear financial linkage between engagement data and business outcomes.",
-                            "Reduce HR administrative time by automating data collection and reporting."
-                        ];
-                    } else if (aCount >= 3) { // 25% - 42%
-                        level = "Basic";
-                        color = [255, 160, 0]; // Orange
-                        summary = `Your organization is at a Basic maturity level (${percentage}% Maturity). You are aware of the need for engagement but are likely relying on infrequent, high-effort surveys that result in low response rates. This provides lagging indicators, making swift intervention nearly impossible.`;
-                        actionItems = [
-                            "Transition to shorter, more frequent 'pulse' surveys to improve response rates and gather timely data.",
-                            "Invest in basic training for managers on interpreting engagement data and empower them to own the follow-through.",
-                            "Centralize feedback channels to ensure anonymous input is safely collected and acted upon, building employee trust.",
-                            "Establish a clear, single source of truth for all employee feedback."
-                        ];
-                    } else { // Below 25%
-                        level = "Minimal";
-                        color = [255, 92, 97]; // Red
-                        summary = `You have a Minimal engagement strategy (${percentage}% Maturity). Feedback mechanisms are likely non-existent or purely annual, leaving leadership consistently surprised by resignations. This exposes the company to significant hidden costs of turnover and low productivity.`;
-                        actionItems = [
-                            "Start with a small, simple, and anonymous engagement survey to establish a baseline and open a communication channel.",
-                            "Educate leadership on the 'Real Cost of Disengaged Teams' and the financial benefits of preventative action.",
-                            "Prioritize building psychological safety by actively communicating how feedback will be used.",
-                            "Define clear ownership for the engagement initiative within the leadership team."
-                        ];
-                    }
-
-                    return { level, percentage, color, summary, actionItems };
-                }
-
-                const maturity = getMaturityLevel(resultsData.aCount);
-
-                // HEADER SECTION
-                // Header with logo and title
-                doc.setTextColor(...brandPurple);
-                doc.setFontSize(22);
-                doc.setFont(undefined, 'bold');
-                doc.text('Winningtemp', margin, 70);
-
-                // Main Title
-                doc.setTextColor(...darkGray);
-                doc.setFontSize(36);
-                doc.setFont(undefined, 'bold');
-                doc.text('Engagement Maturity Report', margin, 105);
-
-                // Divider line
-                doc.setDrawColor(...mediumGray);
-                doc.setLineWidth(2);
-                doc.line(margin, 120, pageWidth - margin, 120);
-
-                currentY = 140;
-
-                // MAIN CONTENT SECTION
-                checkPageBreak(200);
-                
-                // Maturity Level Card - Clean white box with subtle border
-                doc.setFillColor(...white);
-                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'F');
-                doc.setDrawColor(220, 220, 220);
-                doc.setLineWidth(2);
-                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'S');
-
-                // Card title
-                doc.setTextColor(...darkGray);
-                doc.setFontSize(26);
-                doc.setFont(undefined, 'bold');
-                doc.text('Your Current Maturity Level', margin + 40, currentY + 40);
-
-                // Maturity level text - properly aligned
-                doc.setFontSize(18);
-                doc.setFont(undefined, 'normal');
-                doc.setTextColor(...darkGray);
-                doc.text('Your organization is operating at a', margin + 40, currentY + 75);
-                
-                doc.setTextColor(...maturity.color);
-                doc.setFontSize(26);
-                doc.setFont(undefined, 'bold');
-                doc.text(maturity.level, margin + 40, currentY + 105);
-                
-                doc.setTextColor(...darkGray);
-                doc.setFontSize(18);
-                doc.setFont(undefined, 'normal');
-                doc.text('level of engagement maturity.', margin + 40, currentY + 105);
-
-                // Progress bar
-                const barWidth = 350;
-                const barHeight = 12;
-                const barX = margin + 40;
-                const barY = currentY + 125;
-                
-                doc.setFillColor(240, 240, 240);
-                doc.roundedRect(barX, barY, barWidth, barHeight, 6, 6, 'F');
-                
-                doc.setFillColor(...maturity.color);
-                doc.roundedRect(barX, barY, (barWidth * maturity.percentage) / 100, barHeight, 6, 6, 'F');
-                
-                doc.setTextColor(...maturity.color);
-                doc.setFontSize(22);
-                doc.setFont(undefined, 'bold');
-                doc.text(maturity.percentage + '%', barX + barWidth + 25, barY + 8);
-
-                // Summary text
-                currentY = addWrappedText(maturity.summary, margin + 40, currentY + 155, contentWidth - 80, 14, darkGray);
-                currentY += 25;
-
-                // Score info
-                doc.setTextColor(...mediumGray);
-                doc.setFontSize(13);
-                doc.setFont(undefined, 'bold');
-                doc.text('Total Assessment Score: ' + resultsData.aCount + ' out of ' + resultsData.totalQuestions, margin + 40, currentY + 5);
-
-                currentY += 50;
-
-                // ACTION ROADMAP SECTION
-                checkPageBreak(200);
-                
-                // Section title
-                doc.setTextColor(...darkGray);
-                doc.setFontSize(22);
-                doc.setFont(undefined, 'bold');
-                doc.text('Your Actionable Roadmap to Advance', margin, currentY);
-                currentY += 30;
-
-                // Subtitle
-                doc.setTextColor(...mediumGray);
-                doc.setFontSize(14);
-                doc.setFont(undefined, 'normal');
-                currentY = addWrappedText('Based on your assessment, focus on these critical, data-backed steps to quickly improve your maturity and drive measurable business impact.', margin, currentY, contentWidth, 14, mediumGray);
-                currentY += 25;
-
-                // Action items with purple circles and connecting lines
-                maturity.actionItems.forEach((item, index) => {
-                    checkPageBreak(90);
-                    
-                    // Purple circle with number
+                // Helper: Add footer to each page
+                function addFooter() {
+                    const footerY = pageHeight - 40;
                     doc.setFillColor(...brandPurple);
-                    doc.circle(margin + 30, currentY + 25, 22, 'F');
+                    doc.rect(0, footerY, pageWidth, 40, 'F');
                     doc.setTextColor(255, 255, 255);
-                    doc.setFontSize(16);
-                    doc.setFont(undefined, 'bold');
-                    doc.text((index + 1).toString(), margin + 30, currentY + 32, { align: 'center' });
+                    doc.setFontSize(9);
+                    doc.setFont(undefined, 'normal'); // Ensure normal font for footer
+                    doc.text('© ' + new Date().getFullYear() + ' Winningtemp', margin, footerY + 20);
+                    doc.text('winningtemp.com', pageWidth - margin, footerY + 20, {
+                        align: 'right'
+                    });
+                }
 
-                    // Vertical line (except for last item)
-                    if (index < maturity.actionItems.length - 1) {
-                        doc.setDrawColor(...brandPurple);
-                        doc.setLineWidth(4);
-                        doc.line(margin + 30, currentY + 47, margin + 30, currentY + 70);
-                    }
+                // ========== COVER PAGE ==========
+                doc.setFillColor(...brandPurple);
+                doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-                    // Action item text
-                    doc.setTextColor(...darkGray);
-                    doc.setFontSize(14);
-                    doc.setFont(undefined, 'normal');
-                    currentY = addWrappedText(item, margin + 70, currentY + 20, contentWidth - 100, 14, darkGray);
-                    currentY += 25;
+                // Add Winningtemp logo (as text since we can't embed images easily)
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(24);
+                doc.setFont(undefined, 'bold');
+                doc.text('Winningtemp', pageWidth / 2, 120, {
+                    align: 'center'
                 });
 
-                currentY += 30;
-
-                // CALL TO ACTION SECTION
-                checkPageBreak(120);
-                
-                // CTA Card with purple border
-                doc.setFillColor(...white);
-                doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'F');
-                doc.setDrawColor(...brandPurple);
-                doc.setLineWidth(3);
-                doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'S');
-
-                // CTA Title
-                doc.setTextColor(...darkGray);
-                doc.setFontSize(22);
+                doc.setFontSize(38);
                 doc.setFont(undefined, 'bold');
-                doc.text('Ready to Build a Better Workplace?', margin + 30, currentY + 35);
+                doc.text('Employee Engagement', pageWidth / 2, 200, {
+                    align: 'center'
+                });
+                doc.text('Assessment Report', pageWidth / 2, 245, {
+                    align: 'center'
+                });
 
-                // CTA Description
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'normal');
+                doc.text(new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                }), pageWidth / 2, 300, {
+                    align: 'center'
+                });
+
+                // Result badge
+                doc.setFillColor(255, 255, 255);
+                // Use regular rect for compatibility
+                doc.rect(pageWidth / 2 - 200, 360, 400, 80, 'F');
+                doc.setTextColor(...brandPurple);
+                doc.setFontSize(24);
+                doc.setFont(undefined, 'bold');
+                doc.text(resultsData.resultType, pageWidth / 2, 395, {
+                    align: 'center'
+                });
                 doc.setFontSize(14);
                 doc.setFont(undefined, 'normal');
-                doc.setTextColor(...mediumGray);
-                currentY = addWrappedText(`Let's walk through your personalized ${maturity.level} report and map out a tailored strategy to reach the Advanced level with Winningtemp.`, margin + 30, currentY + 60, contentWidth - 60, 14, mediumGray);
-                currentY += 25;
-
-                // CTA Button (simulated)
-                doc.setFillColor(...brandPurple);
-                doc.roundedRect(margin + 30, currentY + 5, 220, 35, 15, 15, 'F');
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(13);
-                doc.setFont(undefined, 'bold');
-                doc.text('Book Your Free Consultation →', margin + 140, currentY + 25, { align: 'center' });
-
-                currentY += 60;
-
-                // DETAILED QUESTION ANALYSIS SECTION
-                checkPageBreak(100);
-                
-                // Purple banner
-                doc.setFillColor(...brandPurple);
-                doc.rect(margin, currentY, contentWidth, 35, 'F');
-                
-                doc.setTextColor(255, 255, 255);
-                doc.setFontSize(18);
-                doc.setFont(undefined, 'bold');
-                doc.text('Detailed Question Analysis', margin + 20, currentY + 23);
-                
-                currentY += 50;
-
-                // Questions and answers with proper formatting
-                questions.forEach((question, index) => {
-                    checkPageBreak(120);
-                    
-                    // Question number and text with background
-                    doc.setFillColor(248, 250, 252);
-                    doc.rect(margin, currentY, contentWidth, 40, 'F');
-                    
-                    doc.setTextColor(...brandPurple);
-                    doc.setFontSize(14);
-                    doc.setFont(undefined, 'bold');
-                    doc.text(`Q${index + 1}:`, margin + 20, currentY + 25);
-                    
-                    doc.setTextColor(...darkGray);
-                    doc.setFontSize(13);
-                    doc.setFont(undefined, 'normal');
-                    currentY = addWrappedText(question.question, margin + 60, currentY + 25, contentWidth - 80, 13, darkGray);
-                    currentY += 15;
-                    
-                    // Answer section
-                    doc.setTextColor(...darkGray);
-                    doc.setFontSize(13);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Your Answer:', margin + 20, currentY + 20);
-                    
-                    const answer = answers[index] || 'Not answered';
-                    const answerText = question.options.find(opt => opt.value === answer)?.text || answer;
-                    
-                    doc.setTextColor(...green);
-                    doc.setFontSize(13);
-                    doc.setFont(undefined, 'bold');
-                    doc.text(`(${answer}) ${answerText}`, margin + 120, currentY + 20);
-                    currentY += 30;
-                    
-                    // Why this matters section
-                    doc.setTextColor(...brandPurple);
-                    doc.setFontSize(13);
-                    doc.setFont(undefined, 'bold');
-                    doc.text('Why This Matters:', margin + 20, currentY + 20);
-                    
-                    doc.setTextColor(...darkGray);
-                    doc.setFontSize(12);
-                    doc.setFont(undefined, 'normal');
-                    currentY = addWrappedText(question.why, margin + 20, currentY + 40, contentWidth - 40, 12, darkGray);
-                    currentY += 25;
+                doc.text(resultsData.aCount + ' out of ' + resultsData.totalQuestions + ' A\'s', pageWidth / 2, 420, {
+                    align: 'center'
                 });
 
-                // PERSONALIZED RECOMMENDATIONS SECTION
-                checkPageBreak(100);
-                
-                // Purple banner
-                doc.setFillColor(...brandPurple);
-                doc.rect(margin, currentY, contentWidth, 35, 'F');
-                
                 doc.setTextColor(255, 255, 255);
-                doc.setFontSize(18);
-                doc.setFont(undefined, 'bold');
-                doc.text('Personalized Recommendations', margin + 20, currentY + 23);
-                
-                currentY += 50;
+                doc.setFontSize(11);
+                doc.text('A comprehensive analysis of your organization\'s', pageWidth / 2, 520, {
+                    align: 'center'
+                });
+                doc.text('employee engagement maturity', pageWidth / 2, 540, {
+                    align: 'center'
+                });
 
-                // Recommendations based on maturity level
-                const recommendations = [
-                    "• AI-Powered Predictions - Stay ahead with machine learning insights",
-                    "• Advanced Benchmarking - Compare against industry leaders", 
-                    "• Executive Training Programs - Keep leadership at the forefront",
-                    "• Custom Integration & API - Connect with existing BI systems"
+                // Next page (Results Overview)
+                doc.addPage();
+                currentY = 40;
+                addFooter(); // Add footer to the new page
+
+                // ========== RESULTS OVERVIEW PAGE ==========
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(20);
+                doc.setTextColor(...darkGray);
+                currentY = addWrappedText('Engagement Maturity Assessment', margin, currentY, contentWidth, 20, darkGray, 1.2);
+                currentY += 15;
+
+                // Title for score
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(14);
+                doc.setTextColor(...mediumGray);
+                currentY = addWrappedText('Your Organization\'s Maturity Level:', margin, currentY, contentWidth, 14, mediumGray, 1.2);
+                currentY += 10;
+
+                // Score block background
+                doc.setFillColor(...lightPurple);
+                doc.rect(margin, currentY, contentWidth, 120, 'F');
+
+                // Result Type (Big, Colored)
+                // Convert hex color to RGB for jsPDF
+                const hexToRgb = (hex) => {
+                    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                    return result ? [
+                        parseInt(result[1], 16),
+                        parseInt(result[2], 16),
+                        parseInt(result[3], 16)
+                    ] : [0, 0, 0];
+                };
+                doc.setTextColor(...hexToRgb(resultsData.resultColor));
+                doc.setFontSize(30);
+                doc.setFont(undefined, 'bold');
+                doc.text(resultsData.resultType, margin + 15, currentY + 35);
+
+                // Description
+                doc.setFontSize(11);
+                doc.setFont(undefined, 'normal');
+                currentY = addWrappedText(resultsData.resultDescription, margin + 15, currentY + 60, contentWidth - 30, 11, darkGray, 1.3);
+
+                // Score breakdown
+                currentY = currentY + 70; // Move Y down past the description box.
+
+                // Bar chart simulation (Simple breakdown list)
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(16);
+                doc.setTextColor(...darkGray);
+                currentY = addWrappedText('Score Breakdown:', margin, currentY, contentWidth, 16, darkGray, 1.2);
+                currentY += 15;
+
+                // Data points for the simple bar chart
+                const scoreData = [{
+                        label: 'Advanced (A)',
+                        count: resultsData.aCount,
+                        color: accentGreen
+                    },
+                    {
+                        label: 'Developing (B)',
+                        count: resultsData.bCount,
+                        color: accentBlue
+                    },
+                    {
+                        label: 'Basic (C)',
+                        count: resultsData.cCount,
+                        color: accentOrange
+                    },
+                    {
+                        label: 'Minimal (D)',
+                        count: resultsData.dCount,
+                        color: accentRed
+                    }
                 ];
 
-                recommendations.forEach(rec => {
-                    checkPageBreak(30);
+                const barHeight = 20;
+                const totalCount = resultsData.totalQuestions;
+                const barWidthMax = contentWidth * 0.7; // Max width for the bar
+
+                scoreData.forEach(item => {
+                    checkPageBreak(barHeight + 10);
+
+                    // Label
+                    doc.setFontSize(11);
+                    doc.setFont(undefined, 'bold');
                     doc.setTextColor(...darkGray);
-                    doc.setFontSize(13);
-                    doc.setFont(undefined, 'normal');
-                    currentY = addWrappedText(rec, margin + 20, currentY, contentWidth - 40, 13, darkGray);
-                    currentY += 10;
+                    doc.text(`${item.label}: ${item.count} out of ${totalCount}`, margin, currentY + 12);
+
+                    // Bar background (to show 100% width)
+                    doc.setFillColor(240, 240, 240);
+                    doc.rect(margin, currentY + 18, contentWidth, barHeight, 'F');
+
+                    // Bar fill
+                    const fillWidth = (item.count / totalCount) * barWidthMax;
+                    doc.setFillColor(...item.color);
+                    doc.rect(margin, currentY + 18, fillWidth, barHeight, 'F');
+
+                    // Percentage text on bar
+                    doc.setFontSize(10);
+                    doc.setFont(undefined, 'bold');
+                    doc.setTextColor(255, 255, 255); // White text
+                    const percentage = ((item.count / totalCount) * 100).toFixed(0) + '%';
+                    doc.text(percentage, margin + fillWidth + 5, currentY + 30); // Place text slightly after the bar end
+
+                    currentY += barHeight + 25;
                 });
 
-                // NEXT STEPS SECTION
-                checkPageBreak(80);
-                
+                // ========== DETAILED BREAKDOWN ==========
+                doc.addPage();
+                currentY = 40;
+                addFooter();
+
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(20);
+                doc.setTextColor(...darkGray);
+                currentY = addWrappedText('Detailed Question Analysis', margin, currentY, contentWidth, 20, darkGray, 1.2);
+                currentY += 20;
+
+                // Helper function to get relevant features for each question
+                function getRelevantFeatures(questionIndex) {
+                    const featureMappings = {
+                        0: { // Survey frequency
+                            features: [
+                                { name: "Pulse Surveys", url: "https://www.winningtemp.com/features#pulse-surveys" },
+                                { name: "Focus Surveys", url: "https://www.winningtemp.com/features#focus-surveys" }
+                            ]
+                        },
+                        1: { // Real-time dashboards
+                            features: [
+                                { name: "Visual Real-time Data", url: "https://www.winningtemp.com/features#visual-real-time-data" },
+                                { name: "Trend Charts", url: "https://www.winningtemp.com/features#trend-charts" }
+                            ]
+                        },
+                        2: { // AI-powered recommendations
+                            features: [
+                                { name: "Predictions", url: "https://www.winningtemp.com/features#predictions" },
+                                { name: "Learning", url: "https://www.winningtemp.com/features#learning" }
+                            ]
+                        },
+                        3: { // Response rates
+                            features: [
+                                { name: "Slack & Teams Integration", url: "https://www.winningtemp.com/features#slack-teams-integration" },
+                                { name: "Mobile App", url: "https://www.winningtemp.com/features#mobile-app" }
+                            ]
+                        },
+                        4: { // Business outcomes connection
+                            features: [
+                                { name: "Winningtemp API", url: "https://www.winningtemp.com/features#winningtemp-api" },
+                                { name: "Engagement Reports", url: "https://www.winningtemp.com/features#engagement-reports" }
+                            ]
+                        },
+                        5: { // Track engagement to KPIs
+                            features: [
+                                { name: "Smart Benchmarking", url: "https://www.winningtemp.com/features#smart-benchmarking" },
+                                { name: "eNPS", url: "https://www.winningtemp.com/features#enps" }
+                            ]
+                        },
+                        6: { // HR automation
+                            features: [
+                                { name: "Integration - Users and Groups", url: "https://www.winningtemp.com/features#integration-users-groups" },
+                                { name: "Onboarding", url: "https://www.winningtemp.com/features#onboarding" }
+                            ]
+                        },
+                        7: { // Granular insights
+                            features: [
+                                { name: "Smart Segments", url: "https://www.winningtemp.com/features#smart-segments" },
+                                { name: "Heatmap Analysis", url: "https://www.winningtemp.com/features#heatmap-analysis" }
+                            ]
+                        },
+                        8: { // Anonymous feedback
+                            features: [
+                                { name: "Anonymous 2-way Conversations", url: "https://www.winningtemp.com/features#anonymous-2-way-conversations" },
+                                { name: "Check-in Solution", url: "https://www.winningtemp.com/features#check-in-solution" }
+                            ]
+                        },
+                        9: { // Action recommendations
+                            features: [
+                                { name: "Learning", url: "https://www.winningtemp.com/features#learning" },
+                                { name: "Manager & Executive Training", url: "https://www.winningtemp.com/features#manager-executive-training" }
+                            ]
+                        },
+                        10: { // Retention prediction
+                            features: [
+                                { name: "Turnover Analysis", url: "https://www.winningtemp.com/features#turnover-analysis" },
+                                { name: "Smart Index", url: "https://www.winningtemp.com/features#smart-index" }
+                            ]
+                        },
+                        11: { // Psychological safety
+                            features: [
+                                { name: "Bullying & Discrimination Alerts", url: "https://www.winningtemp.com/features#bullying-discrimination-alerts" },
+                                { name: "Workshop - 5 Winning Ways", url: "https://www.winningtemp.com/features#workshop-5-winning-ways" }
+                            ]
+                        },
+                        12: { // Research-based approach
+                            features: [
+                                { name: "Research-based Questions", url: "https://www.winningtemp.com/features#research-based-questions" },
+                                { name: "Winningtemp Academy", url: "https://www.winningtemp.com/features#winningtemp-academy" }
+                            ]
+                        }
+                    };
+                    return featureMappings[questionIndex] || { features: [] };
+                }
+
+                resultsData.breakdown.forEach((item, index) => {
+                    const qIndex = index + 1;
+                    const questionText = `Question ${qIndex}: ${item.question}`;
+                    const answerText = `Your Answer (${item.score}): ${item.selected}`;
+                    const whyText = `Why it matters: ${item.why}`;
+                    const relevantFeatures = getRelevantFeatures(index);
+
+                    const neededHeight = 120; // Increased height to accommodate feature buttons
+                    checkPageBreak(neededHeight);
+
+                    // Question Title
+                    doc.setFont(undefined, 'bold');
+                    doc.setFontSize(12);
+                    doc.setTextColor(...brandPurple);
+                    currentY = addWrappedText(questionText, margin, currentY, contentWidth, 12, brandPurple, 1.2);
+                    currentY += 5;
+
+                    // Answer
+                    doc.setFont(undefined, 'normal');
+                    doc.setFontSize(11);
+                    doc.setTextColor(...darkGray);
+                    currentY = addWrappedText(answerText, margin + 10, currentY, contentWidth - 10, 11, darkGray, 1.3);
+                    currentY += 5;
+
+                    // Why it matters
+                    doc.setFontSize(10);
+                    doc.setTextColor(...mediumGray);
+                    currentY = addWrappedText(whyText, margin + 10, currentY, contentWidth - 10, 10, mediumGray, 1.3);
+                    currentY += 10;
+
+                    // Add relevant feature buttons
+                    if (relevantFeatures.features.length > 0) {
+                        doc.setFontSize(9);
+                        doc.setTextColor(...mediumGray);
+                        doc.text('Relevant Winningtemp features:', margin + 10, currentY);
+                        currentY += 15;
+
+                        relevantFeatures.features.forEach((feature, featureIndex) => {
+                            const buttonWidth = 140; // 30% smaller than demo button (200px)
+                            const buttonHeight = 20;
+                            const buttonX = margin + 10 + (featureIndex * (buttonWidth + 10));
+                            const buttonY = currentY;
+                            const borderRadius = 4;
+
+                            // Check if button fits on current line
+                            if (buttonX + buttonWidth > pageWidth - margin) {
+                                currentY += 30;
+                                const newButtonX = margin + 10;
+                                // Button background with rounded corners
+                                doc.setFillColor(...brandPurple);
+                                doc.roundedRect(newButtonX, currentY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
+                                
+                                // Button text
+                                doc.setTextColor(255, 255, 255);
+                                doc.setFontSize(8);
+                                doc.setFont(undefined, 'bold');
+                                doc.text(feature.name, newButtonX + buttonWidth/2, currentY + buttonHeight/2 + 3, { align: 'center' });
+
+                                // Make the button clickable
+                                doc.link(newButtonX, currentY, buttonWidth, buttonHeight, { url: feature.url });
+                            } else {
+                                // Button background with rounded corners
+                                doc.setFillColor(...brandPurple);
+                                doc.roundedRect(buttonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
+                                
+                                // Button text
+                                doc.setTextColor(255, 255, 255);
+                                doc.setFontSize(8);
+                                doc.setFont(undefined, 'bold');
+                                doc.text(feature.name, buttonX + buttonWidth/2, buttonY + buttonHeight/2 + 3, { align: 'center' });
+
+                                // Make the button clickable
+                                doc.link(buttonX, buttonY, buttonWidth, buttonHeight, { url: feature.url });
+                            }
+                        });
+                        currentY += 30;
+                    }
+
+                    currentY += 15; // Space between questions
+                });
+
+                // Add footer to the detailed analysis page
+                addFooter();
+
+                // ========== CALL TO ACTION PAGE ==========
+                doc.addPage();
+                currentY = 40;
+
+                // CTA Title
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(24);
+                doc.setTextColor(...darkGray);
+                currentY = addWrappedText('Ready to Transform Your Employee Engagement?', margin, currentY, contentWidth, 24, darkGray, 1.2);
+                currentY += 30;
+
+                // CTA Description
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(14);
+                doc.setTextColor(...mediumGray);
+                currentY = addWrappedText('Based on your assessment results, we can help you implement a comprehensive engagement strategy that drives measurable business results.', margin, currentY, contentWidth, 14, mediumGray, 1.3);
+                currentY += 40;
+
+                // Demo booking section - longer rectangle to cover button
+                doc.setFillColor(...lightPurple);
+                doc.rect(margin, currentY, contentWidth, 200, 'F');
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(3);
+                doc.rect(margin, currentY, contentWidth, 200, 'S');
+
+                // Demo title
                 doc.setTextColor(...brandPurple);
                 doc.setFontSize(20);
                 doc.setFont(undefined, 'bold');
-                doc.text('Next Steps', margin, currentY);
+                doc.text('Book Your Free Demo', margin + 20, currentY + 35);
+
+                // Demo description
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(13);
+                doc.setTextColor(...darkGray);
+                currentY = addWrappedText('Schedule a personalized demo to see how Winningtemp can help your organization reach the next level of engagement maturity.', margin + 20, currentY + 60, contentWidth - 40, 13, darkGray, 1.3);
                 currentY += 30;
 
-                const nextSteps = [
-                    "1. Book a free demo at https://www.winningtemp.com/book-a-demo",
-                    "2. Discuss your specific challenges with our engagement experts",
-                    "3. Create a customized implementation plan for your organization",
-                    "4. Start measuring engagement systematically within 30 days"
-                ];
-
-                nextSteps.forEach(step => {
-                    checkPageBreak(30);
-                    doc.setTextColor(...darkGray);
-                    doc.setFontSize(13);
-                    doc.setFont(undefined, 'normal');
-                    currentY = addWrappedText(step, margin + 20, currentY, contentWidth - 40, 13, darkGray);
-                    currentY += 10;
+                // Demo and Contact buttons with rounded corners
+                const buttonWidth = 180;
+                const buttonHeight = 35;
+                const buttonSpacing = 20;
+                const totalButtonWidth = (buttonWidth * 2) + buttonSpacing;
+                const startX = margin + 20 + (contentWidth - 40 - totalButtonWidth) / 2; // Center the buttons
+                const buttonY = currentY + 10;
+                const borderRadius = 8;
+                
+                // Book Demo button
+                const demoButtonX = startX;
+                
+                // Button background with rounded corners
+                doc.setFillColor(...brandPurple);
+                doc.roundedRect(demoButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
+                
+                // Button border with rounded corners
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(1);
+                doc.roundedRect(demoButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'S');
+                
+                // Button text
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('Book Demo Now', demoButtonX + buttonWidth/2, buttonY + buttonHeight/2 + 5, {
+                    align: 'center'
                 });
 
-                // FOOTER
-                checkPageBreak(40);
-                currentY = pageHeight - 60;
-                
-                // Footer line
-                doc.setDrawColor(...mediumGray);
-                doc.setLineWidth(2);
-                doc.line(margin, currentY, pageWidth - margin, currentY);
-                
-                doc.setTextColor(...mediumGray);
-                doc.setFontSize(11);
-                doc.setFont(undefined, 'normal');
-                doc.text('© ' + new Date().getFullYear() + ' Winningtemp | The Science of Employee Engagement', margin, currentY + 25);
+                // Make the demo button clickable with the URL
+                doc.link(demoButtonX, buttonY, buttonWidth, buttonHeight, {
+                    url: 'https://www.winningtemp.com/book-a-demo'
+                });
 
-                // Generate and download the PDF
-                const fileName = `Winningtemp_Engagement_Maturity_Report_${maturity.level.replace(/\s+/g, '_')}_${new Date().toISOString().split('T')[0]}.pdf`;
-                doc.save(fileName);
+                // Contact Us button
+                const contactButtonX = startX + buttonWidth + buttonSpacing;
+                
+                // Button background with rounded corners
+                doc.setFillColor(...brandPurple);
+                doc.roundedRect(contactButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
+                
+                // Button border with rounded corners
+                doc.setDrawColor(...brandPurple);
+                doc.setLineWidth(1);
+                doc.roundedRect(contactButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'S');
+                
+                // Button text
+                doc.setTextColor(255, 255, 255);
+                doc.setFontSize(14);
+                doc.setFont(undefined, 'bold');
+                doc.text('Contact Us', contactButtonX + buttonWidth/2, buttonY + buttonHeight/2 + 5, {
+                    align: 'center'
+                });
+
+                // Make the contact button clickable with the URL
+                doc.link(contactButtonX, buttonY, buttonWidth, buttonHeight, {
+                    url: 'https://www.winningtemp.com/contact-us'
+                });
+
+                currentY += 60; // Reduced spacing since we removed contact info
+
+                // Add footer to the final page
+                addFooter();
+
+                // Final saving call
+                doc.save('Winningtemp_Engagement_Assessment_Report.pdf');
 
             } catch (error) {
-                console.error('PDF generation error:', error);
-                // Fallback to text download
-                const pdfContent = generatePDFContent(resultsData);
-                const blob = new Blob([pdfContent], {
-                    type: 'text/plain'
-                });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'Winningtemp_Engagement_Assessment_Results.txt';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                alert('PDF generation failed, downloading as text file instead.');
+                console.error("Error generating PDF:", error);
+                alert("Could not generate PDF. Please ensure the jspdf library is loaded correctly.");
             }
+        }
+
+        function downloadWorkbook() {
+            // Check if user has provided email and consent
+            if (!checkDownloadRequirements()) {
+                return;
+            }
+            // Open the workbook PDF in a new tab
+            window.open('https://5566319.fs1.hubspotusercontent-eu1.net/hubfs/5566319/Guides/English%20guides/Workbook%20-%20Building%20a%20business%20for%20an%20employee%20engagement%20platform.pdf', '_blank');
+        }
+
+        function checkDownloadRequirements() {
+            const email = document.getElementById('results-email').value;
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const marketingConsent = document.getElementById('marketing-consent').checked;
+            
+            if (!email || !firstName || !lastName || !marketingConsent) {
+                alert('Please fill in all required fields (email, first name, last name) and check the marketing consent box to access downloads.');
+                return false;
+            }
+            return true;
+        }
+
+        function checkDownloadAvailability() {
+            // This function now only shows downloads after successful HubSpot submission
+            const downloadSection = document.getElementById('download-section');
+            const mainDownloadSection = document.getElementById('main-download-section');
+            const thankYouMessage = document.getElementById('thank-you-message');
+            
+            // Show thank you message and download buttons
+            if (downloadSection) {
+                downloadSection.style.display = 'flex';
+            }
+            if (thankYouMessage) {
+                thankYouMessage.style.display = 'block';
+            }
+            if (mainDownloadSection) {
+                mainDownloadSection.style.display = 'flex';
+                // Update the message
+                const message = mainDownloadSection.querySelector('p');
+                if (message) {
+                    message.textContent = 'Thank you! Your downloads are now available:';
+                    message.style.color = '#059669';
+                }
+            }
+        }
+
+        function submitToHubSpot() {
+            const email = document.getElementById('results-email').value;
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const marketingConsent = document.getElementById('marketing-consent').checked;
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            if (!firstName) {
+                alert('Please enter your first name');
+                return;
+            }
+            
+            if (!lastName) {
+                alert('Please enter your last name');
+                return;
+            }
+            
+            if (!marketingConsent) {
+                alert('Please check the marketing consent box to proceed');
+                return;
+            }
+            
+            // Submit directly to HubSpot using their API
+            submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
+        }
+
+        function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
+            const resultsData = generateResultsData();
+            
+            // HubSpot form submission endpoint
+            const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
+            
+            // Prepare the data
+            const formData = {
+                fields: [
+                    {
+                        name: 'email',
+                        value: email
+                    },
+                    {
+                        name: 'firstname',
+                        value: firstName
+                    },
+                    {
+                        name: 'lastname',
+                        value: lastName
+                    },
+                    {
+                        name: 'marketing_consent',
+                        value: marketingConsent ? 'yes' : 'no'
+                    },
+                    {
+                        name: 'assessment_results',
+                        value: JSON.stringify(resultsData)
+                    },
+                    {
+                        name: 'utm_source',
+                        value: 'engagement_assessment'
+                    },
+                    {
+                        name: 'utm_medium',
+                        value: 'pdf_download'
+                    },
+                    {
+                        name: 'utm_campaign',
+                        value: 'lead_generation'
+                    }
+                ],
+                context: {
+                    hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
+                    pageUri: window.location.href,
+                    pageName: 'Engagement Assessment'
+                }
+            };
+            
+            // Submit to HubSpot
+            fetch(formUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Successfully submitted to HubSpot:', data);
+                // Enable downloads without showing message
+                checkDownloadAvailability();
+            })
+            .catch(error => {
+                console.error('Error submitting to HubSpot:', error);
+                // Fallback: still enable downloads even if HubSpot submission fails
+                checkDownloadAvailability();
+            });
+        }
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
         }
 
         function downloadSlides() {
             const resultsData = generateResultsData();
 
             try {
+                // Check if jsPDF is available
+                if (typeof window.jspdf === 'undefined') {
+                    throw new Error('jsPDF library not loaded');
+                }
+                
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF('p', 'pt', 'a4');
 
                 // Colors matching winningtemp.com
-                const brandPurple = [127, 38, 150];
+                const brandPurple = [128, 38, 150];
                 const darkGray = [16, 0, 20];
                 const mediumGray = [100, 116, 139];
                 const lightGray = [248, 250, 252];
@@ -1295,7 +1624,7 @@
                 function getMaturityLevel(aCount) {
                     const percentage = Math.round((aCount / 12) * 100);
                     let level, color, summary, actionItems = [];
-                    
+
                     if (aCount >= 9) { // 75% - 100%
                         level = "Advanced";
                         color = green;
@@ -1338,7 +1667,13 @@
                         ];
                     }
 
-                    return { level, percentage, color, summary, actionItems };
+                    return {
+                        level,
+                        percentage,
+                        color,
+                        summary,
+                        actionItems
+                    };
                 }
 
                 const maturity = getMaturityLevel(resultsData.aCount);
@@ -1346,7 +1681,7 @@
                 // SLIDE 1: TITLE SLIDE
                 // Header with logo and title
                 doc.setTextColor(...brandPurple);
-                doc.setFontSize(28);
+                doc.setFontSize(32);
                 doc.setFont(undefined, 'bold');
                 doc.text('Winningtemp', margin, 100);
 
@@ -1388,22 +1723,22 @@
 
                 // Maturity level card
                 doc.setFillColor(...white);
-                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'F');
+                doc.rect(margin, currentY, contentWidth, 200, 'F');
                 doc.setDrawColor(220, 220, 220);
                 doc.setLineWidth(2);
-                doc.roundedRect(margin, currentY, contentWidth, 200, 12, 12, 'S');
+                doc.rect(margin, currentY, contentWidth, 200, 'S');
 
                 // Maturity level text - properly spaced
                 doc.setFontSize(20);
                 doc.setFont(undefined, 'normal');
                 doc.setTextColor(...darkGray);
                 doc.text('Your organization is operating at a', margin + 40, currentY + 60);
-                
+
                 doc.setTextColor(...maturity.color);
                 doc.setFontSize(36);
                 doc.setFont(undefined, 'bold');
                 doc.text(maturity.level, margin + 40, currentY + 100);
-                
+
                 doc.setTextColor(...darkGray);
                 doc.setFontSize(20);
                 doc.setFont(undefined, 'normal');
@@ -1414,13 +1749,13 @@
                 const barHeight = 16;
                 const barX = margin + 40;
                 const barY = currentY + 180;
-                
+
                 doc.setFillColor(240, 240, 240);
-                doc.roundedRect(barX, barY, barWidth, barHeight, 8, 8, 'F');
-                
+                doc.rect(barX, barY, barWidth, barHeight, 'F');
+
                 doc.setFillColor(...maturity.color);
-                doc.roundedRect(barX, barY, (barWidth * maturity.percentage) / 100, barHeight, 8, 8, 'F');
-                
+                doc.rect(barX, barY, (barWidth * maturity.percentage) / 100, barHeight, 'F');
+
                 doc.setTextColor(...maturity.color);
                 doc.setFontSize(28);
                 doc.setFont(undefined, 'bold');
@@ -1458,14 +1793,16 @@
                 // Action items with purple circles and connecting lines
                 maturity.actionItems.forEach((item, index) => {
                     checkPageBreak(100);
-                    
+
                     // Purple circle with number
                     doc.setFillColor(...brandPurple);
                     doc.circle(margin + 40, currentY + 30, 28, 'F');
                     doc.setTextColor(255, 255, 255);
                     doc.setFontSize(20);
                     doc.setFont(undefined, 'bold');
-                    doc.text((index + 1).toString(), margin + 40, currentY + 38, { align: 'center' });
+                    doc.text((index + 1).toString(), margin + 40, currentY + 38, {
+                        align: 'center'
+                    });
 
                     // Vertical line (except for last item)
                     if (index < maturity.actionItems.length - 1) {
@@ -1486,13 +1823,13 @@
 
                 // CALL TO ACTION SECTION
                 checkPageBreak(120);
-                
+
                 // CTA Card with purple border
                 doc.setFillColor(...white);
-                doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'F');
+                doc.rect(margin, currentY, contentWidth, 120, 'F');
                 doc.setDrawColor(...brandPurple);
                 doc.setLineWidth(4);
-                doc.roundedRect(margin, currentY, contentWidth, 120, 12, 12, 'S');
+                doc.rect(margin, currentY, contentWidth, 120, 'S');
 
                 // CTA Title
                 doc.setTextColor(...darkGray);
@@ -1509,20 +1846,22 @@
 
                 // CTA Button (simulated)
                 doc.setFillColor(...brandPurple);
-                doc.roundedRect(margin + 40, currentY + 10, 280, 40, 20, 20, 'F');
+                doc.rect(margin + 40, currentY + 10, 280, 40, 'F');
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(16);
                 doc.setFont(undefined, 'bold');
-                doc.text('Book Your Free Consultation →', margin + 180, currentY + 35, { align: 'center' });
+                doc.text('Book Your Free Consultation →', margin + 180, currentY + 35, {
+                    align: 'center'
+                });
 
                 // FOOTER
                 currentY = pageHeight - 60;
-                
+
                 // Footer line
                 doc.setDrawColor(...mediumGray);
                 doc.setLineWidth(2);
                 doc.line(margin, currentY, pageWidth - margin, currentY);
-                
+
                 doc.setTextColor(...mediumGray);
                 doc.setFontSize(12);
                 doc.setFont(undefined, 'normal');
@@ -1552,28 +1891,50 @@
             const aCount = counts.A;
             let resultType = '';
             let description = '';
+            let resultColor = '';
 
             if (aCount >= 9) {
                 resultType = 'Engagement Champion';
                 description = 'Your organization demonstrates advanced engagement practices with data-driven insights and predictive capabilities.';
+                resultColor = '#059669';
             } else if (aCount >= 5) {
                 resultType = 'Growing Foundation';
                 description = 'You have solid engagement basics but opportunity to enhance real-time insights and predictive capabilities.';
+                resultColor = '#0284c7';
             } else if (aCount >= 3) {
                 resultType = 'Critical Gap Zone';
                 description = 'Significant engagement blind spots exist that may be impacting talent retention and productivity.';
+                resultColor = '#ea580c';
             } else {
                 resultType = 'Urgent Action Needed';
                 description = 'High risk for turnover and low performance without systematic engagement measurement.';
+                resultColor = '#dc2626';
             }
+
+            // Generate breakdown for each question
+            const breakdown = questions.map((question, index) => {
+                const userAnswer = answers[index];
+                const selectedOption = question.options.find(opt => opt.value === userAnswer);
+                return {
+                    question: question.question,
+                    selected: selectedOption ? selectedOption.text : 'Not answered',
+                    score: userAnswer || 'N/A',
+                    why: question.why
+                };
+            });
 
             return {
                 resultType,
-                description,
+                resultDescription: description,
+                resultColor,
                 aCount,
+                bCount: counts.B,
+                cCount: counts.C,
+                dCount: counts.D,
                 totalQuestions: questions.length,
                 counts,
                 answers: answers,
+                breakdown,
                 completedAt: new Date().toISOString()
             };
         }
@@ -1859,35 +2220,60 @@ Website: winningtemp.com
               <h4 style="font-size: 16px; font-weight: 600; margin: 0 0 10px 0; color: white;">Get Your Detailed Results</h4>
               <p style="font-size: 12px; margin: 0 0 15px 0; opacity: 0.9;">Receive a comprehensive PDF report with your answers, insights, and actionable recommendations</p>
               
-              <!-- Email Form -->
+              <!-- Contact Form -->
               <div style="background: rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
-                <div style="display: flex; gap: 8px; align-items: end; justify-content: center; flex-wrap: wrap;">
-                  <div style="flex-grow: 1; min-width: 150px; max-width: 200px;">
-                    <label style="display: block; font-size: 10px; font-weight: 600; margin-bottom: 3px; color: white; text-align: left;">Email Address</label>
-                    <input type="email" id="results-email" placeholder="your@email.com" style="width: 100%; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 12px;">
+                <div style="display: flex; gap: 8px; align-items: start; justify-content: center; flex-wrap: wrap;">
+                  <div style="flex-grow: 1; min-width: 200px; max-width: 300px;">
+                    <!-- Name Fields Row -->
+                    <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+                      <div style="flex: 1;">
+                        <label style="display: block; font-size: 10px; font-weight: 600; margin-bottom: 3px; color: white; text-align: left;">First Name *</label>
+                        <input type="text" id="first-name" placeholder="First name" style="width: 100%; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 12px;">
+                      </div>
+                      <div style="flex: 1;">
+                        <label style="display: block; font-size: 10px; font-weight: 600; margin-bottom: 3px; color: white; text-align: left;">Last Name *</label>
+                        <input type="text" id="last-name" placeholder="Last name" style="width: 100%; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 12px;">
+                      </div>
+                    </div>
+                    
+                    <!-- Email Field -->
+                    <label style="display: block; font-size: 10px; font-weight: 600; margin-bottom: 3px; color: white; text-align: left;">Email Address *</label>
+                    <input type="email" id="results-email" placeholder="your@email.com" style="width: 100%; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 12px; margin-bottom: 10px;">
+                    
+                    <!-- Marketing Consent Checkbox -->
+                    <div style="margin-top: 10px;">
+                      <label style="display: flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
+                        <input type="checkbox" id="marketing-consent" style="width: 12px; height: 12px; accent-color: #7f2696;">
+                        <span>Yes, send me updates and recommendations! *</span>
+                      </label>
+                    </div>
                   </div>
-                  <button onclick="emailResults()" style="background: white; color: #7f2696; border: none; border-radius: 6px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap;">
-                    Email Results
+                  <button onclick="submitToHubSpot()" style="background: white; color: #7f2696; border: none; border-radius: 6px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; margin-top: 20px;">
+                    Get My Results
                   </button>
                 </div>
               </div>
-
-              <!-- Marketing Consent Checkbox -->
-              <div style="margin-top: 10px; text-align: left;">
-                <label style="display: flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
-                  <input type="checkbox" id="marketing-consent" style="width: 12px; height: 12px; accent-color: #7f2696;">
-                  <span>Yes, send me updates and recommendations!</span>
-                </label>
-              </div>
               
+              <!-- Thank You Message -->
+              <div id="thank-you-message" style="display: none; text-align: center; margin: 20px 0;">
+                <p style="font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 400; color: white; margin: 0; line-height: 1.4;">
+                  Thank you, we hope the insights are valuable and that we can help
+                </p>
+                <p style="font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500; color: white; margin: 5px 0 0 0;">
+                  - Winningtemp Team
+                </p>
+              </div>
+
               <!-- Download Option -->
-              <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 15px;">
-                <button onclick="downloadPDF()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">
-                  Download PDF Report
-                </button>
-                <button onclick="downloadSlides()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">
-                  Download Slide Deck
-                </button>
+              <div id="download-section" style="display: none; flex-direction: column; align-items: center; gap: 10px; margin-top: 15px;">
+                <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                  <button onclick="downloadPDF()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">
+                    Download PDF Report
+                  </button>
+                  <button onclick="downloadWorkbook()" style="background: rgba(255, 255, 255, 0.2); color: white; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; padding: 8px 16px; font-size: 12px; cursor: pointer;">
+                    Download Workbook
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1919,7 +2305,9 @@ Website: winningtemp.com
         window.toggleFeature = toggleFeature;
         window.emailResults = emailResults;
         window.downloadPDF = downloadPDF;
-        window.downloadSlides = downloadSlides;
+        window.downloadWorkbook = downloadWorkbook;
+        window.submitToHubSpot = submitToHubSpot;
+        window.checkDownloadAvailability = checkDownloadAvailability;
         window.shareResults = shareResults;
 
         // Auto-start the quiz when page loads
