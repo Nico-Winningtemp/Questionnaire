@@ -19,6 +19,8 @@
     })(window,document,'script','dataLayer','GTM-NF42R37');</script>
     <!-- End Google Tag Manager -->
 
+    
+
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -162,6 +164,31 @@
     </div>
 
     <script>
+
+        // Helper to safely extract a parameter from the URL query string
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        // We check the host page's URL for the 'market' parameter
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(window.location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    // 1. Detect the Market Code
+    // Check for 'market' in the URL query string (e.g., ?market=se). Default to 'GLOBAL'.
+    let detectedMarket = getUrlParameter('market') || 'GLOBAL'; 
+
+    // 2. Push the market code to the Data Layer immediately
+    // The key 'market' now MATCHES the name your GA4 Configuration Tag expects.
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+        'event': 'market_code_set', 
+        'market': detectedMarket // <--- THIS IS THE CORRECTED NAME
+    });
+
+    // Console output for debugging (check your browser console when testing)
+    console.log('Detected Market:', detectedMarket);
+    console.log('Market code pushed to DataLayer: market =', detectedMarket);
         console.log('Quiz script loading...');
         
         // Google Analytics 4 and GTM Tracking Functions
