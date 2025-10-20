@@ -1633,79 +1633,78 @@
             }
         }
 
+// Global variable to store the received hutk
+let currentHutk = null;
+
+// The main function called on form submission (NEW ASYNCHRONOUS FLOW)
 function submitToHubSpot() {
     const email = document.getElementById('results-email').value;
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
     const marketingConsent = document.getElementById('marketing-consent').checked;
     
-    if (!email) {
-        alert('Please enter your email address');
+    // 1. Perform Validation Checks
+    if (!email || !firstName || !lastName || !marketingConsent) {
+        alert('Please complete all required fields and consent to marketing to proceed.');
         return;
     }
     
-    if (!firstName) {
-        alert('Please enter your first name');
-        return;
-    }
-    
-    if (!lastName) {
-        alert('Please enter your last name');
-        return;
-    }
-    
-    if (!marketingConsent) {
-        alert('Please check the marketing consent box to proceed');
-        return;
-    }
-    
-    // Track form submission
-    trackFormSubmission(email, firstName, lastName, marketingConsent);
-    
-    // Submit directly to HubSpot using their API
-    submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
+    // 2. Instead of submitting immediately, start the handshake
+    // The submission will only happen once the cookie is received inside the callback
+    getHutkAndSubmit(email, firstName, lastName, marketingConsent);
 }
 
+// Function to handle the cross-domain cookie request
+function getHutkAndSubmit(email, firstName, lastName, marketingConsent) {
+    // Setup listener to receive the cookie from the parent
+    window.addEventListener('message', function onHutkResponse(event) {
+        // Check for the response and that the data contains the hutk property
+        if (event.data && typeof event.data === 'object' && event.data.hutk) {
+            currentHutk = event.data.hutk;
+            window.removeEventListener('message', onHutkResponse); // Remove listener once received
+
+            // 3. Now submit the form with the valid hutk
+            // trackFormSubmission should be called here too, before API submission
+            trackFormSubmission(email, firstName, lastName, marketingConsent); 
+            submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
+        }
+    });
+
+    // 4. Request the hutk from the parent
+    window.parent.postMessage('requestHutk', '*');
+}
+
+/ Function to handle the actual API submission
 function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
     const resultsData = generateResultsData();
-    
-    // HubSpot form submission endpoint
     const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
-
+    
     // 1. Calculate the dynamic market code
-    var path = window.location.pathname;
+var path = window.location.pathname;
     var segments = path.split('/').filter(Boolean);
     var marketCode = segments.length > 0 ? segments[0] : 'GLOBAL';
-
-    // 2. Gather ALL data for the GTM Listener and send via postMessage
     var quizData = {
-        // CRITICAL: This is the event GTM is listening for on the parent page
-        'event': 'quiz_submission', 
-        
-        // Data Layer Variables from your GTM setup
-        'marketPage': marketCode, // Dynamic variable
+        'event': 'quiz_submission',
+        'marketPage': marketCode,
         'market': 'GLOBAL',
         'quiz_type': 'employee_engagement_assessment',
         'quiz_name': 'Employee Engagement Assessment',
         'quiz_version': '1.0',
         'page_url': window.location.href,
         'page_title': document.title,
-        'lead_quality': 'high', 
+        'lead_quality': 'high',
         'has_email': !!email,
         'has_first_name': !!firstName,
         'has_last_name': !!lastName,
         'marketing_consent': marketingConsent,
     };
-
-    // 3. Send the consolidated data from the IFRAME to the parent window
     try {
-        // This is the line that solves the cross-domain tracking issue.
         window.parent.postMessage(JSON.stringify(quizData), '*'); 
     } catch (e) {
-        console.error("Failed to send postMessage:", e);
+        console.error("Failed to send postMessage for GTM:", e);
     }
-    
-    // 4. Prepare the data for HubSpot (The original form submission logic)
+
+    // Prepare the data for HubSpot
     const formData = {
         fields: [
             { name: 'email', value: email },
@@ -1718,13 +1717,14 @@ function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
             { name: 'utm_campaign', value: 'lead_generation' }
         ],
         context: {
-            hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
+            // CRITICAL FIX: Use the global variable that was populated by the parent frame
+            hutk: currentHutk, 
             pageUri: window.location.href,
             pageName: 'Engagement Assessment'
         }
     };
 
-    // 5. Submit to HubSpot (Your original fetch request)
+    // Submit to HubSpot
     fetch(formUrl, {
         method: 'POST',
         headers: {
@@ -1741,14 +1741,7 @@ function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
         console.error('Error submitting to HubSpot:', error);
         checkDownloadAvailability();
     });
-}
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        }
-
+    
         function downloadSlides() {
             const resultsData = generateResultsData();
 
