@@ -1671,6 +1671,31 @@
             
             // HubSpot form submission endpoint
             const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
+
+            // Step 1: Gather all the data layer variables into one object
+    var quizData = {
+        // Use the event name GTM is looking for
+        'event': 'quiz_submission', 
+        
+        // Include all other relevant data layer variables
+        'market': 'GLOBAL',
+        'quiz_type': 'employee_engagement_assessment',
+        'page_url': window.location.href, // Or use the one from your previous data push
+        'page_title': document.title,
+        'quiz_name': 'Employee Engagement Assessment',
+        'quiz_version': '1.0',
+        'marketPage': 'Questionnaire'
+        // ... include other variables like lead_quality, question_number, etc.
+    };
+
+    // Step 2: Send the data from the IFRAME to the parent window
+    try {
+        window.parent.postMessage(JSON.stringify(quizData), '*'); 
+        // NOTE: Recommend replacing '*' with your main site's origin 
+        // (e.g., 'https://www.winningtemp.com') for security.
+    } catch (e) {
+        console.error("Failed to send postMessage:", e);
+    }
             
             // Prepare the data
             const formData = {
