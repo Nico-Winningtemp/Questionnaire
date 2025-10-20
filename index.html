@@ -166,13 +166,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     <script>
 
         // Helper to safely extract a parameter from the URL query string
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        // We check the host page's URL for the 'market' parameter
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(window.location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
+function getUrlParameter(name) {
+    const params = new URLSearchParams(window.location.search);
+    return params.get(name) || '';
+}
 
     // 1. Detect the Market Code
     // Check for 'market' in the URL query string (e.g., ?market=se). Default to 'GLOBAL'.
