@@ -1714,6 +1714,20 @@
                     pageName: 'Engagement Assessment'
                 }
             };
+
+            // 1. Get the current URL path (e.g., '/gb/quiz-page')
+    var path = window.location.pathname;
+
+    // 2. Extract the market code (e.g., 'gb')
+    // This splits the path by '/', removes empty strings, and takes the first segment.
+    var segments = path.split('/').filter(Boolean); 
+    var marketCode = segments.length > 0 ? segments[0] : 'GLOBAL'; // Use 'GLOBAL' or similar if no segment is found
+
+    // 3. Push the market code to the dataLayer *before* the submission event
+    window.dataLayer.push({
+        'marketPage': marketCode, // This is your Data Layer Variable name
+        'event': 'quiz_submission' // Your custom event to trigger the tag
+    });
             
             // Submit to HubSpot
             fetch(formUrl, {
