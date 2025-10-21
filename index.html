@@ -49,32 +49,32 @@
         }
 
         .quiz-modal {
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            min-height: auto;
+            height: 100%;
             background: transparent;
-            display: block;
+            display: none;
             align-items: center;
             justify-content: center;
-            z-index: 1;
+            z-index: 9999;
             padding: 0;
         }
 
         .quiz-modal.active {
-            display: block;
+            display: flex;
         }
 
         .modal-content {
-            background: white;
-            border-radius: 12px;
+            background: transparent;
+            border-radius: 0;
             width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-            overflow-y: visible;
+            max-width: 100%;
+            max-height: 100vh;
+            overflow-y: scroll;
             position: relative;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            border: 1px solid rgba(127, 38, 150, 0.15);
+            padding: 20px;
         }
 
         /* Show scrollbar */
@@ -98,13 +98,14 @@
 
         @media (max-width: 768px) {
             .quiz-modal {
-                padding: 10px;
+                padding: 0;
+                align-items: flex-start;
             }
 
             .modal-content {
-                border-radius: 8px;
-                padding: 20px;
-                margin: 10px;
+                border-radius: 0;
+                max-height: 100vh;
+                min-height: 0;
             }
         }
 
@@ -145,18 +146,6 @@
             height: 24px;
             display: inline-block;
             margin-right: 8px;
-        }
-
-        /* Ensure quiz is visible when embedded */
-        #quiz-modal {
-            visibility: visible !important;
-            opacity: 1 !important;
-            display: block !important;
-        }
-
-        #quiz-root {
-            visibility: visible !important;
-            opacity: 1 !important;
         }
     </style>
 </head>
@@ -1644,109 +1633,115 @@
             }
         }
 
-        function submitToHubSpot() {
-            const email = document.getElementById('results-email').value;
-            const firstName = document.getElementById('first-name').value;
-            const lastName = document.getElementById('last-name').value;
-            const marketingConsent = document.getElementById('marketing-consent').checked;
-            
-            if (!email) {
-                alert('Please enter your email address');
-                return;
-            }
-            
-            if (!firstName) {
-                alert('Please enter your first name');
-                return;
-            }
-            
-            if (!lastName) {
-                alert('Please enter your last name');
-                return;
-            }
-            
-            if (!marketingConsent) {
-                alert('Please check the marketing consent box to proceed');
-                return;
-            }
-            
-            // Track form submission
-            trackFormSubmission(email, firstName, lastName, marketingConsent);
-            
-            // Submit directly to HubSpot using their API
-            submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
-        }
+function submitToHubSpot() {
+    const email = document.getElementById('results-email').value;
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const marketingConsent = document.getElementById('marketing-consent').checked;
+    
+    if (!email) {
+        alert('Please enter your email address');
+        return;
+    }
+    
+    if (!firstName) {
+        alert('Please enter your first name');
+        return;
+    }
+    
+    if (!lastName) {
+        alert('Please enter your last name');
+        return;
+    }
+    
+    if (!marketingConsent) {
+        alert('Please check the marketing consent box to proceed');
+        return;
+    }
+    
+    // Track form submission
+    trackFormSubmission(email, firstName, lastName, marketingConsent);
+    
+    // Submit directly to HubSpot using their API
+    submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
+}
 
-        function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
-            const resultsData = generateResultsData();
-            
-            // HubSpot form submission endpoint
-            const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
-            
-            // Prepare the data
-            const formData = {
-                fields: [
-                    {
-                        name: 'email',
-                        value: email
-                    },
-                    {
-                        name: 'firstname',
-                        value: firstName
-                    },
-                    {
-                        name: 'lastname',
-                        value: lastName
-                    },
-                    {
-                        name: 'marketing_consent',
-                        value: marketingConsent ? 'yes' : 'no'
-                    },
-                    {
-                        name: 'assessment_results',
-                        value: JSON.stringify(resultsData)
-                    },
-                    {
-                        name: 'utm_source',
-                        value: 'engagement_assessment'
-                    },
-                    {
-                        name: 'utm_medium',
-                        value: 'pdf_download'
-                    },
-                    {
-                        name: 'utm_campaign',
-                        value: 'lead_generation'
-                    }
-                ],
-                context: {
-                    hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
-                    pageUri: window.location.href,
-                    pageName: 'Engagement Assessment'
-                }
-            };
-            
-            // Submit to HubSpot
-            fetch(formUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Successfully submitted to HubSpot:', data);
-                // Enable downloads without showing message
-                checkDownloadAvailability();
-            })
-            .catch(error => {
-                console.error('Error submitting to HubSpot:', error);
-                // Fallback: still enable downloads even if HubSpot submission fails
-                checkDownloadAvailability();
-            });
-        }
+function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
+    const resultsData = generateResultsData();
+    
+    // HubSpot form submission endpoint
+    const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
 
+    // 1. Calculate the dynamic market code
+    var path = window.location.pathname;
+    var segments = path.split('/').filter(Boolean);
+    var marketCode = segments.length > 0 ? segments[0] : 'GLOBAL';
+
+    // 2. Gather ALL data for the GTM Listener and send via postMessage
+    var quizData = {
+        // CRITICAL: This is the event GTM is listening for on the parent page
+        'event': 'quiz_submission', 
+        
+        // Data Layer Variables from your GTM setup
+        'marketPage': marketCode, // Dynamic variable
+        'market': 'GLOBAL',
+        'quiz_type': 'employee_engagement_assessment',
+        'quiz_name': 'Employee Engagement Assessment',
+        'quiz_version': '1.0',
+        'page_url': window.location.href,
+        'page_title': document.title,
+        'lead_quality': 'high', 
+        'has_email': !!email,
+        'has_first_name': !!firstName,
+        'has_last_name': !!lastName,
+        'marketing_consent': marketingConsent,
+    };
+
+    // 3. Send the consolidated data from the IFRAME to the parent window
+    try {
+        // This is the line that solves the cross-domain tracking issue.
+        window.parent.postMessage(JSON.stringify(quizData), '*'); 
+    } catch (e) {
+        console.error("Failed to send postMessage:", e);
+    }
+    
+    // 4. Prepare the data for HubSpot (The original form submission logic)
+    const formData = {
+        fields: [
+            { name: 'email', value: email },
+            { name: 'firstname', value: firstName },
+            { name: 'lastname', value: lastName },
+            { name: 'marketing_consent', value: marketingConsent ? 'yes' : 'no' },
+            { name: 'assessment_results', value: JSON.stringify(resultsData) },
+            { name: 'utm_source', value: 'engagement_assessment' },
+            { name: 'utm_medium', value: 'pdf_download' },
+            { name: 'utm_campaign', value: 'lead_generation' }
+        ],
+        context: {
+            hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
+            pageUri: window.location.href,
+            pageName: 'Engagement Assessment'
+        }
+    };
+
+    // 5. Submit to HubSpot (Your original fetch request)
+    fetch(formUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Successfully submitted to HubSpot:', data);
+        checkDownloadAvailability();
+    })
+    .catch(error => {
+        console.error('Error submitting to HubSpot:', error);
+        checkDownloadAvailability();
+    });
+}
         function getCookie(name) {
             const value = `; ${document.cookie}`;
             const parts = value.split(`; ${name}=`);
@@ -2491,59 +2486,10 @@ Website: winningtemp.com
         window.shareResults = shareResults;
 
         // Auto-start the quiz when page loads
-        // document.body.style.overflow = 'hidden'; // Commented out for embedded use
-        
-        // Ensure DOM elements exist before rendering
-        if (!quizRoot) {
-            console.error('quizRoot element not found!');
-            // Fallback: try to find it again
-            const quizRootFallback = document.getElementById('quiz-root');
-            if (quizRootFallback) {
-                console.log('Found quizRoot on second attempt');
-                quizRootFallback.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Loading Quiz...</h2></div>';
-            }
-            return;
-        }
-        
-        console.log('quizRoot found:', quizRoot);
-        console.log('Modal found:', modal);
-        console.log('Modal display style:', window.getComputedStyle(modal).display);
-        console.log('Modal visibility:', window.getComputedStyle(modal).visibility);
-        
-        // Force render with error handling
-        try {
-            renderIntro();
-            console.log('Quiz ready!');
-            console.log('quizRoot content after render:', quizRoot.innerHTML.substring(0, 100));
-        } catch (error) {
-            console.error('Error rendering intro:', error);
-            // Fallback content
-            quizRoot.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Employee Engagement Assessment</h2><p>Loading...</p></div>';
-        }
-        
-        // Backup initialization in case DOM isn't ready
-        window.addEventListener("DOMContentLoaded", () => {
-            console.log('DOMContentLoaded triggered');
-            const quizRootCheck = document.getElementById('quiz-root');
-            if (quizRootCheck && quizRootCheck.innerHTML.trim() === '') {
-                console.log('Backup initialization triggered');
-                try {
-                    renderIntro();
-                } catch (error) {
-                    console.error('Backup render failed:', error);
-                    quizRootCheck.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Employee Engagement Assessment</h2><p>Please refresh the page if this persists.</p></div>';
-                }
-            }
-        });
-        
-        // Additional fallback with timeout
-        setTimeout(() => {
-            const quizRootTimeout = document.getElementById('quiz-root');
-            if (quizRootTimeout && quizRootTimeout.innerHTML.trim() === '') {
-                console.log('Timeout fallback triggered');
-                quizRootTimeout.innerHTML = '<div style="padding: 20px; text-align: center;"><h2>Employee Engagement Assessment</h2><p>Loading quiz content...</p><button onclick="location.reload()" style="background: #7f2696; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Reload Quiz</button></div>';
-            }
-        }, 2000);
+        document.body.style.overflow = 'hidden';
+        renderIntro();
+
+        console.log('Quiz ready!');
     </script>
 
     <!-- Start of HubSpot Embed Code -->
