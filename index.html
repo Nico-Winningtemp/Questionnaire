@@ -220,13 +220,28 @@
             console.log('Tracked event:', eventName, parameters);
         }
         
-        // Track quiz start
-        function trackQuizStart() {
-            trackQuizEvent('quiz_start', {
-                'quiz_name': 'Employee Engagement Assessment',
-                'quiz_version': '1.0'
-            });
-        }
+// Track quiz start
+function trackQuizStart() {
+    trackQuizEvent('quiz_start', {
+        'quiz_name': 'Employee Engagement Assessment',
+        'quiz_version': '1.0'
+    });
+    
+    // Send to parent page via postMessage
+    try {
+        window.parent.postMessage(JSON.stringify({
+            'event': 'quiz_start',
+            'quiz_type': 'employee_engagement_assessment',
+            'quiz_name': 'Employee Engagement Assessment',
+            'quiz_version': '1.0',
+            'page_url': window.location.href,
+            'page_title': document.title
+        }), '*');
+        console.log('quiz_start event sent to parent page');
+    } catch (e) {
+        console.error("Failed to send quiz_start postMessage:", e);
+    }
+}
         
         // Track question answered
         function trackQuestionAnswered(questionNumber, answer, questionText) {
