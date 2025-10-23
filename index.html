@@ -10,16 +10,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-NF42R37');</script>
+    <script>
+        (function(w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start': new Date().getTime(),
+                event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s),
+                dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NF42R37');
+    </script>
     <!-- End Google Tag Manager -->
 
-    
+
 
     <style>
         body {
@@ -134,9 +145,7 @@
         }
 
         /* Hide scrollbar */
-        .modal-content::-webkit-scrollbar
-
-        .modal-content {
+        .modal-content::-webkit-scrollbar .modal-content {
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
@@ -152,10 +161,9 @@
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF42R37"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NF42R37" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
+
     <!-- Quiz Modal -->
     <div id="quiz-modal" class="quiz-modal active">
         <div class="modal-content">
@@ -164,38 +172,37 @@
     </div>
 
     <script>
-
         // Helper to safely extract a parameter from the URL query string
-    function getUrlParameter(name) {
-        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-        // We check the host page's URL for the 'market' parameter
-        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-        var results = regex.exec(window.location.search);
-        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-    }
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            // We check the host page's URL for the 'market' parameter
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(window.location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
-    // 1. Detect the Market Code
-    // Check for 'market' in the URL query string (e.g., ?market=se). Default to 'GLOBAL'.
-    let detectedMarket = getUrlParameter('market') || 'GLOBAL'; 
+        // 1. Detect the Market Code
+        // Check for 'market' in the URL query string (e.g., ?market=se). Default to 'GLOBAL'.
+        let detectedMarket = getUrlParameter('market') || 'GLOBAL';
 
-    // 2. Push the market code to the Data Layer immediately
-    // The key 'market' now MATCHES the name your GA4 Configuration Tag expects.
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-        'event': 'market_code_set', 
-        'market': detectedMarket // <--- THIS IS THE CORRECTED NAME
-    });
+        // 2. Push the market code to the Data Layer immediately
+        // The key 'market' now MATCHES the name your GA4 Configuration Tag expects.
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            'event': 'market_code_set',
+            'market': detectedMarket // <--- THIS IS THE CORRECTED NAME
+        });
 
-    // Console output for debugging (check your browser console when testing)
-    console.log('Detected Market:', detectedMarket);
-    console.log('Market code pushed to DataLayer: market =', detectedMarket);
+        // Console output for debugging (check your browser console when testing)
+        console.log('Detected Market:', detectedMarket);
+        console.log('Market code pushed to DataLayer: market =', detectedMarket);
         console.log('Quiz script loading...');
-        
+
         // Google Analytics 4 and GTM Tracking Functions
         function gtag() {
             dataLayer.push(arguments);
         }
-        
+
         // Track quiz events
         function trackQuizEvent(eventName, parameters = {}) {
             // GTM DataLayer push
@@ -207,7 +214,7 @@
                 'timestamp': new Date().toISOString(),
                 ...parameters
             });
-            
+
             // GA4 gtag (if available)
             if (typeof gtag !== 'undefined') {
                 gtag('event', eventName, {
@@ -216,33 +223,33 @@
                     ...parameters
                 });
             }
-            
+
             console.log('Tracked event:', eventName, parameters);
         }
-        
-// Track quiz start
-function trackQuizStart() {
-    trackQuizEvent('quiz_start', {
-        'quiz_name': 'Employee Engagement Assessment',
-        'quiz_version': '1.0'
-    });
-    
-    // Send to parent page via postMessage
-    try {
-        window.parent.postMessage(JSON.stringify({
-            'event': 'quiz_start',
-            'quiz_type': 'employee_engagement_assessment',
-            'quiz_name': 'Employee Engagement Assessment',
-            'quiz_version': '1.0',
-            'page_url': window.location.href,
-            'page_title': document.title
-        }), '*');
-        console.log('quiz_start event sent to parent page');
-    } catch (e) {
-        console.error("Failed to send quiz_start postMessage:", e);
-    }
-}
-        
+
+        // Track quiz start
+        function trackQuizStart() {
+            trackQuizEvent('quiz_start', {
+                'quiz_name': 'Employee Engagement Assessment',
+                'quiz_version': '1.0'
+            });
+
+            // Send to parent page via postMessage
+            try {
+                window.parent.postMessage(JSON.stringify({
+                    'event': 'quiz_start',
+                    'quiz_type': 'employee_engagement_assessment',
+                    'quiz_name': 'Employee Engagement Assessment',
+                    'quiz_version': '1.0',
+                    'page_url': window.location.href,
+                    'page_title': document.title
+                }), '*');
+                console.log('quiz_start event sent to parent page');
+            } catch (e) {
+                console.error("Failed to send quiz_start postMessage:", e);
+            }
+        }
+
         // Track question answered
         function trackQuestionAnswered(questionNumber, answer, questionText) {
             trackQuizEvent('quiz_question_answered', {
@@ -252,7 +259,7 @@ function trackQuizStart() {
                 'answer_label': getAnswerLabel(answer)
             });
         }
-        
+
         // Track quiz completion
         function trackQuizCompletion(results) {
             trackQuizEvent('quiz_completed', {
@@ -267,7 +274,7 @@ function trackQuizStart() {
                 }))
             });
         }
-        
+
         // Track PDF download
         function trackPDFDownload() {
             trackQuizEvent('pdf_download', {
@@ -275,7 +282,7 @@ function trackQuizStart() {
                 'file_format': 'pdf'
             });
         }
-        
+
         // Track workbook download
         function trackWorkbookDownload() {
             trackQuizEvent('workbook_download', {
@@ -283,30 +290,31 @@ function trackQuizStart() {
                 'file_format': 'pdf'
             });
         }
-        
+
         // Track form submission
-        function trackFormSubmission(email, firstName, lastName, marketingConsent) {
+        function trackFormSubmission(email, firstName, lastName, marketingConsent, dataProcessingConsent) {
             trackQuizEvent('quiz_submission', {
                 'form_type': 'quiz_results_request',
                 'has_email': !!email,
                 'has_first_name': !!firstName,
                 'has_last_name': !!lastName,
                 'marketing_consent': marketingConsent,
+                'data_processing_consent': dataProcessingConsent,
                 'lead_quality': 'high' // Quiz completers are high-quality leads
             });
         }
-        
+
         // Helper function to get answer labels
         function getAnswerLabel(answer) {
             const labels = {
                 'A': 'Advanced',
-                'B': 'Developing', 
+                'B': 'Developing',
                 'C': 'Basic',
                 'D': 'Minimal'
             };
             return labels[answer] || answer;
         }
-        
+
         // Track page view
         function trackPageView() {
             trackQuizEvent('page_view', {
@@ -314,7 +322,7 @@ function trackQuizStart() {
                 'page_location': window.location.href
             });
         }
-        
+
         // Initialize tracking
         let quizStartTime = Date.now();
         trackPageView();
@@ -602,8 +610,8 @@ function trackQuizStart() {
         // DOM Elements
         const modal = document.getElementById('quiz-modal');
         const quizRoot = document.getElementById('quiz-root');
-        
-        
+
+
 
         // Smiley SVG functions for each option
         function getSmileyIcon(option) {
@@ -908,11 +916,11 @@ function trackQuizStart() {
 
         function selectAnswer(value) {
             answers[currentQuestion] = value;
-            
+
             // Track question answered
             const question = questions[currentQuestion];
             trackQuestionAnswered(currentQuestion + 1, value, question.question);
-            
+
             currentQuestion++;
             setTimeout(renderQuestion, 300);
         }
@@ -1008,7 +1016,7 @@ function trackQuizStart() {
 
         function renderResults() {
             const results = generateResultsData();
-            
+
             // Track quiz completion
             trackQuizCompletion(results);
 
@@ -1066,10 +1074,10 @@ function trackQuizStart() {
             if (!checkDownloadRequirements()) {
                 return;
             }
-            
+
             // Track PDF download
             trackPDFDownload();
-            
+
             console.log('Starting PDF generation...');
             const resultsData = generateResultsData();
             console.log('Results data generated:', resultsData);
@@ -1079,13 +1087,15 @@ function trackQuizStart() {
                 console.log('Checking jsPDF availability...');
                 console.log('window.jspdf:', typeof window.jspdf);
                 console.log('window.jsPDF:', typeof window.jsPDF);
-                
+
                 if (typeof window.jspdf === 'undefined') {
                     console.error('jsPDF library not found on window.jspdf');
                     throw new Error('jsPDF library not loaded. Please refresh the page and try again.');
                 }
-                
-                const { jsPDF } = window.jspdf;
+
+                const {
+                    jsPDF
+                } = window.jspdf;
                 console.log('jsPDF constructor:', typeof jsPDF);
                 const doc = new jsPDF('p', 'pt', 'a4');
                 console.log('PDF document created successfully');
@@ -1323,85 +1333,152 @@ function trackQuizStart() {
                 function getRelevantFeatures(questionIndex) {
                     const featureMappings = {
                         0: { // Survey frequency
-                            features: [
-                                { name: "Pulse Surveys", url: "https://www.winningtemp.com/features#pulse-surveys" },
-                                { name: "Focus Surveys", url: "https://www.winningtemp.com/features#focus-surveys" }
+                            features: [{
+                                    name: "Pulse Surveys",
+                                    url: "https://www.winningtemp.com/features#pulse-surveys"
+                                },
+                                {
+                                    name: "Focus Surveys",
+                                    url: "https://www.winningtemp.com/features#focus-surveys"
+                                }
                             ]
                         },
                         1: { // Real-time dashboards
-                            features: [
-                                { name: "Visual Real-time Data", url: "https://www.winningtemp.com/features#visual-real-time-data" },
-                                { name: "Trend Charts", url: "https://www.winningtemp.com/features#trend-charts" }
+                            features: [{
+                                    name: "Visual Real-time Data",
+                                    url: "https://www.winningtemp.com/features#visual-real-time-data"
+                                },
+                                {
+                                    name: "Trend Charts",
+                                    url: "https://www.winningtemp.com/features#trend-charts"
+                                }
                             ]
                         },
                         2: { // AI-powered recommendations
-                            features: [
-                                { name: "Predictions", url: "https://www.winningtemp.com/features#predictions" },
-                                { name: "Learning", url: "https://www.winningtemp.com/features#learning" }
+                            features: [{
+                                    name: "Predictions",
+                                    url: "https://www.winningtemp.com/features#predictions"
+                                },
+                                {
+                                    name: "Learning",
+                                    url: "https://www.winningtemp.com/features#learning"
+                                }
                             ]
                         },
                         3: { // Response rates
-                            features: [
-                                { name: "Slack & Teams Integration", url: "https://www.winningtemp.com/features#slack-teams-integration" },
-                                { name: "Mobile App", url: "https://www.winningtemp.com/features#mobile-app" }
+                            features: [{
+                                    name: "Slack & Teams Integration",
+                                    url: "https://www.winningtemp.com/features#slack-teams-integration"
+                                },
+                                {
+                                    name: "Mobile App",
+                                    url: "https://www.winningtemp.com/features#mobile-app"
+                                }
                             ]
                         },
                         4: { // Business outcomes connection
-                            features: [
-                                { name: "Winningtemp API", url: "https://www.winningtemp.com/features#winningtemp-api" },
-                                { name: "Engagement Reports", url: "https://www.winningtemp.com/features#engagement-reports" }
+                            features: [{
+                                    name: "Winningtemp API",
+                                    url: "https://www.winningtemp.com/features#winningtemp-api"
+                                },
+                                {
+                                    name: "Engagement Reports",
+                                    url: "https://www.winningtemp.com/features#engagement-reports"
+                                }
                             ]
                         },
                         5: { // Track engagement to KPIs
-                            features: [
-                                { name: "Smart Benchmarking", url: "https://www.winningtemp.com/features#smart-benchmarking" },
-                                { name: "eNPS", url: "https://www.winningtemp.com/features#enps" }
+                            features: [{
+                                    name: "Smart Benchmarking",
+                                    url: "https://www.winningtemp.com/features#smart-benchmarking"
+                                },
+                                {
+                                    name: "eNPS",
+                                    url: "https://www.winningtemp.com/features#enps"
+                                }
                             ]
                         },
                         6: { // HR automation
-                            features: [
-                                { name: "Integration - Users and Groups", url: "https://www.winningtemp.com/features#integration-users-groups" },
-                                { name: "Onboarding", url: "https://www.winningtemp.com/features#onboarding" }
+                            features: [{
+                                    name: "Integration - Users and Groups",
+                                    url: "https://www.winningtemp.com/features#integration-users-groups"
+                                },
+                                {
+                                    name: "Onboarding",
+                                    url: "https://www.winningtemp.com/features#onboarding"
+                                }
                             ]
                         },
                         7: { // Granular insights
-                            features: [
-                                { name: "Smart Segments", url: "https://www.winningtemp.com/features#smart-segments" },
-                                { name: "Heatmap Analysis", url: "https://www.winningtemp.com/features#heatmap-analysis" }
+                            features: [{
+                                    name: "Smart Segments",
+                                    url: "https://www.winningtemp.com/features#smart-segments"
+                                },
+                                {
+                                    name: "Heatmap Analysis",
+                                    url: "https://www.winningtemp.com/features#heatmap-analysis"
+                                }
                             ]
                         },
                         8: { // Anonymous feedback
-                            features: [
-                                { name: "Anonymous 2-way Conversations", url: "https://www.winningtemp.com/features#anonymous-2-way-conversations" },
-                                { name: "Check-in Solution", url: "https://www.winningtemp.com/features#check-in-solution" }
+                            features: [{
+                                    name: "Anonymous 2-way Conversations",
+                                    url: "https://www.winningtemp.com/features#anonymous-2-way-conversations"
+                                },
+                                {
+                                    name: "Check-in Solution",
+                                    url: "https://www.winningtemp.com/features#check-in-solution"
+                                }
                             ]
                         },
                         9: { // Action recommendations
-                            features: [
-                                { name: "Learning", url: "https://www.winningtemp.com/features#learning" },
-                                { name: "Manager & Executive Training", url: "https://www.winningtemp.com/features#manager-executive-training" }
+                            features: [{
+                                    name: "Learning",
+                                    url: "https://www.winningtemp.com/features#learning"
+                                },
+                                {
+                                    name: "Manager & Executive Training",
+                                    url: "https://www.winningtemp.com/features#manager-executive-training"
+                                }
                             ]
                         },
                         10: { // Retention prediction
-                            features: [
-                                { name: "Turnover Analysis", url: "https://www.winningtemp.com/features#turnover-analysis" },
-                                { name: "Smart Index", url: "https://www.winningtemp.com/features#smart-index" }
+                            features: [{
+                                    name: "Turnover Analysis",
+                                    url: "https://www.winningtemp.com/features#turnover-analysis"
+                                },
+                                {
+                                    name: "Smart Index",
+                                    url: "https://www.winningtemp.com/features#smart-index"
+                                }
                             ]
                         },
                         11: { // Psychological safety
-                            features: [
-                                { name: "Bullying & Discrimination Alerts", url: "https://www.winningtemp.com/features#bullying-discrimination-alerts" },
-                                { name: "Workshop - 5 Winning Ways", url: "https://www.winningtemp.com/features#workshop-5-winning-ways" }
+                            features: [{
+                                    name: "Bullying & Discrimination Alerts",
+                                    url: "https://www.winningtemp.com/features#bullying-discrimination-alerts"
+                                },
+                                {
+                                    name: "Workshop - 5 Winning Ways",
+                                    url: "https://www.winningtemp.com/features#workshop-5-winning-ways"
+                                }
                             ]
                         },
                         12: { // Research-based approach
-                            features: [
-                                { name: "Research-based Questions", url: "https://www.winningtemp.com/features#research-based-questions" },
-                                { name: "Winningtemp Academy", url: "https://www.winningtemp.com/features#winningtemp-academy" }
+                            features: [{
+                                    name: "Research-based Questions",
+                                    url: "https://www.winningtemp.com/features#research-based-questions"
+                                },
+                                {
+                                    name: "Winningtemp Academy",
+                                    url: "https://www.winningtemp.com/features#winningtemp-academy"
+                                }
                             ]
                         }
                     };
-                    return featureMappings[questionIndex] || { features: [] };
+                    return featureMappings[questionIndex] || {
+                        features: []
+                    };
                 }
 
                 resultsData.breakdown.forEach((item, index) => {
@@ -1455,28 +1532,36 @@ function trackQuizStart() {
                                 // Button background with rounded corners
                                 doc.setFillColor(...brandPurple);
                                 doc.roundedRect(newButtonX, currentY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
-                                
+
                                 // Button text
                                 doc.setTextColor(255, 255, 255);
                                 doc.setFontSize(8);
                                 doc.setFont(undefined, 'bold');
-                                doc.text(feature.name, newButtonX + buttonWidth/2, currentY + buttonHeight/2 + 3, { align: 'center' });
+                                doc.text(feature.name, newButtonX + buttonWidth / 2, currentY + buttonHeight / 2 + 3, {
+                                    align: 'center'
+                                });
 
                                 // Make the button clickable
-                                doc.link(newButtonX, currentY, buttonWidth, buttonHeight, { url: feature.url });
+                                doc.link(newButtonX, currentY, buttonWidth, buttonHeight, {
+                                    url: feature.url
+                                });
                             } else {
                                 // Button background with rounded corners
                                 doc.setFillColor(...brandPurple);
                                 doc.roundedRect(buttonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
-                                
+
                                 // Button text
                                 doc.setTextColor(255, 255, 255);
                                 doc.setFontSize(8);
                                 doc.setFont(undefined, 'bold');
-                                doc.text(feature.name, buttonX + buttonWidth/2, buttonY + buttonHeight/2 + 3, { align: 'center' });
+                                doc.text(feature.name, buttonX + buttonWidth / 2, buttonY + buttonHeight / 2 + 3, {
+                                    align: 'center'
+                                });
 
                                 // Make the button clickable
-                                doc.link(buttonX, buttonY, buttonWidth, buttonHeight, { url: feature.url });
+                                doc.link(buttonX, buttonY, buttonWidth, buttonHeight, {
+                                    url: feature.url
+                                });
                             }
                         });
                         currentY += 30;
@@ -1534,24 +1619,24 @@ function trackQuizStart() {
                 const startX = margin + 20 + (contentWidth - 40 - totalButtonWidth) / 2; // Center the buttons
                 const buttonY = currentY + 10;
                 const borderRadius = 8;
-                
+
                 // Book Demo button
                 const demoButtonX = startX;
-                
+
                 // Button background with rounded corners
                 doc.setFillColor(...brandPurple);
                 doc.roundedRect(demoButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
-                
+
                 // Button border with rounded corners
                 doc.setDrawColor(...brandPurple);
                 doc.setLineWidth(1);
                 doc.roundedRect(demoButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'S');
-                
+
                 // Button text
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(14);
                 doc.setFont(undefined, 'bold');
-                doc.text('Book Demo Now', demoButtonX + buttonWidth/2, buttonY + buttonHeight/2 + 5, {
+                doc.text('Book Demo Now', demoButtonX + buttonWidth / 2, buttonY + buttonHeight / 2 + 5, {
                     align: 'center'
                 });
 
@@ -1562,21 +1647,21 @@ function trackQuizStart() {
 
                 // Contact Us button
                 const contactButtonX = startX + buttonWidth + buttonSpacing;
-                
+
                 // Button background with rounded corners
                 doc.setFillColor(...brandPurple);
                 doc.roundedRect(contactButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'F');
-                
+
                 // Button border with rounded corners
                 doc.setDrawColor(...brandPurple);
                 doc.setLineWidth(1);
                 doc.roundedRect(contactButtonX, buttonY, buttonWidth, buttonHeight, borderRadius, borderRadius, 'S');
-                
+
                 // Button text
                 doc.setTextColor(255, 255, 255);
                 doc.setFontSize(14);
                 doc.setFont(undefined, 'bold');
-                doc.text('Contact Us', contactButtonX + buttonWidth/2, buttonY + buttonHeight/2 + 5, {
+                doc.text('Contact Us', contactButtonX + buttonWidth / 2, buttonY + buttonHeight / 2 + 5, {
                     align: 'center'
                 });
 
@@ -1604,7 +1689,7 @@ function trackQuizStart() {
             if (!checkDownloadRequirements()) {
                 return;
             }
-            
+
             // Track workbook download
             trackWorkbookDownload();
             // Open the workbook PDF in a new tab
@@ -1615,13 +1700,13 @@ function trackQuizStart() {
             const email = document.getElementById('results-email').value;
             const firstName = document.getElementById('first-name').value;
             const lastName = document.getElementById('last-name').value;
-            const marketingConsent = document.getElementById('marketing-consent').checked;
-            
-            if (!email || !firstName || !lastName || !marketingConsent) {
-                alert('Please fill in all required fields (email, first name, last name) and check the marketing consent box to access downloads.');
-                return false;
-            }
-            return true;
+            const dataProcessingConsent = document.getElementById('data-processing-consent').checked;
+
+            if (!email || !firstName || !lastName || !dataProcessingConsent) {
+                alert('Please fill in all required fields (email, first name, last name) and agree to data processing (required checkbox).');
+        return false;
+    }
+    return true;
         }
 
         function checkDownloadAvailability() {
@@ -1629,7 +1714,7 @@ function trackQuizStart() {
             const downloadSection = document.getElementById('download-section');
             const mainDownloadSection = document.getElementById('main-download-section');
             const thankYouMessage = document.getElementById('thank-you-message');
-            
+
             // Show thank you message and download buttons
             if (downloadSection) {
                 downloadSection.style.display = 'flex';
@@ -1648,115 +1733,144 @@ function trackQuizStart() {
             }
         }
 
-function submitToHubSpot() {
-    const email = document.getElementById('results-email').value;
-    const firstName = document.getElementById('first-name').value;
-    const lastName = document.getElementById('last-name').value;
-    const marketingConsent = document.getElementById('marketing-consent').checked;
-    
-    if (!email) {
-        alert('Please enter your email address');
-        return;
-    }
-    
-    if (!firstName) {
-        alert('Please enter your first name');
-        return;
-    }
-    
-    if (!lastName) {
-        alert('Please enter your last name');
-        return;
-    }
-    
-    if (!marketingConsent) {
-        alert('Please check the marketing consent box to proceed');
-        return;
-    }
-    
-    // Track form submission
-    trackFormSubmission(email, firstName, lastName, marketingConsent);
-    
-    // Submit directly to HubSpot using their API
-    submitToHubSpotAPI(email, firstName, lastName, marketingConsent);
-}
+        function submitToHubSpot() {
+            const email = document.getElementById('results-email').value;
+            const firstName = document.getElementById('first-name').value;
+            const lastName = document.getElementById('last-name').value;
+            const marketingConsent = document.getElementById('marketing-consent').checked;
+            const dataProcessingConsent = document.getElementById('data-processing-consent').checked;
 
-function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
-    const resultsData = generateResultsData();
-    
-    // HubSpot form submission endpoint
-    const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
 
-    // 1. Calculate the dynamic market code
-    var path = window.location.pathname;
-    var segments = path.split('/').filter(Boolean);
-    var marketCode = segments.length > 0 ? segments[0] : 'GLOBAL';
+            if (!firstName) {
+                alert('Please enter your first name');
+                return;
+            }
 
-    // 2. Gather ALL data for the GTM Listener and send via postMessage
-    var quizData = {
-        // CRITICAL: This is the event GTM is listening for on the parent page
-        'event': 'quiz_submission', 
-        
-        // Data Layer Variables from your GTM setup
-        'marketPage': marketCode, // Dynamic variable
-        'market': 'GLOBAL',
-        'quiz_type': 'employee_engagement_assessment',
-        'quiz_name': 'Employee Engagement Assessment',
-        'quiz_version': '1.0',
-        'page_url': window.location.href,
-        'page_title': document.title,
-        'lead_quality': 'high', 
-        'has_email': !!email,
-        'has_first_name': !!firstName,
-        'has_last_name': !!lastName,
-        'marketing_consent': marketingConsent,
-    };
+            if (!lastName) {
+                alert('Please enter your last name');
+                return;
+            }
 
-    // 3. Send the consolidated data from the IFRAME to the parent window
-    try {
-        // This is the line that solves the cross-domain tracking issue.
-        window.parent.postMessage(JSON.stringify(quizData), '*'); 
-    } catch (e) {
-        console.error("Failed to send postMessage:", e);
-    }
-    
-    // 4. Prepare the data for HubSpot (The original form submission logic)
-    const formData = {
-        fields: [
-            { name: 'email', value: email },
-            { name: 'firstname', value: firstName },
-            { name: 'lastname', value: lastName },
-            { name: 'marketing_consent', value: marketingConsent ? 'yes' : 'no' },
-            { name: 'assessment_results', value: JSON.stringify(resultsData) },
-            { name: 'utm_source', value: 'engagement_assessment' },
-            { name: 'utm_medium', value: 'pdf_download' },
-            { name: 'utm_campaign', value: 'lead_generation' }
-        ],
-        context: {
-            hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
-            pageUri: window.location.href,
-            pageName: 'Engagement Assessment'
+            if (!dataProcessingConsent) {
+                alert('Please agree to allow us to store and process your personal data to proceed (required field)');
+                return;
+            }
+
+            // Track form submission
+            trackFormSubmission(email, firstName, lastName, marketingConsent, dataProcessingConsent);
+
+            // Submit directly to HubSpot using their API
+            submitToHubSpotAPI(email, firstName, lastName, marketingConsent, dataProcessingConsent);
         }
-    };
 
-    // 5. Submit to HubSpot (Your original fetch request)
-    fetch(formUrl, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Successfully submitted to HubSpot:', data);
-        checkDownloadAvailability();
-    })
-    .catch(error => {
-        console.error('Error submitting to HubSpot:', error);
-        checkDownloadAvailability();
-    });
-}
+        function submitToHubSpotAPI(email, firstName, lastName, marketingConsent, dataProcessingConsent) {
+            const resultsData = generateResultsData();
+
+            // HubSpot form submission endpoint
+            const formUrl = 'https://api.hsforms.com/submissions/v3/integration/submit/5566319/332d868a-2289-4615-9461-5d9f3d6c26ca';
+
+            // 1. Calculate the dynamic market code
+            var path = window.location.pathname;
+            var segments = path.split('/').filter(Boolean);
+            var marketCode = segments.length > 0 ? segments[0] : 'GLOBAL';
+
+            // 2. Gather ALL data for the GTM Listener and send via postMessage
+            var quizData = {
+                // CRITICAL: This is the event GTM is listening for on the parent page
+                'event': 'quiz_submission',
+
+                // Data Layer Variables from your GTM setup
+                'marketPage': marketCode, // Dynamic variable
+                'market': 'GLOBAL',
+                'quiz_type': 'employee_engagement_assessment',
+                'quiz_name': 'Employee Engagement Assessment',
+                'quiz_version': '1.0',
+                'page_url': window.location.href,
+                'page_title': document.title,
+                'lead_quality': 'high',
+                'has_email': !!email,
+                'has_first_name': !!firstName,
+                'has_last_name': !!lastName,
+                'marketing_consent': marketingConsent,
+            };
+
+            // 3. Send the consolidated data from the IFRAME to the parent window
+            try {
+                // This is the line that solves the cross-domain tracking issue.
+                window.parent.postMessage(JSON.stringify(quizData), '*');
+            } catch (e) {
+                console.error("Failed to send postMessage:", e);
+            }
+
+            // 4. Prepare the data for HubSpot (The original form submission logic)
+            const formData = {
+                    fields: [{
+                        name: 'email',
+                        value: email
+                    },
+                    {
+                        name: 'firstname',
+                        value: firstName
+                    },
+                    {
+                        name: 'lastname',
+                        value: lastName
+                    },
+                    {
+                        name: 'marketing_consent',
+                        value: marketingConsent ? 'yes' : 'no'
+                    },
+                    {
+                        name: 'data_processing_consent',
+                        value: dataProcessingConsent ? 'yes' : 'no'
+                    },
+                    {
+                        name: 'assessment_results',
+                        value: JSON.stringify(resultsData)
+                    },
+                    {
+                        name: 'utm_source',
+                        value: 'engagement_assessment'
+                    },
+                    {
+                        name: 'utm_medium',
+                        value: 'pdf_download'
+                    },
+                    {
+                        name: 'utm_campaign',
+                        value: 'lead_generation'
+                    }
+                ],
+                context: {
+                    hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
+                    pageUri: window.location.href,
+                    pageName: 'Engagement Assessment'
+                }
+        };
+
+        // 5. Submit to HubSpot (Your original fetch request)
+        fetch(formUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Successfully submitted to HubSpot:', data);
+                checkDownloadAvailability();
+            })
+            .catch(error => {
+                console.error('Error submitting to HubSpot:', error);
+                checkDownloadAvailability();
+            });
+        }
+
         function getCookie(name) {
             const value = `; ${document.cookie}`;
             const parts = value.split(`; ${name}=`);
@@ -1772,8 +1886,10 @@ function submitToHubSpotAPI(email, firstName, lastName, marketingConsent) {
                 if (typeof window.jspdf === 'undefined') {
                     throw new Error('jsPDF library not loaded');
                 }
-                
-                const { jsPDF } = window.jspdf;
+
+                const {
+                    jsPDF
+                } = window.jspdf;
                 const doc = new jsPDF('p', 'pt', 'a4');
 
                 // Colors matching winningtemp.com
@@ -2430,13 +2546,26 @@ Website: winningtemp.com
                     <label style="display: block; font-size: 10px; font-weight: 600; margin-bottom: 3px; color: white; text-align: left;">Email Address *</label>
                     <input type="email" id="results-email" placeholder="your@email.com" style="width: 100%; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 12px; margin-bottom: 10px;">
                     
-                    <!-- Marketing Consent Checkbox -->
-                    <div style="margin-top: 10px;">
-                      <label style="display: flex; align-items: center; gap: 6px; font-size: 10px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
-                        <input type="checkbox" id="marketing-consent" style="width: 12px; height: 12px; accent-color: #7f2696;">
-                        <span>I've read and accept Winningtemp's <a href="https://www.winningtemp.com/privacy-notice" target="_blank" style="color: #60a5fa; text-decoration: underline; font-weight: 500;">privacy policy</a> *</span>
-                      </label>
-                    </div>
+<!-- Checkbox 1: Optional Marketing Communications -->
+<div style="margin-top: 10px;">
+  <label style="display: flex; align-items: flex-start; gap: 6px; font-size: 10px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
+    <input type="checkbox" id="marketing-consent" style="width: 14px; height: 14px; accent-color: #7f2696; margin-top: 2px; flex-shrink: 0;">
+    <span>I agree to receive other communications from Winningtemp.</span>
+  </label>
+</div>
+
+<!-- Checkbox 2: Mandatory Data Processing -->
+<div style="margin-top: 8px; margin-bottom: 8px;">
+  <label style="display: flex; align-items: flex-start; gap: 6px; font-size: 10px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
+    <input type="checkbox" id="data-processing-consent" style="width: 14px; height: 14px; accent-color: #7f2696; margin-top: 2px; flex-shrink: 0;">
+    <span style="line-height: 1.4;">In order to provide you the content requested, we need to store and process your personal data. If you consent to us storing your personal data for this purpose, please tick the checkbox below. <span style="color: #ff6b6b;">*</span></span>
+  </label>
+</div>
+
+<!-- Privacy Policy Link -->
+<div style="margin-top: 8px; font-size: 9px; color: rgba(255, 255, 255, 0.7); line-height: 1.4;">
+  <span>For more information on how to unsubscribe, our privacy practices, and how we are committed to protecting and respecting your privacy, please review our <a href="https://www.winningtemp.com/privacy-notice" target="_blank" style="color: #60a5fa; text-decoration: underline;">Privacy Policy</a>.</span>
+</div>
                   </div>
                   <button onclick="submitToHubSpot()" style="background: white; color: #7f2696; border: none; border-radius: 6px; padding: 8px 16px; font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; margin-top: 20px;">
                     Get My Results
@@ -2508,8 +2637,8 @@ Website: winningtemp.com
     </script>
 
     <!-- Start of HubSpot Embed Code -->
-<script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/5566319.js"></script>
-<!-- End of HubSpot Embed Code -->
+    <script type="text/javascript" id="hs-script-loader" async defer src="//js-eu1.hs-scripts.com/5566319.js"></script>
+    <!-- End of HubSpot Embed Code -->
 </body>
 
 </html>
