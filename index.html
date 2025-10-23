@@ -198,6 +198,20 @@
         console.log('Market code pushed to DataLayer: market =', detectedMarket);
         console.log('Quiz script loading...');
 
+        // Variable to store market received from parent
+        let parentMarket = null;
+
+        // Listen for market response from parent page
+        window.addEventListener('message', function(event) {
+            if (event.data && typeof event.data === 'object' && event.data.market) {
+                parentMarket = event.data.market;
+                console.log('Received market from parent page:', parentMarket);
+            }
+        });
+
+        // Request market from parent page on load
+        window.parent.postMessage('requestMarket', '*');
+
         // Google Analytics 4 and GTM Tracking Functions
         function gtag() {
             dataLayer.push(arguments);
@@ -238,7 +252,7 @@
             try {
                 window.parent.postMessage(JSON.stringify({
                     'event': 'quiz_start',
-                    'market': detectedMarket,
+                    'market': parentMarket || detectedMarket || 'GLOBAL',
                     'quiz_type': 'employee_engagement_assessment',
                     'quiz_name': 'Employee Engagement Assessment',
                     'quiz_version': '1.0',
@@ -1705,9 +1719,9 @@
 
             if (!email || !firstName || !lastName || !dataProcessingConsent) {
                 alert('Please fill in all required fields (email, first name, last name) and agree to data processing (required checkbox).');
-        return false;
-    }
-    return true;
+                return false;
+            }
+            return true;
         }
 
         function checkDownloadAvailability() {
@@ -1785,8 +1799,8 @@
                 'event': 'quiz_submission',
 
                 // Data Layer Variables from your GTM setup
-                'marketPage': detectedMarket, // Dynamic variable
-                'market': detectedMarket,
+                'marketPage': parentMarket || detectedMarket || 'GLOBAL',
+                'market': parentMarket || detectedMarket || 'GLOBAL',
                 'quiz_type': 'employee_engagement_assessment',
                 'quiz_name': 'Employee Engagement Assessment',
                 'quiz_version': '1.0',
@@ -1809,7 +1823,7 @@
 
             // 4. Prepare the data for HubSpot (The original form submission logic)
             const formData = {
-                    fields: [{
+                fields: [{
                         name: 'email',
                         value: email
                     },
@@ -1848,28 +1862,28 @@
                 ],
                 context: {
                     hutk: getCookie('hubspotutk'), // HubSpot tracking cookie
-                    pageUri: window.location.href,
+                    pageUri: document.referrer || window.location.href,
                     pageName: 'Engagement Assessment'
                 }
-        };
+            };
 
-        // 5. Submit to HubSpot (Your original fetch request)
-        fetch(formUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Successfully submitted to HubSpot:', data);
-                checkDownloadAvailability();
-            })
-            .catch(error => {
-                console.error('Error submitting to HubSpot:', error);
-                checkDownloadAvailability();
-            });
+            // 5. Submit to HubSpot (Your original fetch request)
+            fetch(formUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Successfully submitted to HubSpot:', data);
+                    checkDownloadAvailability();
+                })
+                .catch(error => {
+                    console.error('Error submitting to HubSpot:', error);
+                    checkDownloadAvailability();
+                });
         }
 
         function getCookie(name) {
