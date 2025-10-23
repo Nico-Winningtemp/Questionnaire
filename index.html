@@ -238,6 +238,7 @@
             try {
                 window.parent.postMessage(JSON.stringify({
                     'event': 'quiz_start',
+                    'market': detectedMarket,
                     'quiz_type': 'employee_engagement_assessment',
                     'quiz_name': 'Employee Engagement Assessment',
                     'quiz_version': '1.0',
