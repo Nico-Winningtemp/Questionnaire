@@ -669,7 +669,7 @@
         function renderIntro() {
             quizRoot.innerHTML = `
         <div class="intro-container" style="text-align: center; max-width: 500px; margin: 0 auto; padding: 0 10px; display: flex; flex-direction: column; align-items: center;">
-          <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 120px; width: auto; margin-bottom: 25px; display: block; filter: drop-shadow(0 4px 8px rgba(127, 38, 150, 0.2));">
+          <!-- <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" class="intro-logo" style="max-height: 120px; width: auto; margin-bottom: 25px; display: block; filter: drop-shadow(0 4px 8px rgba(127, 38, 150, 0.2));"> -->
           
           <h1 class="intro-title" style="font-size: 2.2rem; font-weight: 500; color: #100014; margin: 0 0 10px 0; line-height: 120%; font-family: 'Poppins', sans-serif !important;">
             Let's measure your engagement maturity!
@@ -823,7 +823,7 @@
             quizRoot.innerHTML = `
         <div style="max-width: 700px; margin: 0 auto; padding: 0 10px;">
           <div style="text-align: center; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
-            <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 15px; display: block;">
+            <!--img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 80px; width: auto; margin-bottom: 15px; display: block;"> -->
             <p style="color: #1e293b; font-size: 14px;">Question ${currentQuestion + 1} of ${questions.length} • ${Math.round(progress)}% Complete</p>
           </div>
           
@@ -1038,7 +1038,7 @@
 
             quizRoot.innerHTML = `
                 <div class="results-container" style="max-width: 800px; margin: 0 auto; padding: 20px; text-align: center;">
-                    <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 50px; margin-bottom: 15px;">
+                    <!--img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 50px; margin-bottom: 15px;">-->
                     
                     <h1 style="font-size: 2rem; font-weight: 700; color: #7f2696; margin-bottom: 10px;">Your Engagement Maturity Result</h1>
                     <p style="font-size: 16px; color: #4b5563; margin-bottom: 30px;">See your score and detailed breakdown below.</p>
@@ -2481,7 +2481,7 @@ Website: winningtemp.com
             quizRoot.innerHTML = `
         <div style="max-width: 500px; margin: 0 auto;">
           <div style="text-align: center; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center;">
-            <img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 78px; width: auto; margin-bottom: 15px; display: block;">
+            <!--img src="https://raw.githubusercontent.com/Nico-Winningtemp/Questionnaire/refs/heads/main/logo.svg" alt="Winningtemp" style="max-height: 78px; width: auto; margin-bottom: 15px; display: block;">-->
           </div>
           
           <!-- Results Card -->
@@ -2562,6 +2562,8 @@ Website: winningtemp.com
                     <label style="display: block; font-size: 10px; font-weight: 600; margin-bottom: 3px; color: white; text-align: left;">Email Address *</label>
                     <input type="email" id="results-email" placeholder="your@email.com" style="width: 100%; padding: 8px; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 6px; background: rgba(255, 255, 255, 0.9); color: #333; font-size: 12px; margin-bottom: 10px;">
                     
+<!-- Checkbox Section with Left Alignment -->
+<div style="text-align: left;">
 <!-- Checkbox 1: Optional Marketing Communications -->
 <div style="margin-top: 10px;">
   <label style="display: flex; align-items: flex-start; gap: 6px; font-size: 10px; color: rgba(255, 255, 255, 0.8); cursor: pointer;">
@@ -2577,9 +2579,10 @@ Website: winningtemp.com
     <span style="line-height: 1.4;">In order to provide you the content requested, we need to store and process your personal data. If you consent to us storing your personal data for this purpose, please tick the checkbox below. <span style="color: #ff6b6b;">*</span></span>
   </label>
 </div>
+</div>
 
 <!-- Privacy Policy Link -->
-<div style="margin-top: 8px; font-size: 9px; color: rgba(255, 255, 255, 0.7); line-height: 1.4;">
+<div style="margin-top: 8px; font-size: 9px; color: rgba(255, 255, 255, 0.7); line-height: 1.4; text-align: center;">
   <span>For more information on how to unsubscribe, our privacy practices, and how we are committed to protecting and respecting your privacy, please review our <a href="https://www.winningtemp.com/privacy-notice" target="_blank" style="color: #60a5fa; text-decoration: underline;">Privacy Policy</a>.</span>
 </div>
                   </div>
