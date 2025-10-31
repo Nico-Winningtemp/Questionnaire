@@ -1950,42 +1950,42 @@
                     if (aCount >= 9) { // 75% - 100%
                         level = "Advanced";
                         color = green;
-                        summary = `Your organization is an Engagement Leader (${percentage}% Maturity). You utilize continuous feedback, empower managers with specific, AI-driven action plans, and actively link engagement to core business KPIs. Your focus should now be on optimizing predictive analytics and scaling your world-class practices across all departments.`;
+                        summary = `YYou’re an Engagement Leader (${percentage}% Maturity). Your organization works with continuous feedback, supports managers with clear, AI-driven action plans, and connects engagement to real business impact.  The next step? Use predictive analytics to stay even further ahead, and scale your best practices across every team.`;
                         actionItems = [
-                            "Optimize your current AI-driven action plans for even greater efficiency and measurable ROI.",
-                            "Focus on embedding Psychological Safety training at all leadership levels to maintain a high-trust, innovative culture.",
-                            "Use predictive analytics to preemptively address micro-risks in high-performing teams before they escalate into turnover.",
-                            "Explore advanced integration of engagement data with broader business intelligence systems."
+                            "Optimize your current AI-driven action plans to make them more effective and easier to measure ROI.",
+                            "Make sure psychological safety is part of how every leader leads – it’s key to building trust and driving innovation.",
+                            "Use predictive insights to spot early risks in high-performing teams and act before they lead to turnover.",
+                            "Connect your engagement data with business intelligence systems to generate deeper insights."
                         ];
                     } else if (aCount >= 5) { // 42% - 75%
                         level = "Developing";
                         color = [179, 232, 24];
-                        summary = `You are at a Developing level (${percentage}% Maturity). You have key systems in place, such as periodic surveys, but you are likely spending too much HR time on manual analysis. This prevents a shift from reactive measurement to continuous, proactive action, limiting manager empowerment.`;
+                        summary = `You’re at a Developing level (${percentage}% Maturity). You’ve got the foundations in place, like regular surveys, but your HR team is likely spending too much time manually analysing results. That makes it harder to shift from reactive tracking to real-time action, and limits managers’ ability to lead with insight.`;
                         actionItems = [
-                            "Implement a continuous, short-pulse survey system to capture real-time feedback and increase speed.",
-                            "Adopt a platform that delivers managers AI-powered, research-based actions to take immediately on their results.",
-                            "Work to formally track and communicate the clear financial linkage between engagement data and business outcomes.",
-                            "Reduce HR administrative time by automating data collection and reporting."
+                            "Implement a pulse survey system to speed up how you listen and how you act.",
+                            "Use a platform that gives managers AI-powered, research-based actions, so they know exactly what to do with their results.",
+                            "Measure and communicate the impact of engagement on performance, retention, and other business outcomes.",
+                            "Free up HR’s time by automating how you collect and report on feedback."
                         ];
                     } else if (aCount >= 3) { // 25% - 42%
                         level = "Basic";
                         color = [255, 160, 0];
-                        summary = `Your organization is at a Basic maturity level (${percentage}% Maturity). You are aware of the need for engagement but are likely relying on infrequent, high-effort surveys that result in low response rates. This provides lagging indicators, making swift intervention nearly impossible.`;
+                        summary = `You’re at a Basic maturity level (${percentage}% Maturity). You’ve recognised the importance of engagement but you’re likely still using infrequent, time-consuming surveys that don’t get much response. That means you’re working with delayed signals, which makes it hard to act in time.`;
                         actionItems = [
-                            "Transition to shorter, more frequent 'pulse' surveys to improve response rates and gather timely data.",
-                            "Invest in basic training for managers on interpreting engagement data and empower them to own the follow-through.",
-                            "Centralize feedback channels to ensure anonymous input is safely collected and acted upon, building employee trust.",
-                            "Establish a clear, single source of truth for all employee feedback."
+                            "Switch to shorter, more frequent pulse surveys to improve response rates and get insights while they still matter.",
+                            "Give managers the training they need to understand engagement data and the confidence to act on it.",
+                            "Centralize your feedback channels to make it easy and safe for employees to share anonymous input that actually leads to change. ",
+                            "Create one clear place where all employee feedback lives, so nothing gets missed and everyone stays aligned."
                         ];
                     } else { // Below 25%
                         level = "Minimal";
                         color = [255, 92, 97];
-                        summary = `You have a Minimal engagement strategy (${percentage}% Maturity). Feedback mechanisms are likely non-existent or purely annual, leaving leadership consistently surprised by resignations. This exposes the company to significant hidden costs of turnover and low productivity.`;
+                        summary = `You have a Minimal engagement strategy (${percentage}% Maturity). Right now, feedback is likely rare or only collected once a year which means leaders are often caught off guard when people leave. This makes it hard to prevent turnover, and the hidden costs to productivity can quickly add up.`;
                         actionItems = [
-                            "Start with a small, simple, and anonymous engagement survey to establish a baseline and open a communication channel.",
-                            "Educate leadership on the 'Real Cost of Disengaged Teams' and the financial benefits of preventative action.",
-                            "Prioritize building psychological safety by actively communicating how feedback will be used.",
-                            "Define clear ownership for the engagement initiative within the leadership team."
+                            "Start small with a simple, anonymous survey to get a baseline and show employees that their voices matter.",
+                            "Help leaders understand what disengagement really costs and how early action pays off.",
+                            "Build psychological safety by showing employees how their feedback will be used and why it matters.",
+                            "Make engagement a shared responsibility across the management team."
                         ];
                     }
 
@@ -2217,19 +2217,19 @@
 
             if (aCount >= 9) {
                 resultType = 'Engagement Champion';
-                description = 'Your organization demonstrates advanced engagement practices with data-driven insights and predictive capabilities.';
+                description = 'Your organization takes a proactive, data-informed approach to engagement – with tools to spot trends and act early.';
                 resultColor = '#059669';
             } else if (aCount >= 5) {
                 resultType = 'Growing Foundation';
-                description = 'You have solid engagement basics but opportunity to enhance real-time insights and predictive capabilities.';
+                description = 'You’ve built a strong foundation and you’re in a great position to strengthen real-time insights and take a more proactive approach.';
                 resultColor = '#0284c7';
             } else if (aCount >= 3) {
                 resultType = 'Critical Gap Zone';
-                description = 'Significant engagement blind spots exist that may be impacting talent retention and productivity.';
+                description = 'You may be missing key engagement signals and that could be affecting retention and productivity.';
                 resultColor = '#ea580c';
             } else {
                 resultType = 'Urgent Action Needed';
-                description = 'High risk for turnover and low performance without systematic engagement measurement.';
+                description = 'High risk of turnover and low performance when engagement isn’t measured consistently.';
                 resultColor = '#dc2626';
             }
 
